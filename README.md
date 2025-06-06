@@ -19,6 +19,23 @@ claude mcp add task-master -s user -- npx -y --package=task-master-ai task-maste
 - Makes TaskMaster commands available in Claude Code
 - Ready for immediate use (no additional setup required)
 
+### Post-Installation Cleanup (Optional)
+
+After running `/project:tm-init`, TaskMaster creates several files for IDE integration:
+
+**Files created during initialization:**
+- `.claude/commands/tm-*.md` - TaskMaster command definitions for Claude Code
+- `.claude/settings.local.json` - Claude Code IDE settings
+- `.env` - Environment configuration (may include API keys)
+- `.taskmaster/` directory - TaskMaster project files and configuration
+
+**Cleanup options:**
+- **Keep Claude Code only**: Delete `.env` and any other IDE config files you don't need
+- **Keep specific IDE files**: Review and keep only the IDE configuration files you want
+- **Full cleanup**: Keep only `.taskmaster/` directory and TaskMaster command files in `.claude/commands/`
+
+**Note**: The `.env.example` file (if present) can be safely deleted as shown in the git history if you're using Claude Code exclusively.
+
 ## Prerequisites
 
 - Claude Code installed
@@ -56,6 +73,11 @@ Create a PRD file in your project directory with:
 - Assigns priorities and complexity estimates
 
 **Expected output:** 10-30 tasks in `.taskmaster/tasks/tasks.json`
+
+**Quick verification:** After parsing, you can also view your tasks from bash:
+```bash
+task-master list
+```
 
 ### Step 3: Review Generated Tasks
 ```
