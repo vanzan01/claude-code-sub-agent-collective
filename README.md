@@ -92,7 +92,7 @@ flowchart TB
     classDef complete fill:#feca57,stroke:#ff9ff3,stroke-width:3px,color:#333
     
     class Parse,Analyze,Expand,CodeGen,Tests aiProcess
-    class Gateway,YOLO,Controlled,Sprint,Surgical userChoice  
+    class Gateway,YOLO,Controlled,Sprint,Surgical userChoice
     class DevCycle,Commit,NextTask automation
     class PRD,Tasks,Monitor data
     class Complete complete
