@@ -4,7 +4,7 @@
 
 Hey there, fellow Claude Code enjoyer! 👋 
 
-After my [cursor-memory-bank](https://github.com/vanzan01/cursor-memory-bank) hit 1,700+ stars, I couldn't stop thinking about one fundamental problem: **We keep trying to force non-deterministic AI into deterministic task systems.** 
+After my [cursor-memory-bank](https://github.com/vanzan01/cursor-memory-bank) hit 1,800+ stars, I couldn't stop thinking about one fundamental problem: **We keep trying to force non-deterministic AI into deterministic task systems.** 
 
 It's like asking a jazz musician to play from a rigid sheet music score - technically possible, but you're missing the magic. 🎺
 
@@ -141,22 +141,24 @@ claude mcp add task-master -s user -- npx -y --package=task-master-ai task-maste
 - Makes TaskMaster commands available in Claude Code
 - Ready for immediate use (no additional setup required)
 
-### Post-Installation Cleanup (Optional)
+### Post-Installation Setup
 
 After running `/project:tm-init`, TaskMaster creates several files for IDE integration:
 
 **Files created during initialization:**
 - `.claude/commands/tm-*.md` - TaskMaster command definitions for Claude Code
 - `.claude/settings.local.json` - Claude Code IDE settings
-- `.env` - Environment configuration (may include API keys)
+- `.env.example` - Environment configuration template
 - `.taskmaster/` directory - TaskMaster project files and configuration
 
-**Cleanup options:**
-- **Keep Claude Code only**: Delete `.env` and any other IDE config files you don't need
-- **Keep specific IDE files**: Review and keep only the IDE configuration files you want
-- **Full cleanup**: Keep only `.taskmaster/` directory and TaskMaster command files in `.claude/commands/`
+**Required Setup:**
+1. **Rename environment template**: `mv .env.example .env`
+2. **Add your OpenRouter API key**: Edit `.env` and add your `OPENROUTER_API_KEY=your_key_here`
+3. **Keep essential files**: `.env`, `.taskmaster/` directory, and `.claude/commands/` are all needed
 
-**Note**: The `.env.example` file (if present) can be safely deleted as shown in the git history if you're using Claude Code exclusively.
+**Optional Cleanup:**
+- Remove other IDE config files if you only use Claude Code
+- Keep `.env` in `.gitignore` to protect your API keys
 
 ## Prerequisites
 
