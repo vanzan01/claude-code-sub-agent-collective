@@ -1,6 +1,6 @@
 {
 	"meta": {
-		"generatedAt": "2025-06-15T15:20:52.853Z",
+		"generatedAt": "2025-06-15T16:07:46.895Z",
 		"tasksAnalyzed": 8,
 		"totalTasks": 8,
 		"analysisCount": 8,
@@ -14,64 +14,64 @@
 			"taskTitle": "Setup Project Repository",
 			"complexityScore": 3,
 			"recommendedSubtasks": 3,
-			"expansionPrompt": "Break down the repository setup into subtasks: 1) Create repository on GitHub/GitLab, 2) Initialize project structure with folders, 3) Configure package.json with dependencies.",
-			"reasoning": "The task involves multiple straightforward steps, each requiring specific actions but no complex logic."
+			"expansionPrompt": "Break down the repository setup into subtasks: 1) Initialize the project with the chosen framework, 2) Configure ESLint and Prettier, 3) Initialize Git repository and set up remote.",
+			"reasoning": "The task involves multiple distinct steps, each requiring specific commands or configurations, but none are particularly complex."
 		},
 		{
 			"taskId": 2,
 			"taskTitle": "Implement Basic UI Structure",
 			"complexityScore": 5,
 			"recommendedSubtasks": 4,
-			"expansionPrompt": "Divide into subtasks: 1) Create TodoInput component, 2) Create TodoList component, 3) Style components with Tailwind CSS, 4) Test responsiveness.",
-			"reasoning": "Creating and styling multiple components requires moderate effort, especially ensuring responsiveness."
+			"expansionPrompt": "Divide into subtasks: 1) Create the header component, 2) Build the input field component, 3) Implement the list container, 4) Apply responsive styling.",
+			"reasoning": "Building the foundational UI involves creating multiple components and ensuring responsiveness, which requires careful attention to detail."
 		},
 		{
 			"taskId": 3,
 			"taskTitle": "Add Todo Functionality",
-			"complexityScore": 6,
+			"complexityScore": 4,
 			"recommendedSubtasks": 3,
-			"expansionPrompt": "Split into subtasks: 1) Set up useState for todos, 2) Implement input validation, 3) Handle 'Add' button click logic.",
-			"reasoning": "State management and input validation add complexity, but the task is still manageable with clear subtasks."
+			"expansionPrompt": "Split into subtasks: 1) Create the input component, 2) Handle form submission, 3) Implement input validation.",
+			"reasoning": "The task involves state management and event handling, but the logic is straightforward and well-documented."
 		},
 		{
 			"taskId": 4,
-			"taskTitle": "Display Todos with Checkboxes",
+			"taskTitle": "Display Todo List",
 			"complexityScore": 4,
-			"recommendedSubtasks": 2,
-			"expansionPrompt": "Break down into: 1) Render todos with checkboxes, 2) Apply conditional styling for completed todos.",
-			"reasoning": "Rendering and styling are straightforward, but conditional logic adds slight complexity."
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "Break down into subtasks: 1) Map over todos to render items, 2) Add checkbox for completion status, 3) Style completed todos.",
+			"reasoning": "Rendering a list with conditional styling is a common task with clear steps, but requires careful implementation."
 		},
 		{
 			"taskId": 5,
-			"taskTitle": "Implement Delete Todo Functionality",
+			"taskTitle": "Toggle Todo Completion",
 			"complexityScore": 3,
 			"recommendedSubtasks": 2,
-			"expansionPrompt": "Divide into subtasks: 1) Add delete button to each todo, 2) Handle delete logic using state filtering.",
-			"reasoning": "Simple state manipulation makes this task relatively easy to implement."
+			"expansionPrompt": "Divide into subtasks: 1) Implement toggle function, 2) Update state to reflect changes.",
+			"reasoning": "The logic for toggling completion status is simple and can be handled with minimal subtasks."
 		},
 		{
 			"taskId": 6,
-			"taskTitle": "Persist Todos to Local Storage",
-			"complexityScore": 7,
-			"recommendedSubtasks": 3,
-			"expansionPrompt": "Split into subtasks: 1) Save todos to localStorage on change, 2) Load todos on app initialization, 3) Handle storage errors.",
-			"reasoning": "Interacting with localStorage and handling errors increases complexity."
+			"taskTitle": "Delete Todo Functionality",
+			"complexityScore": 3,
+			"recommendedSubtasks": 2,
+			"expansionPrompt": "Split into subtasks: 1) Add delete button to each todo, 2) Implement delete function.",
+			"reasoning": "Deleting items from a list is a straightforward operation with well-known patterns."
 		},
 		{
 			"taskId": 7,
-			"taskTitle": "Enhance UI/UX",
-			"complexityScore": 8,
-			"recommendedSubtasks": 4,
-			"expansionPrompt": "Break down into subtasks: 1) Add hover effects, 2) Implement transitions, 3) Optimize for mobile, 4) Test accessibility.",
-			"reasoning": "UI/UX enhancements require detailed attention to design and usability, increasing complexity."
+			"taskTitle": "Implement Local Storage",
+			"complexityScore": 6,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "Break down into subtasks: 1) Save todos to local storage, 2) Load todos on app startup, 3) Handle errors (e.g., quota exceeded).",
+			"reasoning": "Persisting data involves synchronization between state and storage, plus error handling, which adds complexity."
 		},
 		{
 			"taskId": 8,
-			"taskTitle": "Final Testing and Deployment",
-			"complexityScore": 9,
-			"recommendedSubtasks": 5,
-			"expansionPrompt": "Divide into subtasks: 1) Cross-browser testing, 2) Mobile testing, 3) End-to-end testing, 4) Deploy to hosting service, 5) Verify live deployment.",
-			"reasoning": "Comprehensive testing and deployment involve multiple high-stakes steps, making this the most complex task."
+			"taskTitle": "Add Accessibility Features",
+			"complexityScore": 7,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Divide into subtasks: 1) Add ARIA labels, 2) Implement keyboard navigation, 3) Manage focus, 4) Test with screen readers.",
+			"reasoning": "Accessibility requires thorough testing and attention to detail across multiple components, increasing complexity."
 		}
 	]
 }
