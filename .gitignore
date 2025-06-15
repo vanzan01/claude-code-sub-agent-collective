@@ -26,4 +26,7 @@ node_modules/
 
 # Task files
 tasks.json
-tasks/ 
+tasks/
+
+# AI documentation and strategizing
+ai-docs/ 
