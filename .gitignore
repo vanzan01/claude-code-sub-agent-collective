@@ -15,6 +15,11 @@ node_modules/
 # Editor directories and files
 .idea
 .vscode
+.cursor/
+.roo/
+.roomodes
+.windsurfrules
+.vite/
 *.suo
 *.ntvs*
 *.njsproj
