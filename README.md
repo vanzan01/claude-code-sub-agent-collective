@@ -195,6 +195,7 @@ Brief description of what you want to build
 - Makes strategic project decisions
 - Ensures end-to-end delivery
 
+<<<<<<< HEAD
 ---
 
 ## 📊 Real-World Results
