@@ -26,4 +26,14 @@ node_modules/
 
 # Task files
 tasks.json
-tasks/ 
+tasks/
+
+# AI documentation and strategizing (PRIVATE)
+ai-docs/
+
+# IDE-specific config files (PRIVATE)
+.cursor/
+.roo/
+.vite/
+.roomodes
+.windsurfrules
