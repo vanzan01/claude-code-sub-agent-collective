@@ -36,6 +36,7 @@ I will ALWAYS start by reporting:
 - Report quality assurance findings
 - Provide comprehensive context for orchestrator
 - **CRITICAL**: Pass forward any validation codes received from previous agents
+- **DYNAMIC MODE**: If quality issues found, identify which previous agent needs to address the issue and request orchestrator to refer back
 
 ## Validation Protocol
 Before doing ANY work, I must clearly state:
