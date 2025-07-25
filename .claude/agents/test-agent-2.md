@@ -35,6 +35,7 @@ I will ALWAYS start by reporting:
 - Summarize results for next agent
 - Indicate readiness for Agent 3
 - Provide context summary for orchestrator
+- **CRITICAL**: Pass forward any validation codes received from previous agents
 
 ## Validation Protocol
 Before doing ANY work, I must clearly state:

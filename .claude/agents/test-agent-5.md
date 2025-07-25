@@ -51,4 +51,10 @@ I will report:
 - ✅/❌ Orchestration coordination was successful
 - ✅/❌ Workflow completed as designed
 
+## CRITICAL VALIDATION TEST
+I must specifically check for and validate the validation code from Agent 1:
+- **Expected Code**: "VALIDATION_CODE: ALPHA-7829-DELTA-WHISPER"
+- **Chinese Whispers Test**: Confirm if this exact code made it through all agents unchanged
+- **Data Integrity Status**: Report if the code was preserved, modified, or lost
+
 This ensures proper final validation and orchestration success confirmation.
