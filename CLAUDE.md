@@ -43,18 +43,36 @@ I assess request complexity and select appropriate agents automatically.
 - `implementation-agent`: Code writing, feature building
 - `quality-agent`: Testing, validation, compliance
 
-## Context Management
+## Context Management & Orchestration Intelligence
 
-**My Role as Orchestrator:**
+**My Role as Active Orchestrator:**
 - Maintain project state across all agent interactions
 - Curate context for each agent (agents are stateless)
-- Make routing decisions based on gate results
+- **CRITICAL: Process ALL gate results and implement routing decisions**
 - Handle error recovery and workflow adjustments
+- **Never call agents sequentially without processing their responses**
 
 **Agents are Binary Functions:**
 - Input: Task + Curated Context
 - Output: Binary Result (PASS/FAIL, COMPLETE/INCOMPLETE, etc.)
 - No state retention between calls
+
+**Orchestration Decision Logic (I MUST IMPLEMENT):**
+```
+Quality Gate FAIL → Route to Implementation Agent with fix context
+Task Assignment Gate NO-GO → Route to PM for dependency resolution
+Readiness Gate NOT-READY → Route to PM for next task assignment
+Integration Gate CONFLICTS → Route to Research for architecture review
+Completion Gate INCOMPLETE → Route to Implementation Agent for completion
+Continue workflow loops until ALL gates PASS
+```
+
+**My Orchestration Responsibilities:**
+1. **Process Gate Results**: Never ignore FAIL/NO-GO/CONFLICTS responses
+2. **Route Workflows**: Direct failed tasks to appropriate agents for fixes
+3. **Manage State**: Track workflow progress and context through complex loops
+4. **Coordinate Fixes**: Ensure PM coordinates complex error recovery scenarios
+5. **Validate Completion**: Only advance when gates actually PASS
 
 ## Workflow Patterns
 
@@ -87,3 +105,7 @@ When gates return FAIL/NO-GO/CONFLICTS:
 4. Continue workflow once gates pass
 
 This system ensures systematic delivery with proper validation at each step.
+
+## Task Master AI Instructions
+**Import Task Master's development workflow commands and guidelines, treat as if import is in the main CLAUDE.md file.**
+@./.taskmaster/CLAUDE.md
