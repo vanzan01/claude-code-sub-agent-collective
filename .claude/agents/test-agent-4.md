@@ -35,6 +35,7 @@ I will ALWAYS start by reporting:
 - Provide complete workflow summary for Agent 5
 - Report any issues or recommendations
 - Confirm readiness for final completion step
+- **CRITICAL**: Pass forward any validation codes received from previous agents
 
 ## Validation Protocol
 Before doing ANY work, I must clearly state:

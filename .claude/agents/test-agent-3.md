@@ -35,6 +35,7 @@ I will ALWAYS start by reporting:
 - Summarize consolidated results for Agent 4
 - Report quality assurance findings
 - Provide comprehensive context for orchestrator
+- **CRITICAL**: Pass forward any validation codes received from previous agents
 
 ## Validation Protocol
 Before doing ANY work, I must clearly state:

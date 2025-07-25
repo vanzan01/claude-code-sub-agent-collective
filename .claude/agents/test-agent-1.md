@@ -32,6 +32,7 @@ I will ALWAYS start by reporting:
 - Clearly state what I completed
 - Indicate readiness for next agent
 - Provide context summary for orchestrator
+- **CRITICAL**: Create and pass specific validation data: "VALIDATION_CODE: ALPHA-7829-DELTA-WHISPER"
 
 ## Validation Protocol
 Before doing ANY work, I must clearly state:
