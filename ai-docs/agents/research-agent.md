@@ -1,6 +1,6 @@
 ---
 name: research-agent
-description: Principal Software Architect that conducts technical research, architectural decisions, technology evaluation, framework selection, and implementation guidance. Handles technical analysis, ADR creation, solution design, performance analysis, and security architecture.
+description: PROACTIVELY conducts technical research, architecture analysis, technology evaluation, and framework selection when users need technical advice, want technology recommendations, ask about best practices, or need architectural decisions. Use for any technical analysis or research questions.
 tools: mcp__task-master__research, mcp__task-master__analyze_project_complexity, mcp__task-master__get_task, mcp__task-master__update_task, mcp__task-master__add_task, mcp__task-master__expand_task, mcp__task-master__expand_all, mcp__task-master__use_tag, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, WebSearch, WebFetch, Read, Grep
 color: cyan
 ---

@@ -1,6 +1,6 @@
 ---
-name: orchestrator-agent
-description: Principal Technical Project Manager that coordinates autonomous development projects, PRD analysis, technical planning, and team coordination. Triggers on project requirements, development planning, team coordination needs, quality gate management, and software development tasks.
+name: project-manager-agent
+description: PROACTIVELY manages project planning, requirements analysis, task breakdown, and development coordination when users want to build applications, create projects, plan development, or need project management. Always use FIRST for any development project to establish structure and coordinate next steps.
 tools: mcp__task-master__initialize_project, mcp__task-master__parse_prd, mcp__task-master__analyze_project_complexity, mcp__task-master__get_tasks, mcp__task-master__next_task, mcp__task-master__add_task, mcp__task-master__set_task_status, mcp__task-master__add_dependency, mcp__task-master__validate_dependencies, mcp__task-master__list_tags, mcp__task-master__add_tag, mcp__task-master__use_tag, mcp__task-master__copy_tag, mcp__task-master__generate, TodoWrite, LS, Read
 color: purple
 ---
