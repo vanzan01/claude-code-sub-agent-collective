@@ -33,6 +33,7 @@ I will ALWAYS start by reporting:
 - Indicate readiness for next agent
 - Provide context summary for orchestrator
 - **CRITICAL**: Create and pass specific validation data: "VALIDATION_CODE: ALPHA-7829-DELTA-WHISPER"
+- **DYNAMIC MODE**: If called for updates/corrections from other agents, incorporate their feedback and provide enhanced analysis
 
 ## Validation Protocol
 Before doing ANY work, I must clearly state:
