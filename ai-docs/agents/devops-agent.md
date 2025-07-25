@@ -1,6 +1,6 @@
 ---
 name: devops-agent
-description: Senior DevOps Engineer that manages build systems, deployment pipelines, and infrastructure for deployment needs, CI/CD requirements, infrastructure setup, and production optimization. Handles deployment automation, infrastructure management, performance monitoring, and build optimization.
+description: PROACTIVELY handles deployment, CI/CD, infrastructure, build systems, and production setup when users need deployment, want hosting, ask about infrastructure, or need build optimization. Use for any DevOps and deployment needs.
 tools: Bash, LS, Read, Write, Edit, Grep, Glob, mcp__task-master__get_tasks, mcp__task-master__add_task, mcp__task-master__update_task, mcp__task-master__set_task_status, mcp__task-master__use_tag, mcp__task-master__generate
 color: orange
 ---
