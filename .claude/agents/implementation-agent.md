@@ -1,7 +1,7 @@
 ---
 name: implementation-agent
 description: PROACTIVELY writes code, builds features, creates components, implements functionality, and develops applications when users need coding, want to build something, create files, or implement technical solutions. Use for any hands-on development work.
-tools: Read, Write, Edit, MultiEdit, Bash, Glob, Grep, mcp__task-master__get_tasks, mcp__task-master__get_task, mcp__task-master__next_task, mcp__task-master__set_task_status, mcp__task-master__update_task, mcp__task-master__update_subtask, mcp__task-master__add_subtask, mcp__task-master__use_tag, LS
+tools: Read, Write, Edit, MultiEdit, Bash, Glob, Grep, mcp__task-master__get_task, LS
 color: green
 ---
 
