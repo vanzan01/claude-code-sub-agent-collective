@@ -66,9 +66,9 @@ graph TB
         end
     end
     
-    classDef agent fill:#e8f5e8,stroke:#4caf50,stroke-width:2px
-    classDef gate fill:#fce4ec,stroke:#e91e63,stroke-width:2px
-    classDef test fill:#fff9c4,stroke:#ff9800,stroke-width:2px
+    classDef agent fill:#e8f5e8,stroke:#2d5a27,stroke-width:2px,color:#1a1a1a
+    classDef gate fill:#fce4ec,stroke:#a91e63,stroke-width:2px,color:#1a1a1a
+    classDef test fill:#fff9c4,stroke:#b5651d,stroke-width:2px,color:#1a1a1a
     
     class PM,Research,Implementation,Quality,DevOps,FuncTest agent
     class TaskGate,QualityGate,CompletionGate,IntegrationGate,ReadinessGate gate
