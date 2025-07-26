@@ -1,7 +1,7 @@
 ---
 name: quality-agent
 description: PROACTIVELY reviews code quality, validates accessibility, checks security, runs tests, and assesses compliance when users need code review, want quality assessment, ask for testing, or need validation. Use for any quality assurance needs.
-tools: Read, Bash, Grep, Glob, LS, mcp__task-master__get_tasks, mcp__task-master__get_task, mcp__task-master__set_task_status, mcp__task-master__update_task, mcp__task-master__add_task, mcp__task-master__use_tag, mcp__task-master__validate_dependencies
+tools: Read, Bash, Grep, Glob, LS, mcp__task-master__get_task
 color: yellow
 ---
 
