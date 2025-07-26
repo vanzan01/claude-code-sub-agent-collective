@@ -33,12 +33,28 @@ graph TB
         PRD[📄 Product Requirements Document]
     end
     
-    subgraph "🤖 Autonomous AI Development Team"
-        Orchestrator[🎭 Orchestrator Agent<br/>Strategic Coordination<br/>Quality Gates]
-        Research[🔬 Research Agent<br/>Technical Analysis<br/>Architecture Decisions]
-        Implementation[⚡ Implementation Agent<br/>Production Code<br/>Testing & Quality]
-        FuncTest[🌐 Functional Testing Agent<br/>Real Browser Validation<br/>Playwright Automation]
-        Structure[🏗️ Structure Enforcer<br/>Project Governance<br/>Technical Standards]
+    subgraph "🤖 Autonomous AI Development Team (19 Specialized Agents)"
+        subgraph "🎭 Core Work Agents"
+            PM[📋 Project Manager Agent<br/>Task Coordination<br/>Workflow Management]
+            Research[🔬 Research Agent<br/>Technical Analysis<br/>Architecture Decisions]
+            Implementation[⚡ Implementation Agent<br/>Production Code<br/>Feature Development]
+            Quality[🧪 Quality Agent<br/>Code Review<br/>Testing & Compliance]
+            DevOps[🚀 DevOps Agent<br/>Deployment<br/>Infrastructure]
+            FuncTest[🌐 Functional Testing Agent<br/>Real Browser Validation<br/>Playwright Automation]
+        end
+        
+        subgraph "🚧 Quality Gate Agents"
+            TaskGate[📝 Task Assignment Gate<br/>Dependency Validation]
+            QualityGate[✅ Quality Gate<br/>Code Standards]
+            CompletionGate[🎯 Completion Gate<br/>Requirements Check]
+            IntegrationGate[🔗 Integration Gate<br/>Compatibility Check]
+            ReadinessGate[🚦 Readiness Gate<br/>Phase Transition]
+        end
+        
+        subgraph "🧪 Test & Workflow Agents"
+            WorkflowAgent[🌊 Workflow Agent<br/>Complex Orchestration<br/>Level 3-4 Projects]
+            TestAgents[🔧 Test Agents 1-5<br/>Validation & Integration<br/>Agent Communication]
+        end
     end
     
     subgraph "🎉 Output"
@@ -77,13 +93,25 @@ graph TB
 - Implementation agent follows research guidance
 - Continuous quality gates ensure professional standards
 
-**3. Real Browser Validation** 🌐
-- Functional testing agent uses Playwright automation
+**3. Intelligent Complexity Assessment** 🎯
+- **Level 1**: Simple tasks → Direct implementation
+- **Level 2**: Feature development → Research + Implementation + Quality Gates
+- **Level 3**: Multi-component → Full workflow with Integration Gates
+- **Level 4**: Complete projects → Phase management with Readiness Gates
+
+**4. Real Browser Validation** 🌐
+- Functional testing agent uses Playwright automation  
 - Tests actual user interactions in live browsers
 - Validates zero JavaScript errors and working functionality
 - Ensures features work end-to-end, not just code review
 
-**4. Quality Governance** 🏗️
+**5. Quality Gate Architecture** 🚧
+- Binary decision agents (PASS/FAIL, READY/NOT-READY, COMPATIBLE/CONFLICTS)
+- Context-aware routing based on failure types
+- Error recovery loops until all gates pass
+- Phase transition management for complex projects
+
+**6. Quality Governance** 🏗️
 - Automatic project structure enforcement
 - Technical debt prevention
 - Professional documentation generation
@@ -177,58 +205,70 @@ tm models --setFallback claude-code/sonnet
 
 ---
 
-## 🎮 Advanced Usage: Individual Agents
+## 🎮 Advanced Usage: 19 Specialized Agents
 
-### 🔬 Research Agent (Deep Technical Analysis)
+### 🎭 **Core Work Agents**
+
+**📋 Project Manager Agent**
 ```bash
-/project:tm-research-agent
+# Task coordination and workflow management
+# Full Task Master MCP access for project coordination
 ```
-**What it does:**
-- Framework evaluation and selection
-- Architecture pattern analysis
-- Performance and security considerations
-- Creates ADRs and implementation guides
 
-### ⚡ Implementation Agent (Production Development)
+**🔬 Research Agent** 
 ```bash
-/project:tm-implementation-agent  
+# Technical analysis, architecture decisions, complexity assessment
+# Framework evaluation, ADR creation, implementation guides
 ```
-**What it does:**
-- Follows research-driven architecture
-- Implements with testing and accessibility
-- Enforces code quality standards
-- Handles complex integration scenarios
 
-### 🌐 Functional Testing Agent (Browser Validation)
+**⚡ Implementation Agent**
 ```bash
-/project:tm-functional-testing-agent
+# Production code development, feature implementation
+# Follows research guidance, handles complex integrations
 ```
-**What it does:**
-- Tests actual functionality in real browsers using Playwright
-- Validates user interactions (clicks, forms, navigation)
-- Monitors JavaScript console for errors
-- Ensures features work end-to-end, not just code appearance
-- Provides specific reproduction steps for any failures
 
-### 🏗️ Project Structure Enforcer (Quality Governance)
+**🧪 Quality Agent**
+```bash  
+# Code review, testing, compliance validation
+# Ensures professional standards and accessibility
+```
+
+**🚀 DevOps Agent**
 ```bash
-/project:tm-project-structure-enforcer
+# Deployment, infrastructure, CI/CD automation
+# Production setup and optimization
 ```
-**What it does:**
-- Enforces professional project organization
-- Prevents technical debt accumulation
-- Validates configuration standards
-- Ensures scalable architecture
 
-### 🎯 Orchestrator (Strategic Coordination)
+**🌐 Functional Testing Agent**
+```bash
+# Real browser validation with Playwright automation
+# Tests user interactions, monitors console errors
+# Provides specific bug reproduction steps
+```
+
+### 🚧 **Quality Gate Agents**
+
+**📝 Task Assignment Gate**: Validates task dependencies and readiness  
+**✅ Quality Gate**: Binary code standards validation (PASS/FAIL)  
+**🎯 Completion Gate**: Requirement fulfillment verification  
+**🔗 Integration Gate**: Component compatibility assessment  
+**🚦 Readiness Gate**: Phase transition management for Level 4 projects  
+
+### 🧪 **Test & Workflow Agents**
+
+**🌊 Workflow Agent**: Complex orchestration intelligence for Level 3-4 projects  
+**🔧 Test Agents 1-5**: Agent communication validation and integration testing  
+**🔍 Test Validation Agent**: Claude Code sub-agent functionality validation
+
+### 🎯 **Main Orchestrator (You interact with this)**
 ```bash
 /project:tm-orchestrator-simple
 ```
 **What it does:**
-- Coordinates all agents automatically
-- Manages quality gates and progression
-- Makes strategic project decisions
-- Ensures end-to-end delivery
+- Assesses complexity (Level 1-4) and routes to appropriate workflow
+- Coordinates all 19 agents through intelligent handoffs
+- Manages quality gates and error recovery loops
+- Ensures end-to-end delivery from PRD to production
 
 ---
 
@@ -293,41 +333,69 @@ tm models --setFallback claude-code/sonnet
 
 ## 🛠️ Architecture Deep Dive
 
-### 🎭 **Agent Coordination Pattern**
+### 🎭 **Complexity-Based Orchestration Flow**
 ```mermaid
-sequenceDiagram
-    participant User
-    participant Orchestrator as 🎭 Orchestrator
-    participant Research as 🔬 Research Agent
-    participant Implementation as ⚡ Implementation Agent
-    participant FuncTest as 🌐 Functional Testing Agent
-    participant Structure as 🏗️ Structure Enforcer
+graph TD
+    User[User Request] --> Orchestrator{Claude Orchestrator<br/>Complexity Assessment}
     
-    User->>Orchestrator: PRD + /project:tm-orchestrator-simple
-    Orchestrator->>Orchestrator: Parse requirements & create tasks
+    %% Level 1 Flow (Simple Tasks)
+    Orchestrator -->|Level 1<br/>Simple Edit| L1_Impl[Implementation Agent<br/>Direct execution]
+    L1_Impl --> L1_Done[✅ COMPLETE]
     
-    Orchestrator->>Research: Analyze technical requirements
-    Research->>Research: Framework evaluation & ADR creation
-    Research->>Orchestrator: Architecture decisions + guides
+    %% Level 2 Flow (Feature Development)
+    Orchestrator -->|Level 2<br/>Feature Request| L2_Research[Research Agent<br/>Architecture analysis]
+    L2_Research --> L2_Impl[Implementation Agent<br/>Feature development]
+    L2_Impl --> L2_FuncTest[Functional Testing Agent<br/>Browser validation]
+    L2_FuncTest --> L2_Quality{Quality Gate}
+    L2_Quality -->|PASS| L2_Done[✅ COMPLETE]
+    L2_Quality -->|FAIL| L2_Fix[Implementation Agent<br/>Bug fixes]
+    L2_Fix --> L2_FuncTest
     
-    Orchestrator->>Implementation: Build with research guidance
-    Implementation->>Implementation: Code + tests + accessibility
-    Implementation->>Orchestrator: Production-ready features
+    %% Level 3 Flow (Multi-component)
+    Orchestrator -->|Level 3<br/>Multi-component| L3_PM[PM Agent<br/>Task breakdown]
+    L3_PM --> L3_Research[Research Agent<br/>System architecture]
+    L3_Research --> L3_Impl[Implementation Agent<br/>Component development]
+    L3_Impl --> L3_FuncTest[Functional Testing Agent<br/>Integration testing]
+    L3_FuncTest --> L3_Quality{Quality Gate}
+    L3_Quality -->|FAIL| L3_PM_Fix[PM Agent<br/>Coordinate fixes]
+    L3_PM_Fix --> L3_Impl_Fix[Implementation Agent<br/>Component fixes]
+    L3_Impl_Fix --> L3_FuncTest
+    L3_Quality -->|PASS| L3_Integration{Integration Gate}
+    L3_Integration -->|COMPATIBLE| L3_Done[✅ COMPLETE]
+    L3_Integration -->|CONFLICTS| L3_Research_Fix[Research Agent<br/>Architecture review]
+    L3_Research_Fix --> L3_Impl
     
-    Orchestrator->>FuncTest: Validate in real browser
-    FuncTest->>FuncTest: Start server + Playwright automation
-    alt Functional tests PASS
-        FuncTest->>Orchestrator: ✅ All features working
-        Orchestrator->>Structure: Enforce governance standards
-        Structure->>Structure: Validate structure & quality
-        Structure->>Orchestrator: Enterprise-ready project
-        Orchestrator->>User: 🚀 Complete application delivered
-    else Functional tests FAIL
-        FuncTest->>Orchestrator: ❌ Issues found with reproduction steps
-        Orchestrator->>Implementation: Fix specific functionality issues
-        Implementation->>Orchestrator: Bug fixes applied
-        Orchestrator->>FuncTest: Re-test functionality
-    end
+    %% Level 4 Flow (Full Project)
+    Orchestrator -->|Level 4<br/>Complete Project| L4_PM[PM Agent<br/>PRD parsing & phases]
+    L4_PM --> L4_Research[Research Agent<br/>Technical architecture]
+    L4_Research --> L4_Impl1[Implementation Agent<br/>Phase 1 development]
+    L4_Impl1 --> L4_FuncTest1[Functional Testing Agent<br/>Phase 1 validation]
+    L4_FuncTest1 --> L4_Readiness{Readiness Gate<br/>Phase transition}
+    L4_Readiness -->|NOT-READY| L4_PM_Coord[PM Agent<br/>Phase coordination]
+    L4_PM_Coord --> L4_Impl1
+    L4_Readiness -->|READY| L4_Impl2[Implementation Agent<br/>Phase 2 development]
+    L4_Impl2 --> L4_FuncTest2[Functional Testing Agent<br/>Final validation]
+    L4_FuncTest2 --> L4_Quality{Quality Gate}
+    L4_Quality -->|PASS| L4_Done[✅ COMPLETE<br/>Production Ready]
+    L4_Quality -->|FAIL| L4_PM_Final[PM Agent<br/>Final coordination]
+    L4_PM_Final --> L4_Impl2
+    
+    %% Styling
+    classDef userNode fill:#e1f5fe
+    classDef orchestratorNode fill:#fff3e0
+    classDef agentNode fill:#e8f5e8
+    classDef gateNode fill:#fce4ec
+    classDef pmNode fill:#f3e5f5
+    classDef doneNode fill:#e0f2f1
+    classDef testNode fill:#fff9c4
+    
+    class User userNode
+    class Orchestrator orchestratorNode
+    class L2_Research,L2_Impl,L3_Research,L3_Impl,L3_Impl_Fix,L3_Research_Fix,L4_Research,L4_Impl1,L4_Impl2,L1_Impl,L2_Fix agentNode
+    class L2_Quality,L3_Quality,L3_Integration,L4_Quality,L4_Readiness gateNode
+    class L3_PM,L3_PM_Fix,L4_PM,L4_PM_Coord,L4_PM_Final pmNode
+    class L1_Done,L2_Done,L3_Done,L4_Done doneNode
+    class L2_FuncTest,L3_FuncTest,L4_FuncTest1,L4_FuncTest2 testNode
 ```
 
 ### 🔬 **Research-Driven Development Flow**
@@ -350,6 +418,33 @@ sequenceDiagram
 4. **Interactive Element Testing**: Buttons, forms, navigation work correctly
 5. **Error Recovery**: Specific bug reproduction steps when issues found
 6. **Re-validation**: Automated re-testing after fixes applied
+
+## 🧪 **Tested Orchestration Improvements**
+
+### **Agent Communication Architecture**
+- ✅ **19 Specialized Agents**: Core work agents, quality gates, and test validation agents
+- ✅ **Test Agent Validation**: 5 test agents proved perfect data integrity (no "Chinese whispers")
+- ✅ **PM Coordination**: PM agent provides routing instructions, main Claude orchestrates
+- ✅ **Task Master Integration**: All agents work through proper Task Master MCP workflow
+
+### **Quality Gate Error Recovery**
+Based on actual testing documented in `ai-docs/orchestration-flow-diagram.md`:
+- ✅ **Level 2**: Quality Gate FAIL → Implementation Agent fixes → Re-validation PASS
+- ✅ **Level 3**: PM coordination when security issues found → JWT + bcrypt fixes → Integration PASS
+- ✅ **Level 4**: Multi-phase project with Readiness Gates → Task synchronization → Final delivery
+
+### **Functional Testing Breakthrough**
+**Real Todo System Test Results:**
+- ❌ **Initial Failure**: Dark mode toggle didn't work, add todo functionality broken
+- 🔄 **Error Recovery**: Functional testing agent found specific JavaScript date formatting bugs
+- ✅ **Fixed Architecture**: Date parsing errors resolved, UI rendering timing fixed
+- ✅ **Final Success**: Complete todo system with working functionality validated in browser
+
+### **Architectural Fixes Applied**
+1. **Tool Access Architecture**: PM agent has full Task Master access, others read-only
+2. **Date Formatting Bug**: Fixed `TypeError: date.getFullYear is not a function` errors  
+3. **UI Rendering Timing**: Fixed Web Components shadow DOM initialization issues
+4. **Agent Routing**: PM reports back instructions, main Claude orchestrates handoffs
 
 ---
 
