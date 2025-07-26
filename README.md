@@ -1,378 +1,266 @@
-# 🤖 World's First Autonomous AI Development Team
+# Autonomous AI Development Team
 
-## 🚀 Single Command → Complete Production Application
+## What it does
 
-```bash
-# Create PRD file, then run:
-/project:tm-orchestrator-simple
+Turn a natural language request into a production-ready application with 19 specialized AI agents coordinated through Claude's CLAUDE.md orchestration system.
 
-# Result: Complete MVP application with:
-✅ Research-driven architecture decisions
-✅ Professional code structure  
-✅ Comprehensive testing
-✅ Accessibility compliance
-✅ Quality governance standards
+### Request Examples by Complexity Level
+
+**Level 1 (Simple edits):**
+```
+"Fix the typo in line 23 of app.js"
+"Add a comment explaining the calculateTotal function"
+"Update the button text from 'Submit' to 'Save'"
 ```
 
-**This is not just code generation. This is autonomous software development.**
+**Level 2 (Feature development):**
+```  
+"Add user login functionality with JWT authentication"
+"Create a search feature for the product catalog"
+"Implement dark mode toggle for the application"
+```
 
----
+**Level 3 (Multi-component systems):**
+```
+"Build a user management system with roles and permissions"
+"Create an admin dashboard with analytics and user controls"
+"Add a complete API layer with authentication and data validation"
+```
 
-## 🧠 The Breakthrough: Multi-Agent AI Coordination
+**Level 4 (Full projects with PRD):**
+```
+"Build an e-commerce platform based on this PRD: [PRD file/content]"
+"Create a task management application following these requirements: [detailed specs]"
+"Develop a social media platform with these features: [comprehensive feature list]"
+```
 
-After [cursor-memory-bank](https://github.com/vanzan01/cursor-memory-bank) hit 2,400+ stars, I couldn't stop thinking: **What if AI agents could work together like a real development team?**
+Result: Complete application with browser-tested functionality, zero JavaScript errors, accessibility compliance.
 
-**The result:** The world's first practical autonomous development system where specialized AI agents coordinate to build complete applications from requirements to production.
+## Architecture
 
-### 🎯 Meet Your AI Development Team
+### Agent Organization
 
 ```mermaid
 graph TB
-    subgraph "🎯 User Input"
-        PRD[📄 Product Requirements Document]
+    subgraph "Autonomous AI Development Team (19 Specialized Agents)"
+        subgraph "Core Work Agents"
+            PM[Project Manager Agent<br/>Task Coordination<br/>Workflow Management]
+            Research[Research Agent<br/>Technical Analysis<br/>Architecture Decisions]
+            Implementation[Implementation Agent<br/>Production Code<br/>Feature Development]
+            Quality[Quality Agent<br/>Code Review<br/>Testing & Compliance]
+            DevOps[DevOps Agent<br/>Deployment<br/>Infrastructure]
+            FuncTest[Functional Testing Agent<br/>Real Browser Validation<br/>Playwright Automation]
+        end
+        
+        subgraph "Quality Gate Agents"
+            TaskGate[Task Assignment Gate<br/>Dependency Validation]
+            QualityGate[Quality Gate<br/>Code Standards]
+            CompletionGate[Completion Gate<br/>Requirements Check]
+            IntegrationGate[Integration Gate<br/>Compatibility Check]
+            ReadinessGate[Readiness Gate<br/>Phase Transition]
+        end
+        
+        subgraph "Test & Workflow Agents"
+            WorkflowAgent[Workflow Agent<br/>Complex Orchestration<br/>Level 3-4 Projects]
+            TestAgents[Test Agents 1-5<br/>Validation & Integration<br/>Agent Communication]
+        end
     end
     
-    subgraph "🤖 Autonomous AI Development Team"
-        Orchestrator[🎭 Orchestrator Agent<br/>Strategic Coordination<br/>Quality Gates]
-        Research[🔬 Research Agent<br/>Technical Analysis<br/>Architecture Decisions]
-        Implementation[⚡ Implementation Agent<br/>Production Code<br/>Testing & Quality]
-        Structure[🏗️ Structure Enforcer<br/>Project Governance<br/>Technical Standards]
-    end
+    classDef agent fill:#e8f5e8,stroke:#4caf50,stroke-width:2px
+    classDef gate fill:#fce4ec,stroke:#e91e63,stroke-width:2px
+    classDef test fill:#fff9c4,stroke:#ff9800,stroke-width:2px
     
-    subgraph "🎉 Output"
-        App[🚀 MVP Application<br/>✅ Tested & Accessible<br/>✅ Professional Structure<br/>✅ Quality Standards]
-    end
-    
-    PRD --> Orchestrator
-    Orchestrator --> Research
-    Research --> Implementation
-    Implementation --> Structure
-    Structure --> App
-    
-    Orchestrator -.->|Coordinates| Research
-    Orchestrator -.->|Monitors| Implementation
-    Orchestrator -.->|Enforces| Structure
-    
-    classDef agent fill:#ff6b6b,stroke:#c92a2a,stroke-width:2px,color:#fff
-    classDef input fill:#4ecdc4,stroke:#26a69a,stroke-width:2px,color:#fff
-    classDef output fill:#feca57,stroke:#ff9ff3,stroke-width:3px,color:#333
-    
-    class Orchestrator,Research,Implementation,Structure agent
-    class PRD input
-    class App output
+    class PM,Research,Implementation,Quality,DevOps,FuncTest agent
+    class TaskGate,QualityGate,CompletionGate,IntegrationGate,ReadinessGate gate
+    class WorkflowAgent,TestAgents test
 ```
 
-### ⚡ How It Works
+### Complexity-Based Orchestration Flow
 
-**1. Research-Driven Development** 🔬
-- AI analyzes requirements and researches optimal solutions
-- Creates Architectural Decision Records (ADRs) with full rationale
-- Generates comprehensive implementation guides
+```mermaid
+graph TD
+    User[User Request] --> Orchestrator{Claude Orchestrator<br/>Complexity Assessment}
+    
+    %% Level 1 Flow (Simple Tasks)
+    Orchestrator -->|Level 1<br/>Simple Edit| L1_Impl[Implementation Agent<br/>Direct execution]
+    L1_Impl --> L1_Done[✅ COMPLETE]
+    
+    %% Level 2 Flow (Feature Development)
+    Orchestrator -->|Level 2<br/>Feature Request| L2_Research[Research Agent<br/>Architecture analysis]
+    L2_Research --> L2_Impl[Implementation Agent<br/>Feature development]
+    L2_Impl --> L2_FuncTest[Functional Testing Agent<br/>Browser validation]
+    L2_FuncTest --> L2_Quality{Quality Gate}
+    L2_Quality -->|PASS| L2_Done[✅ COMPLETE]
+    L2_Quality -->|FAIL| L2_Fix[Implementation Agent<br/>Bug fixes]
+    L2_Fix --> L2_FuncTest
+    
+    %% Level 3 Flow (Multi-component)
+    Orchestrator -->|Level 3<br/>Multi-component| L3_PM[PM Agent<br/>Task breakdown]
+    L3_PM --> L3_Research[Research Agent<br/>System architecture]
+    L3_Research --> L3_Impl[Implementation Agent<br/>Component development]
+    L3_Impl --> L3_FuncTest[Functional Testing Agent<br/>Integration testing]
+    L3_FuncTest --> L3_Quality{Quality Gate}
+    L3_Quality -->|FAIL| L3_PM_Fix[PM Agent<br/>Coordinate fixes]
+    L3_PM_Fix --> L3_Impl_Fix[Implementation Agent<br/>Component fixes]
+    L3_Impl_Fix --> L3_FuncTest
+    L3_Quality -->|PASS| L3_Integration{Integration Gate}
+    L3_Integration -->|COMPATIBLE| L3_Done[✅ COMPLETE]
+    L3_Integration -->|CONFLICTS| L3_Research_Fix[Research Agent<br/>Architecture review]
+    L3_Research_Fix --> L3_Impl
+    
+    %% Level 4 Flow (Full Project)
+    Orchestrator -->|Level 4<br/>Complete Project| L4_PM[PM Agent<br/>PRD parsing & phases]
+    L4_PM --> L4_Research[Research Agent<br/>Technical architecture]
+    L4_Research --> L4_Impl1[Implementation Agent<br/>Phase 1 development]
+    L4_Impl1 --> L4_FuncTest1[Functional Testing Agent<br/>Phase 1 validation]
+    L4_FuncTest1 --> L4_Readiness{Readiness Gate<br/>Phase transition}
+    L4_Readiness -->|NOT-READY| L4_PM_Coord[PM Agent<br/>Phase coordination]
+    L4_PM_Coord --> L4_Impl1
+    L4_Readiness -->|READY| L4_Impl2[Implementation Agent<br/>Phase 2 development]
+    L4_Impl2 --> L4_FuncTest2[Functional Testing Agent<br/>Final validation]
+    L4_FuncTest2 --> L4_Quality{Quality Gate}
+    L4_Quality -->|PASS| L4_Done[✅ COMPLETE<br/>Production Ready]
+    L4_Quality -->|FAIL| L4_PM_Final[PM Agent<br/>Final coordination]
+    L4_PM_Final --> L4_Impl2
+    
+    %% Styling
+    classDef userNode fill:#e1f5fe
+    classDef orchestratorNode fill:#fff3e0
+    classDef agentNode fill:#e8f5e8
+    classDef gateNode fill:#fce4ec
+    classDef pmNode fill:#f3e5f5
+    classDef doneNode fill:#e0f2f1
+    classDef testNode fill:#fff9c4
+    
+    class User userNode
+    class Orchestrator orchestratorNode
+    class L2_Research,L2_Impl,L3_Research,L3_Impl,L3_Impl_Fix,L3_Research_Fix,L4_Research,L4_Impl1,L4_Impl2,L1_Impl,L2_Fix agentNode
+    class L2_Quality,L3_Quality,L3_Integration,L4_Quality,L4_Readiness gateNode
+    class L3_PM,L3_PM_Fix,L4_PM,L4_PM_Coord,L4_PM_Final pmNode
+    class L1_Done,L2_Done,L3_Done,L4_Done doneNode
+    class L2_FuncTest,L3_FuncTest,L4_FuncTest1,L4_FuncTest2 testNode
+```
 
-**2. Coordinated Implementation** 🎯
-- Orchestrator manages the development pipeline
-- Implementation agent follows research guidance
-- Continuous quality gates ensure professional standards
+## How it works
 
-**3. Quality Governance** 🏗️
-- Automatic project structure enforcement
-- Technical debt prevention
-- Professional documentation generation
+**Multi-agent coordination**: Main Claude uses CLAUDE.md orchestration instructions to assess complexity (Level 1-4) and route tasks to specialized agents via the Task tool.
 
----
+**Browser validation**: Functional testing agent uses Playwright MCP to test actual functionality in real browsers, catching bugs that static analysis misses.
 
-## 🌟 What Makes This Revolutionary
+**Quality gates**: Binary validation at each step (PASS/FAIL). Failed gates route back for fixes until validation passes.
 
-### 🧠 **True Autonomy, Not Assistance**
-- **Complete Project Management**: From PRD to production deployment
-- **Strategic Decision Making**: AI makes informed architectural choices
-- **Quality Enforcement**: Built-in testing, accessibility, and standards
+**Error recovery**: Quality Gate FAIL → Implementation Agent fixes → Re-validation PASS
 
-### 🔬 **Research-Driven Architecture**
-- **Technical Analysis**: Deep evaluation of frameworks, patterns, and tools
-- **Documented Decisions**: Every choice explained with alternatives considered
-- **Implementation Guides**: Detailed patterns and examples for developers
+## Dependencies Required
 
-### 🏗️ **Production-Quality Standards**
-- **Project Structure Governance**: Professional organization patterns
-- **Continuous Quality Gates**: Tests, linting, and build validation
-- **Accessibility First**: WCAG 2.1 AA compliance built-in
+### Core MCP Servers
 
-### ⚡ **Proven Results**
-- **MVP-Ready**: TypeScript, testing, proper error handling
-- **Performance Optimized**: Bundle analysis and optimization  
-- **Development-Ready**: Scalable structure for team collaboration
-- **Zero Cost**: Claude Code integration eliminates all API expenses
-
----
-
-## 🚀 Quick Start (5 Minutes to Autonomous Development)
-
-### 1. Install TaskMaster MCP with Claude Code Integration
+**Task Master MCP** (Required for PM agent coordination):
 ```bash
 claude mcp add task-master -s user -- npx -y --package=task-master-ai task-master-ai
 ```
 
-**🆕 Zero-Cost Claude Code Integration Available!**
-TaskMaster v0.20.0+ now supports native Claude Code integration for completely free autonomous development. No API keys required!
-
-### 2. Create Product Requirements Document
-Create `your-project-prd.txt` with:
-```markdown
-# Your App Name - Product Requirements Document
-
-## Project Overview
-Brief description of what you want to build
-
-## Core Features
-1. Feature 1: Description and requirements
-2. Feature 2: Description and requirements
-3. Feature 3: Description and requirements
-
-## Technical Requirements
-- Frontend framework preference (React/Vue/Angular)
-- Styling approach (Tailwind/Material-UI/Custom)
-- Data persistence needs
-- Accessibility requirements
-- Testing requirements
-
-## Success Criteria
-- Functional requirements
-- Performance targets
-- Quality standards
-```
-
-### 3. Configure Claude Code Models (Optional - Zero Cost!)
+**Context7 MCP** (Required for research agent library documentation):
 ```bash
-# Initialize TaskMaster in your project directory
-tm init
-
-# Configure to use Claude Code (completely free!)
-tm models --setMain claude-code/sonnet
-tm models --setResearch claude-code/opus  
-tm models --setFallback claude-code/sonnet
+claude mcp add context7 -s user -- npx -y context7-server
 ```
 
-### 4. Launch Autonomous Development
+**Playwright MCP** (Required for functional testing agent browser automation):
 ```bash
-/project:tm-orchestrator-simple
+claude mcp add playwright -s user -- npx -y playwright-mcp-server
 ```
 
-**That's it.** The AI development team takes over at **zero cost**:
-- ✅ Parses your requirements (claude-code/sonnet)
-- ✅ Researches optimal solutions (claude-code/opus)
-- ✅ Makes architectural decisions (local processing)
-- ✅ Implements complete application (claude-code/sonnet)
-- ✅ Ensures quality and accessibility (built-in validation)
-- ✅ Delivers production-ready code (no API limits!)
+### Agent Tool Distribution
 
----
+- **PM Agent**: Full Task Master MCP access + file operations
+- **Research Agent**: Context7 MCP, web search, limited Task Master read-only  
+- **Implementation Agent**: File operations (Read, Write, Edit, MultiEdit, Bash, Glob, Grep) + Task Master read-only
+- **Functional Testing Agent**: Playwright MCP, Bash, limited Task Master read-only
+- **Quality/Gate Agents**: Read-only access for validation
 
-## 🎮 Advanced Usage: Individual Agents
+## Quick Start
 
-### 🔬 Research Agent (Deep Technical Analysis)
+### 1. Install MCP Dependencies
 ```bash
-/project:tm-research-agent
-```
-**What it does:**
-- Framework evaluation and selection
-- Architecture pattern analysis
-- Performance and security considerations
-- Creates ADRs and implementation guides
+# Task Master (project coordination)
+claude mcp add task-master -s user -- npx -y --package=task-master-ai task-master-ai
 
-### ⚡ Implementation Agent (Production Development)
+# Context7 (library documentation)  
+claude mcp add context7 -s user -- npx -y context7-server
+
+# Playwright (browser testing)
+claude mcp add playwright -s user -- npx -y playwright-mcp-server
+```
+
+### 2. Initialize Project  
 ```bash
-/project:tm-implementation-agent  
+# Create project directory
+mkdir your-project && cd your-project
+
+# Initialize TaskMaster
+npx task-master-ai init
+
+# Configure for Claude Code (free)
+npx task-master-ai models --setMain claude-code/sonnet --setResearch claude-code/sonnet
 ```
-**What it does:**
-- Follows research-driven architecture
-- Implements with testing and accessibility
-- Enforces code quality standards
-- Handles complex integration scenarios
 
-### 🏗️ Project Structure Enforcer (Quality Governance)
-```bash
-/project:tm-project-structure-enforcer
+### 3. Make Natural Language Request
+Simply talk to Claude:
 ```
-**What it does:**
-- Enforces professional project organization
-- Prevents technical debt accumulation
-- Validates configuration standards
-- Ensures scalable architecture
-
-### 🎯 Orchestrator (Strategic Coordination)
-```bash
-/project:tm-orchestrator-simple
+"Build a responsive todo app with dark mode, date functionality, and accessibility compliance"
 ```
-**What it does:**
-- Coordinates all agents automatically
-- Manages quality gates and progression
-- Makes strategic project decisions
-- Ensures end-to-end delivery
 
----
+**What happens automatically:**
+1. Claude assesses complexity using CLAUDE.md instructions
+2. Routes to PM agent for task breakdown using Task Master MCP
+3. PM agent coordinates research phase via Task tool
+4. Research agent analyzes architecture using Context7 MCP  
+5. Implementation agent builds application with guidance
+6. Functional testing agent validates in browser using Playwright MCP
+7. Quality gates ensure production readiness
 
-## 📊 Real-World Results
+## Tested Capabilities
 
-### ⚡ **Autonomous Development Validation**
-**What We've Proven:**
-- ✅ **Complete MVP Applications**: From PRD to production-ready code
-- ✅ **Zero Development Costs**: Claude Code integration eliminates all API expenses
-- ✅ **Multi-Agent Coordination**: Research → Implementation → Quality governance
-- ✅ **Production Standards**: TypeScript, testing, accessibility, optimization
-- ✅ **5-Minute Setup**: Human involvement limited to monitoring
-
-**Validated Project Types:**
+**Validated project types:**
 - Frontend applications (React, Vue, Angular, Vanilla JS)
-- API integrations with security best practices
+- API integrations with security best practices  
 - Responsive design with accessibility compliance
-- Testing frameworks and quality governance
 
-### 📈 **Quality Standards Delivered**
-- **TypeScript**: 100% type coverage with strict mode
-- **Testing**: Comprehensive unit and accessibility tests
-- **Performance**: Production-optimized builds and bundle analysis
-- **Structure**: Enterprise-grade organization patterns
-- **Documentation**: Complete ADRs and implementation guides
-- **Cost**: $0.00 with Claude Code integration
+**Quality standards delivered:**
+- TypeScript with strict mode
+- Zero JavaScript errors (browser-tested)
+- WCAG accessibility compliance
+- Professional code organization
+- Comprehensive testing
 
----
+**Real test case**: Todo system initially failed (broken dark mode, add functionality). Functional testing agent identified specific JavaScript date formatting bugs using Playwright automation. Implementation agent fixed issues. Final validation passed with working functionality.
 
-## ⚠️ Alpha Release Limitations
+**Zero cost**: Uses Claude Code integration, eliminating API expenses.
 
-### 🔴 **Known Issues (TaskMaster MCP)**
-- **API Reliability**: ~15% failure rate on some operations
-- **Manual Intervention**: Occasionally requires retry or workaround
-- **Error Recovery**: Limited automatic retry mechanisms
 
-### 🟢 **Claude Code Integration Benefits**
-- **Zero Costs**: No API expenses for autonomous development
-- **No Rate Limits**: Local processing eliminates API restrictions
-- **Enhanced Reliability**: Direct model access reduces failure points
-- **Full Model Access**: Opus and Sonnet available without API keys
+## Technical Notes
 
-### 🟡 **Tested Scope**
-- **Project Types**: Frontend applications (React, Vue, Angular)
-- **Complexity**: Small to medium projects (≤50 tasks)
-- **Platforms**: Tested on Linux/WSL, Windows, macOS
+**Orchestration**: Main Claude uses CLAUDE.md instructions (not slash commands) to coordinate agents via Task tool.
 
-### ✅ **What Works Reliably**
-- **Multi-agent coordination**: Agent handoffs and communication
-- **Code quality**: Professional standards and testing
-- **Architecture decisions**: Research-driven technical choices
-- **Project structure**: Enterprise-grade organization
+**State management**: Task Master MCP maintains project state, task breakdown, and progress tracking.
 
----
+**Agent communication**: Agents are stateless - main Claude maintains context and routes work.
 
-## 🛠️ Architecture Deep Dive
+**Browser testing**: Playwright MCP enables real browser validation, not just code review.
 
-### 🎭 **Agent Coordination Pattern**
-```mermaid
-sequenceDiagram
-    participant User
-    participant Orchestrator as 🎭 Orchestrator
-    participant Research as 🔬 Research Agent
-    participant Implementation as ⚡ Implementation Agent
-    participant Structure as 🏗️ Structure Enforcer
-    
-    User->>Orchestrator: PRD + /project:tm-orchestrator-simple
-    Orchestrator->>Orchestrator: Parse requirements & create tasks
-    
-    Orchestrator->>Research: Analyze technical requirements
-    Research->>Research: Framework evaluation & ADR creation
-    Research->>Orchestrator: Architecture decisions + guides
-    
-    Orchestrator->>Implementation: Build with research guidance
-    Implementation->>Implementation: Code + tests + accessibility
-    Implementation->>Orchestrator: Production-ready features
-    
-    Orchestrator->>Structure: Enforce governance standards
-    Structure->>Structure: Validate structure & quality
-    Structure->>Orchestrator: Enterprise-ready project
-    
-    Orchestrator->>User: 🚀 Complete application delivered
-```
+**Documentation**: Context7 MCP provides up-to-date library documentation during research phase.
 
-### 🔬 **Research-Driven Development Flow**
-1. **Requirements Analysis**: Deep understanding of project needs
-2. **Technology Evaluation**: Comprehensive framework and tool analysis  
-3. **Architecture Design**: Patterns, structures, and integration strategies
-4. **Implementation Planning**: Detailed guides with code examples
-5. **Quality Standards**: Testing, accessibility, and performance criteria
+## Contributing
 
-### ⚡ **Continuous Quality Integration**
-- **Quality Gates**: Tests/lint/build validation after each feature
-- **Progressive Enhancement**: Accessibility and performance built-in
-- **Professional Standards**: Enterprise-grade code organization
-- **Documentation**: ADRs, guides, and architectural knowledge preservation
+Areas needing improvement:
+1. Task Master MCP reliability fixes
+2. Better error recovery mechanisms  
+3. Backend/mobile project support
+4. Scalability testing for larger projects
+5. Clean up outdated .claude/commands/ files
 
----
+## Results
 
-## 🤝 Contributing to the AI Development Revolution
+Delivers production-ready applications from natural language requests. The breakthrough is functional browser validation - guaranteeing applications actually work, not just passing code review.
 
-### 🐛 **Known Improvement Areas**
-1. **TaskMaster MCP Reliability**: Help fix the ~15% API failure rate
-2. **Error Recovery**: Better fallback mechanisms for coordination failures  
-3. **Project Type Coverage**: Extend to backend, mobile, and full-stack projects
-4. **Scalability Testing**: Validate with larger, more complex projects
-
-### 🚀 **Future Enhancements**
-- **Real-time Monitoring**: Dashboard for multi-agent development progress
-- **Custom Agent Personalities**: Specialized agents for different domains
-- **Enterprise Integration**: CI/CD pipeline and deployment automation
-- **Learning System**: Agents that improve from project feedback
-
-### 💡 **Research Questions**
-- How far can autonomous development scale?
-- What's the optimal human-AI collaboration pattern?
-- Can agents handle evolving requirements during development?
-- How do we measure and improve agent decision quality?
-
----
-
-## 🏆 Recognition & Impact
-
-**This project represents the first practical implementation of coordinated AI development teams.**
-
-### 📈 **Milestones**
-- ✅ **First autonomous multi-agent development system**
-- ✅ **Research-driven architecture decisions with full documentation**
-- ✅ **Enterprise-grade quality standards and governance**
-- ✅ **Production-ready applications from single command**
-- ✅ **Zero-cost Claude Code integration for unlimited development**
-
-### 🌟 **Community**
-- **cursor-memory-bank**: 1,800+ stars (predecessor project)
-- **Revolutionary approach**: Moving beyond AI assistance to AI autonomy
-- **Open source**: Contributing to the future of software development
-
----
-
-## 📞 Let's Build the Future Together
-
-**Try it. Break it. Push it further.**
-
-- 🐛 **Found a bug?** Open an issue with reproduction steps
-- 💡 **Have ideas?** Share your vision for autonomous development  
-- 🚀 **Built something amazing?** Show the community what AI teams can create
-- 🤝 **Want to contribute?** Help improve agent coordination and reliability
-
-**Questions for the Community:**
-- How far did the AI team surprise you?
-- What would you trust it to build autonomously?
-- Where do you see the biggest opportunities for improvement?
-- What projects would you want to try with autonomous development?
-
----
-
-**Ready to experience the future of software development?** 🚀
-
-```bash
-# Configure Claude Code for zero-cost development:
-tm models --setMain claude-code/sonnet --setResearch claude-code/opus
-
-# Your journey to autonomous development starts here:
-/project:tm-orchestrator-simple
-```
-
-**Welcome to the AI development revolution - now completely free with Claude Code!** ⚡🤖💰
+Built on [cursor-memory-bank](https://github.com/vanzan01/cursor-memory-bank) foundation (2,400+ stars).
