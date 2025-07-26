@@ -66,9 +66,9 @@ graph TB
         end
     end
     
-    classDef agent fill:#e8f5e8,stroke:#2d5a27,stroke-width:2px,color:#1a1a1a
-    classDef gate fill:#fce4ec,stroke:#a91e63,stroke-width:2px,color:#1a1a1a
-    classDef test fill:#fff9c4,stroke:#b5651d,stroke-width:2px,color:#1a1a1a
+    classDef agent fill:#e8f5e8,stroke:#2d5a27,stroke-width:3px,color:#1a1a1a
+    classDef gate fill:#fce4ec,stroke:#a91e63,stroke-width:3px,color:#1a1a1a
+    classDef test fill:#fff9c4,stroke:#b5651d,stroke-width:3px,color:#1a1a1a
     
     class PM,Research,Implementation,Quality,DevOps,FuncTest agent
     class TaskGate,QualityGate,CompletionGate,IntegrationGate,ReadinessGate gate
@@ -124,13 +124,13 @@ graph TD
     L4_PM_Final --> L4_Impl2
     
     %% Styling
-    classDef userNode fill:#e1f5fe
-    classDef orchestratorNode fill:#fff3e0
-    classDef agentNode fill:#e8f5e8
-    classDef gateNode fill:#fce4ec
-    classDef pmNode fill:#f3e5f5
-    classDef doneNode fill:#e0f2f1
-    classDef testNode fill:#fff9c4
+    classDef userNode fill:#e1f5fe,stroke:#0277bd,stroke-width:3px,color:#1a1a1a
+    classDef orchestratorNode fill:#fff3e0,stroke:#f57c00,stroke-width:3px,color:#1a1a1a
+    classDef agentNode fill:#e8f5e8,stroke:#2d5a27,stroke-width:3px,color:#1a1a1a
+    classDef gateNode fill:#fce4ec,stroke:#a91e63,stroke-width:3px,color:#1a1a1a
+    classDef pmNode fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px,color:#1a1a1a
+    classDef doneNode fill:#e0f2f1,stroke:#2e7d32,stroke-width:3px,color:#1a1a1a
+    classDef testNode fill:#fff9c4,stroke:#b5651d,stroke-width:3px,color:#1a1a1a
     
     class User userNode
     class Orchestrator orchestratorNode
