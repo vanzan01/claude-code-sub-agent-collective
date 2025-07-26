@@ -8,8 +8,8 @@
     },
     "research": {
       "provider": "claude-code",
-      "modelId": "opus",
-      "maxTokens": 32000,
+      "modelId": "sonnet",
+      "maxTokens": 64000,
       "temperature": 0.1
     },
     "fallback": {
