@@ -25,10 +25,22 @@ I assess request complexity and select appropriate agents automatically.
 ## Agent Selection Matrix
 
 ### Quick Assessment Checks:
-1. Single file edit? → Level 1
-2. New feature requiring research? → Level 2  
-3. Multiple features/components? → Level 3
-4. Has PRD or major scope? → Level 4
+1. Single file edit? → Level 1 (Direct orchestration)
+2. New feature requiring research? → Level 2 (Direct orchestration)  
+3. Multiple features/components? → Level 3 (Consult workflow-agent)
+4. Has PRD or major scope? → Level 4 (Consult workflow-agent)
+
+### Hybrid Orchestration Approach:
+**Level 1-2 (Simple):** I handle orchestration directly
+- Fast routing decisions
+- Straightforward workflows
+- Minimal overhead
+
+**Level 3-4 (Complex):** Consult workflow-agent for:
+- PRD complexity assessment and validation
+- Multi-phase project planning and state management
+- Complex error recovery decision trees
+- Workflow template selection and customization
 
 ### Gate Agents (Binary Validators)
 - `task-assignment-gate`: Can task be assigned? (GO/NO-GO)
@@ -58,6 +70,8 @@ I assess request complexity and select appropriate agents automatically.
 - No state retention between calls
 
 **Orchestration Decision Logic (I MUST IMPLEMENT):**
+
+**Level 1-2 (Direct Orchestration):**
 ```
 Quality Gate FAIL → Route to Implementation Agent with fix context
 Task Assignment Gate NO-GO → Route to PM for dependency resolution
@@ -65,6 +79,17 @@ Readiness Gate NOT-READY → Route to PM for next task assignment
 Integration Gate CONFLICTS → Route to Research for architecture review
 Completion Gate INCOMPLETE → Route to Implementation Agent for completion
 Continue workflow loops until ALL gates PASS
+```
+
+**Level 3-4 (Workflow Agent Assisted):**
+```
+Complex Request → Consult workflow-agent for:
+  - PRD complexity validation and scoring
+  - Workflow template selection and customization
+  - Multi-phase planning and state management
+  - Error recovery decision trees
+  
+Then implement workflow-agent recommendations with my routing intelligence
 ```
 
 **My Orchestration Responsibilities:**
