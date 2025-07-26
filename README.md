@@ -3,8 +3,8 @@
 ## 🚀 Single Command → Complete Validated Production Application
 
 ```bash
-# Create PRD file, then run:
-/project:tm-orchestrator-simple
+# Just make a natural language request to Claude:
+"Design a simple todo system using HTML and JavaScript with features like date functionality and dark mode"
 
 # Result: Complete MVP application with:
 ✅ Research-driven architecture decisions
@@ -191,15 +191,18 @@ tm models --setFallback claude-code/sonnet
 ```
 
 ### 4. Launch Autonomous Development
-```bash
-/project:tm-orchestrator-simple
+Just make your request directly to Claude:
+
+```
+"Build a responsive todo app with dark mode, date functionality, and accessibility compliance"
 ```
 
 **That's it.** The AI development team takes over at **zero cost**:
 - ✅ Parses your requirements (claude-code/sonnet)
-- ✅ Researches optimal solutions (claude-code/opus)
+- ✅ Researches optimal solutions (claude-code/opus)  
 - ✅ Makes architectural decisions (local processing)
 - ✅ Implements complete application (claude-code/sonnet)
+- ✅ Validates functionality in real browser (Playwright automation)
 - ✅ Ensures quality and accessibility (built-in validation)
 - ✅ Delivers production-ready code (no API limits!)
 
@@ -210,41 +213,34 @@ tm models --setFallback claude-code/sonnet
 ### 🎭 **Core Work Agents**
 
 **📋 Project Manager Agent**
-```bash
-# Task coordination and workflow management
-# Full Task Master MCP access for project coordination
-```
+- Task coordination and workflow management through Task Master MCP
+- Provides routing instructions to main Claude orchestrator
+- Full Task Master MCP access for project coordination
 
 **🔬 Research Agent** 
-```bash
-# Technical analysis, architecture decisions, complexity assessment
-# Framework evaluation, ADR creation, implementation guides
-```
+- Technical analysis, architecture decisions, complexity assessment
+- Framework evaluation, ADR creation, implementation guides
+- Called automatically by main Claude for Level 2+ complexity
 
 **⚡ Implementation Agent**
-```bash
-# Production code development, feature implementation
-# Follows research guidance, handles complex integrations
-```
+- Production code development, feature implementation
+- Follows research guidance, handles complex integrations
+- Routes through main Claude orchestrator, not direct access
 
 **🧪 Quality Agent**
-```bash  
-# Code review, testing, compliance validation
-# Ensures professional standards and accessibility
-```
+- Code review, testing, compliance validation
+- Ensures professional standards and accessibility
+- Read-only Task Master access, reports back to PM agent
 
 **🚀 DevOps Agent**
-```bash
-# Deployment, infrastructure, CI/CD automation
-# Production setup and optimization
-```
+- Deployment, infrastructure, CI/CD automation
+- Production setup and optimization
+- Orchestrated through main Claude workflow management
 
 **🌐 Functional Testing Agent**
-```bash
-# Real browser validation with Playwright automation
-# Tests user interactions, monitors console errors
-# Provides specific bug reproduction steps
-```
+- Real browser validation with Playwright automation
+- Tests user interactions, monitors console errors
+- Provides specific bug reproduction steps when features fail
 
 ### 🚧 **Quality Gate Agents**
 
@@ -260,15 +256,20 @@ tm models --setFallback claude-code/sonnet
 **🔧 Test Agents 1-5**: Agent communication validation and integration testing  
 **🔍 Test Validation Agent**: Claude Code sub-agent functionality validation
 
-### 🎯 **Main Orchestrator (You interact with this)**
-```bash
-/project:tm-orchestrator-simple
+### 🎯 **Main Claude Orchestrator (How You Interact)**
+
+**Direct Natural Language Requests:**
 ```
-**What it does:**
+"Build a todo app with date functionality and dark mode"
+"Create a user authentication system with JWT"
+"Design a responsive dashboard with charts"
+```
+
+**What Claude does automatically:**
 - Assesses complexity (Level 1-4) and routes to appropriate workflow
-- Coordinates all 19 agents through intelligent handoffs
+- Coordinates all 19 agents through intelligent handoffs using Task tool
 - Manages quality gates and error recovery loops
-- Ensures end-to-end delivery from PRD to production
+- Ensures end-to-end delivery from request to production-ready code
 
 ---
 
@@ -512,9 +513,18 @@ Based on actual testing documented in `ai-docs/orchestration-flow-diagram.md`:
 ```bash
 # Configure Claude Code for zero-cost development:
 tm models --setMain claude-code/sonnet --setResearch claude-code/opus
-
-# Your journey to autonomous development starts here:
-/project:tm-orchestrator-simple
 ```
+
+**Then just make your request directly to Claude:**
+```
+"Build me a responsive e-commerce site with user authentication and payment processing"
+```
+
+**Your autonomous AI development team will:**
+- Assess complexity and create implementation plan
+- Research optimal architecture and technologies  
+- Build complete application with functional testing
+- Ensure zero JavaScript errors and accessibility compliance
+- Deliver production-ready code
 
 **Welcome to the AI development revolution - now completely free with Claude Code!** ⚡🤖💰
