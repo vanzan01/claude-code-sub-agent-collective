@@ -7,24 +7,37 @@ INPUT=$(cat)
 # Extract tool parameters using jq
 SUBAGENT_TYPE=$(echo "$INPUT" | jq -r '.tool_input.subagent_type // ""')
 
-# Calculate files created/modified
-BEFORE_COUNT=$(cat /tmp/pre-task-count.txt)
-AFTER_COUNT=$(find . -type f \( -name "*.js" -o -name "*.tsx" -o -name "*.ts" -o -name "*.json" -o -name "*.md" -o -name "*.sh" -o -name "*.yml" -o -name "*.yaml" -o -name "*.example" -o -name "Dockerfile" \) | wc -l)
-FILES_CREATED=$((AFTER_COUNT - BEFORE_COUNT))
+# Detect git changes for comprehensive work validation
+UNSTAGED_CHANGES=$(git diff --name-only 2>/dev/null | wc -l)
+UNTRACKED_FILES=$(git ls-files --others --exclude-standard 2>/dev/null | wc -l)
+STAGED_CHANGES=$(git diff --cached --name-only 2>/dev/null | wc -l)
+TOTAL_GIT_CHANGES=$((UNSTAGED_CHANGES + UNTRACKED_FILES + STAGED_CHANGES))
+
+# Get baseline changes from pre-task for comparison
+BASELINE_CHANGES=0
+if [ -f /tmp/git-baseline.txt ]; then
+    BASELINE_CHANGES=$(wc -l < /tmp/git-baseline.txt 2>/dev/null || echo 0)
+fi
+
+# Calculate net changes made during the task
+NET_CHANGES=$((TOTAL_GIT_CHANGES - BASELINE_CHANGES))
 
 echo "POST-TASK: $(date)" >> /tmp/task-monitor.log
-echo "  files_created: $FILES_CREATED" >> /tmp/task-monitor.log
+echo "  git_changes_detected: $TOTAL_GIT_CHANGES" >> /tmp/task-monitor.log
+echo "  net_changes_made: $NET_CHANGES" >> /tmp/task-monitor.log
+echo "  unstaged: $UNSTAGED_CHANGES, untracked: $UNTRACKED_FILES, staged: $STAGED_CHANGES" >> /tmp/task-monitor.log
 
 # Agent-specific enforcement logic
 case "$SUBAGENT_TYPE" in
   "implementation-agent")
-    if [[ $FILES_CREATED -eq 0 ]]; then
-      echo "ERROR: implementation-agent claimed implementation but created no files" >&2
-      echo "ENFORCEMENT: Blocking fictional response - no deliverables found" >&2
-      echo "REQUIRED: Use Write, Edit, or MultiEdit tools to create actual files" >&2
+    if [[ $TOTAL_GIT_CHANGES -eq 0 ]]; then
+      echo "ERROR: implementation-agent claimed implementation but git shows no changes" >&2
+      echo "ENFORCEMENT: Blocking fictional response - no git modifications detected" >&2
+      echo "REQUIRED: Use Write, Edit, or MultiEdit tools to make actual changes" >&2
+      echo "GIT STATUS: $(git status --porcelain 2>/dev/null || echo 'No git repository')" >&2
       exit 1  # This blocks the Task tool response
     fi
-    echo "  enforcement_result: PASSED - $FILES_CREATED files created" >> /tmp/task-monitor.log
+    echo "  enforcement_result: PASSED - $TOTAL_GIT_CHANGES git changes detected" >> /tmp/task-monitor.log
     ;;
   
   "research-agent")
@@ -58,13 +71,14 @@ case "$SUBAGENT_TYPE" in
     ;;
     
   "devops-agent")
-    if [[ $FILES_CREATED -eq 0 ]]; then
-      echo "  enforcement_result: BLOCKED - devops-agent created no files" >> /tmp/task-monitor.log
-      echo "ERROR: devops-agent claimed deployment setup but created no files" >&2
+    if [[ $TOTAL_GIT_CHANGES -eq 0 ]]; then
+      echo "  enforcement_result: BLOCKED - devops-agent made no git changes" >> /tmp/task-monitor.log
+      echo "ERROR: devops-agent claimed deployment setup but git shows no changes" >&2
+      echo "GIT STATUS: $(git status --porcelain 2>/dev/null || echo 'No git repository')" >&2
       echo "---" >> /tmp/task-monitor.log
       exit 1
     else
-      echo "  enforcement_result: ALLOWED - $FILES_CREATED files created" >> /tmp/task-monitor.log
+      echo "  enforcement_result: ALLOWED - $TOTAL_GIT_CHANGES git changes detected" >> /tmp/task-monitor.log
     fi
     ;;
     
@@ -73,5 +87,5 @@ case "$SUBAGENT_TYPE" in
     ;;
 esac
 
-echo "  final_file_count: $AFTER_COUNT" >> /tmp/task-monitor.log
+echo "  final_git_status: $TOTAL_GIT_CHANGES total changes" >> /tmp/task-monitor.log
 echo "---" >> /tmp/task-monitor.log

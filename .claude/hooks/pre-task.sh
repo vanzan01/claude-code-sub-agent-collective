@@ -13,8 +13,14 @@ echo "TASK CALL: $(date)" >> /tmp/task-monitor.log
 echo "  subagent_type: $SUBAGENT_TYPE" >> /tmp/task-monitor.log  
 echo "  prompt: $PROMPT" >> /tmp/task-monitor.log
 
-# Record current filesystem state for comparison
-find . -type f \( -name "*.js" -o -name "*.tsx" -o -name "*.ts" -o -name "*.json" -o -name "*.md" -o -name "*.sh" -o -name "*.yml" -o -name "*.yaml" -o -name "*.example" -o -name "Dockerfile" \) | wc -l > /tmp/pre-task-count.txt
+# Record current git state for comprehensive change detection
+git status --porcelain > /tmp/git-baseline.txt 2>/dev/null || echo "" > /tmp/git-baseline.txt
 
-echo "  pre-task files: $(cat /tmp/pre-task-count.txt)" >> /tmp/task-monitor.log
+# Count current changes for logging
+UNSTAGED_CHANGES=$(git diff --name-only 2>/dev/null | wc -l)
+UNTRACKED_FILES=$(git ls-files --others --exclude-standard 2>/dev/null | wc -l)
+STAGED_CHANGES=$(git diff --cached --name-only 2>/dev/null | wc -l)
+BASELINE_CHANGES=$((UNSTAGED_CHANGES + UNTRACKED_FILES + STAGED_CHANGES))
+
+echo "  git_baseline_changes: $BASELINE_CHANGES" >> /tmp/task-monitor.log
 echo "  working_directory: $(pwd)" >> /tmp/task-monitor.log
