@@ -1,14 +1,19 @@
 #!/bin/bash
 # Post-Task Hook: Verify actual work and enforce deliverables
 
+# Read JSON input from stdin
+INPUT=$(cat)
+
+# Extract tool parameters using jq
+SUBAGENT_TYPE=$(echo "$INPUT" | jq -r '.tool_input.subagent_type // ""')
+
 # Calculate files created/modified
 BEFORE_COUNT=$(cat /tmp/pre-task-count.txt)
-AFTER_COUNT=$(find . -name "*.js" -o -name "*.tsx" -o -name "*.ts" -o -name "*.json" -o -name "*.md" | wc -l)
+AFTER_COUNT=$(find . -type f \( -name "*.js" -o -name "*.tsx" -o -name "*.ts" -o -name "*.json" -o -name "*.md" -o -name "*.sh" -o -name "*.yml" -o -name "*.yaml" -o -name "*.example" -o -name "Dockerfile" \) | wc -l)
 FILES_CREATED=$((AFTER_COUNT - BEFORE_COUNT))
 
 echo "POST-TASK: $(date)" >> /tmp/task-monitor.log
 echo "  files_created: $FILES_CREATED" >> /tmp/task-monitor.log
-echo "  agent_response_length: ${#RESPONSE}" >> /tmp/task-monitor.log
 
 # Agent-specific enforcement logic
 case "$SUBAGENT_TYPE" in
@@ -49,6 +54,17 @@ case "$SUBAGENT_TYPE" in
       echo "  enforcement_result: WARNING - no Playwright usage detected" >> /tmp/task-monitor.log
     else
       echo "  enforcement_result: PASSED - browser automation tools used" >> /tmp/task-monitor.log
+    fi
+    ;;
+    
+  "devops-agent")
+    if [[ $FILES_CREATED -eq 0 ]]; then
+      echo "  enforcement_result: BLOCKED - devops-agent created no files" >> /tmp/task-monitor.log
+      echo "ERROR: devops-agent claimed deployment setup but created no files" >&2
+      echo "---" >> /tmp/task-monitor.log
+      exit 1
+    else
+      echo "  enforcement_result: ALLOWED - $FILES_CREATED files created" >> /tmp/task-monitor.log
     fi
     ;;
     
