@@ -1,86 +1,124 @@
 # Context Summary
 
 ## Current Status
-- **Project**: Claude Code Sub-Agent Collective - Autonomous AI Development System
-- **Phase**: Pre-Release Final Touches Complete
-- **Task**: README Mermaid diagrams optimized for dark/light mode, ready for repo rename
-- **Achievement**: Complete 19-agent orchestration system with functional browser validation
+- **Project**: Claude Code Sub-Agent Collective - Autonomous AI Development System  
+- **Phase**: Orchestration Testing & Optimization
+- **Task**: Testing CLAUDE.md-free orchestration solutions for workflow automation
+- **Branch**: auto-selection-agents (testing branch)
+
+## Current Problem Being Solved
+
+**Auto-Selection vs Orchestration Gap**: 
+- ✅ **Individual agent selection works perfectly** (6 agents enhanced with auto-selection patterns)
+- ❌ **Workflow orchestration broken** when CLAUDE.md was removed
+- **Missing**: Automatic agent chaining (research → implementation → quality), error recovery loops, multi-agent coordination
+
+**Discovery**: By removing CLAUDE.md orchestration rules, we gained natural auto-selection but lost complex workflow coordination.
 
 ## Completed Work
 
-### ✅ **Release Preparation Complete**
-- **PR Merged**: Updated README with accurate technical architecture and MCP dependencies
-- **Diagram Optimization**: Both Mermaid diagrams now readable in GitHub dark/light modes
-- **Technical Accuracy**: Corrected from 4-agent to 19-agent system representation
-- **MCP Dependencies**: Documented actual requirements (Task Master, Context7, Playwright)
+### ✅ **Auto-Selection System Implementation** 
+- **6 Enhanced Agents**: implementation-agent, research-agent, project-manager-agent, quality-agent, devops-agent, functional-testing-agent
+- **Self-Describing Patterns**: Embedded activation criteria, examples, and keywords in agent descriptions
+- **Conflict Resolution**: Priority system for overlapping keywords (functional-testing > quality > devops > implementation)
+- **Natural Language Interface**: Works like review folder - simple requests automatically trigger right specialists
 
-### ✅ **Agent Orchestration System Built & Tested**
-- **19 Specialized Agents**: Core Work (6), Quality Gates (5), Test & Workflow (8)
-- **4 Complexity Levels**: Level 1-4 with examples and appropriate workflows
-- **CLAUDE.md Orchestration**: Main Claude coordinates via Task tool, not slash commands
-- **Tool Access Architecture**: PM (full Task Master MCP), Research (Context7), Implementation (file ops), Functional Testing (Playwright)
+### ✅ **Testing Validation**
+- **Individual Selection Tests**: All 6 agents correctly auto-selected based on keywords
+- **Workflow Gap Identified**: "Build todo app" only triggered project-manager-agent with no automatic chaining
+- **Repository Safety**: All tests run in isolated branch with no artifacts created
 
-### ✅ **Functional Testing Breakthrough**
-- **Real Browser Validation**: Playwright MCP automation testing actual user interactions
-- **Zero JavaScript Errors**: Guaranteed working functionality through browser testing
-- **Todo System Success**: From broken functionality to fully working application
-- **Critical Bug Detection**: Date formatting, UI rendering, Web Components shadow DOM issues
-
-### ✅ **Documentation Accuracy Achieved**
-- **README.md**: All 4 complexity levels with PRD examples, proper MCP setup, accurate quick start
-- **Mermaid Diagrams**: Dark/light mode compatible with strong borders and readable text
-- **Interaction Pattern**: Natural language requests, not outdated slash commands
-- **Technical Notes**: CLAUDE.md orchestration, MCP dependencies, agent communication patterns
+### ✅ **Solution Documentation**
+- **orchestration-solutions.md**: 8 potential solutions documented without CLAUDE.md dependencies
+- **Top 3 Prioritized**: Workflow Selector Agent, Hybrid Embedded Orchestration, Agent Communication Protocol
+- **Testing Protocol**: Standardized scenarios with clean baseline reset between tests
 
 ## Active Todos Status
-All major development todos completed:
-- ✅ Analyze current agent architecture and MCP dependencies
-- ✅ Document actual MCP server requirements  
-- ✅ Identify outdated slash commands
-- ✅ Create accurate Quick Start section
-- ✅ Fix Mermaid diagrams for dark/light mode readability
+Current orchestration testing todos:
+- ✅ Update orchestration-solutions.md to remove CLAUDE.md dependencies
+- ✅ Commit corrected documentation as baseline  
+- ✅ Establish clean testing baseline for orchestration solutions
+- **Next**: Begin Test 1 implementation (user approval pending)
 
 ## Technical Context
 
-### **Key Architecture Files**
-- **CLAUDE.md**: 4-level complexity assessment and orchestration intelligence
-- **README.md**: Accurate 19-agent system with proper setup instructions
-- **.claude/agents/**: 19 agent configuration files with correct tool access
-- **.claude/settings.local.json**: MCP permissions configuration
-- **.taskmaster/config.json**: Claude Code integration setup
+### **Current Branch State**
+- **Branch**: auto-selection-agents (clean, ready for testing)
+- **Files**: 6 enhanced agents + orchestration-solutions.md committed
+- **Status**: Clean git state, no uncommitted changes
 
-### **MCP Integration Architecture**
-- **Task Master MCP**: Project coordination, task breakdown, status tracking
-- **Context7 MCP**: Real-time library documentation for research agent
-- **Playwright MCP**: Browser automation for functional testing agent
-- **Tool Distribution**: Proper separation of agent capabilities and access levels
+### **Enhanced Agents with Auto-Selection**
+```
+implementation-agent: code writing, feature building, bug fixes
+research-agent: technology analysis, architecture decisions  
+project-manager-agent: complete projects, multi-feature coordination
+quality-agent: code review, testing, compliance, security
+devops-agent: deployment, CI/CD, infrastructure, build systems
+functional-testing-agent: real browser testing, UI validation
+```
 
-### **Working System Validated**
-- **Complete Orchestration**: Level 1-4 complexity routing with error recovery
-- **Browser Testing**: Real functionality validation with zero error guarantee
-- **Production Quality**: TypeScript, accessibility compliance, professional organization
-- **Zero Cost**: Claude Code integration eliminates API expenses
+### **Auto-Selection Working Examples**
+```
+"Create button" → implementation-agent
+"Should I use React or Vue?" → research-agent  
+"Build todo app" → project-manager-agent (but no workflow chain!)
+"Review code for security" → quality-agent
+"Deploy to production" → devops-agent
+"Test in browser" → functional-testing-agent
+```
+
+### **3 Solutions Ready for Testing**
+
+**Solution 1: Workflow Selector Agent**
+- Create workflow-selector-agent as auto-selected specialist
+- Returns natural language workflow plans
+- Main Claude executes plans step by step
+
+**Solution 2: Hybrid Auto-Selection + Embedded Orchestration**  
+- Enhance project-manager-agent with direct agent coordination
+- Use Task tool for agent-to-agent communication
+- Self-orchestrating within agents
+
+**Solution 3: Agent Communication Protocol**
+- Agents include "next step" instructions in responses
+- Main Claude processes and routes automatically
+- Distributed coordination logic
 
 ## Recent Critical Changes
-1. **Repo Rename Ready**: All documentation prepared for `claude-code-sub-agent-collective`
-2. **Mermaid Diagram Fixes**: Both diagrams optimized for GitHub dark/light modes
-3. **Technical Accuracy**: Corrected interaction patterns and MCP dependencies
-4. **Release Documentation**: Complete and accurate system representation
+1. **CLAUDE.md Eliminated**: All orchestration solutions designed to work without external rules
+2. **Auto-Selection Perfected**: 6 agents with embedded activation patterns working flawlessly
+3. **Testing Framework**: Systematic evaluation protocol with clean baselines
+4. **Solution Documentation**: 8 approaches analyzed, top 3 prioritized for implementation
 
-## Next Steps
-1. **Repo Rename**: Change to `claude-code-sub-agent-collective` 
-2. **Update Remote References**: Any remaining links after rename
-3. **Community Release**: Share autonomous AI development system
-4. **Real-World Testing**: Validate with diverse project types and complexity levels
+## Next Steps - Ready for Testing
+1. **Test 1**: Implement Workflow Selector Agent approach
+   - Create workflow-selector-agent with auto-selection patterns  
+   - Test complex project coordination through natural language plans
+   - Evaluate against success criteria
 
-## Key Achievement
-**World's First Autonomous AI Development System with Browser Validation**
+2. **Test 2**: Implement Hybrid Embedded Orchestration
+   - Enhance project-manager-agent with Task tool coordination
+   - Test self-orchestrating agent approach
+   - Compare with workflow selector results
 
-The breakthrough combines:
-- **19-Agent Orchestration**: Specialized coordination through CLAUDE.md intelligence
-- **Functional Browser Testing**: Playwright automation ensuring applications actually work
-- **Zero JavaScript Errors**: Guaranteed functionality, not just code review
-- **Production Standards**: TypeScript, accessibility, professional organization
-- **Zero Cost**: Claude Code integration for unlimited development
+3. **Test 3**: Implement Agent Communication Protocol
+   - Modify agent response formats for coordination
+   - Test distributed orchestration logic
+   - Final evaluation and solution selection
 
-**Status**: Production ready, documented accurately, optimized for community adoption ✅
+## Key Technical Challenge
+**Preserve auto-selection simplicity while adding workflow orchestration complexity** - achieving both natural single-agent routing AND complex multi-agent coordination without external orchestration files.
+
+## Success Criteria for Testing
+**Must Preserve**:
+- ✅ Auto-selection works for simple tasks
+- ✅ No external orchestration files  
+- ✅ Agent specialization maintained
+
+**Must Add**:
+- ✅ Complex project coordination
+- ✅ Context passing between agents
+- ✅ Error recovery (quality fail → fix → retry)
+- ✅ Multi-agent workflows
+
+**Status**: Documentation complete, baseline established, ready to begin systematic testing of orchestration solutions.
