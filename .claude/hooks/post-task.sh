@@ -42,7 +42,10 @@ Respond with either 'COMPLETE' if real implementation work was done, or 'INCOMPL
 Focus on whether actual deliverables exist that fulfill the task requirements."
 
     # Call completion-gate agent for validation
-    VALIDATION_RESULT=$(echo "$VALIDATION_PROMPT" | timeout 60 claude task completion-gate 2>/dev/null || echo "VALIDATION_TIMEOUT")
+    VALIDATION_RESULT=$(echo "$VALIDATION_PROMPT" | timeout 60 claude task completion-gate 2>&1 || echo "VALIDATION_TIMEOUT")
+    
+    # Log the actual validation result for debugging
+    echo "  validation_response: $VALIDATION_RESULT" >> /tmp/task-monitor.log
     
     # Parse validation result
     if echo "$VALIDATION_RESULT" | grep -qi "INCOMPLETE\|FICTIONAL\|NO.*WORK\|TIMEOUT"; then
