@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Task",
+        "condition": "tool_input.subagent_type == 'workflow-agent'",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/post-workflow.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
