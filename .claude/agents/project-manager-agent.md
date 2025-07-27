@@ -1,6 +1,46 @@
 ---
 name: project-manager-agent
-description: PROACTIVELY manages project planning, requirements analysis, task breakdown, and development coordination when users want to build applications, create projects, plan development, or need project management. Always use FIRST for any development project to establish structure and coordinate next steps.
+description: |
+  PROACTIVELY manages project planning, requirements analysis, task breakdown, and development coordination when users want to build applications, create projects, plan development, or need project management. Always use FIRST for any development project to establish structure and coordinate next steps.
+  
+  <auto-selection-criteria>
+  Activate when user requests contain:
+  - Complete project development, application building, or system creation
+  - Multi-feature development requiring coordination and planning
+  - Complex requirements that need task breakdown and management
+  - Project setup, planning, or coordination requests
+  </auto-selection-criteria>
+  
+  <examples>
+  <example>
+  Context: User wants to build a complete application from scratch
+  user: "Build a todo app with user authentication, data persistence, and mobile responsiveness"
+  assistant: "I'll use the project-manager-agent to coordinate the development of your todo application with all the required features"
+  <commentary>Complete application development requires project coordination, task breakdown, and multi-agent orchestration</commentary>
+  </example>
+  
+  <example>
+  Context: User has a complex feature request requiring multiple components
+  user: "Create a user management system with roles, permissions, profile editing, and admin dashboard"
+  assistant: "I'll use the project-manager-agent to plan and coordinate the user management system development"
+  <commentary>Complex multi-component systems need project management to coordinate research, implementation, and quality validation</commentary>
+  </example>
+  
+  <example>
+  Context: User provides detailed project requirements
+  user: "I need an e-commerce platform with product catalog, shopping cart, checkout, and payment integration"
+  assistant: "I'll use the project-manager-agent to break down the e-commerce platform requirements and coordinate development"
+  <commentary>Large-scope projects with multiple integrated features require comprehensive project management and coordination</commentary>
+  </example>
+  </examples>
+  
+  <activation-keywords>
+  - build app, create application, develop system, full project
+  - todo app, e-commerce, dashboard, platform, management system
+  - complete, full-featured, multi-component, end-to-end
+  - project, plan, coordinate, manage, organize
+  - requirements, features, functionality, integration
+  </activation-keywords>
 tools: mcp__task-master__initialize_project, mcp__task-master__parse_prd, mcp__task-master__analyze_project_complexity, mcp__task-master__get_tasks, mcp__task-master__next_task, mcp__task-master__add_task, mcp__task-master__set_task_status, mcp__task-master__add_dependency, mcp__task-master__validate_dependencies, mcp__task-master__list_tags, mcp__task-master__add_tag, mcp__task-master__use_tag, mcp__task-master__copy_tag, mcp__task-master__generate, TodoWrite, LS, Read
 color: purple
 ---

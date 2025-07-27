@@ -1,135 +1,124 @@
-# Agent Orchestration System
+# Auto-Selection Agent System
 
-## Complexity Assessment Rules
+## Agent Selection Process
 
-I assess request complexity and select appropriate agents automatically.
+Claude Code automatically analyzes requests and selects appropriate agents based on:
 
-### Complexity Levels
+1. **Keyword Analysis**: Domain-specific terms trigger relevant specialists
+2. **Context Assessment**: Task type determines agent capabilities needed  
+3. **Scope Evaluation**: Simple vs complex determines single vs multi-agent workflows
+4. **Intent Recognition**: User goals automatically match to specialist expertise
 
-**Level 1 (Simple):** Single file edits, typos, small fixes
-- Agents: `implementation-agent` only
-- Examples: "Fix this typo", "Add a comment", "Update variable name"
+## Available Agents
 
-**Level 2 (Feature):** Adding functionality, requires research + implementation  
-- Agents: `research-agent` → `implementation-agent` → `quality-gate`
-- Examples: "Add login feature", "Create user profile page", "Implement search"
+### Core Work Agents (6)
+- **project-manager-agent**: Project planning, requirements analysis, task coordination
+- **research-agent**: Technical research, architecture analysis, technology evaluation
+- **implementation-agent**: Code writing, feature building, hands-on development
+- **quality-agent**: Testing, validation, compliance checking
+- **devops-agent**: Deployment, CI/CD, infrastructure, build systems
+- **functional-testing-agent**: Real browser testing using Playwright
 
-**Level 3 (Multi-feature):** Multiple components, integration concerns
-- Agents: `project-manager-agent` → `research-agent` → `implementation-agent` → `quality-gate` → `integration-gate`
-- Examples: "Add user management system", "Build admin dashboard", "Create API layer"
+### Quality Gate Agents (5)
+- **task-assignment-gate**: Validates if tasks can be assigned based on dependencies
+- **completion-gate**: Validates if tasks truly meet acceptance criteria
+- **quality-gate**: Performs security, performance, and code quality validation
+- **integration-gate**: Validates compatibility with existing completed tasks
+- **readiness-gate**: Determines if project phases can advance
 
-**Level 4 (Project):** Full PRD, multiple phases, all quality gates
-- Agents: Full workflow with all gates + `readiness-gate` between phases
-- Examples: "Build e-commerce platform", "Create mobile app", "Develop CRM system"
+### Test & Workflow Agents (8)
+- **test-agent-1** through **test-agent-5**: Validation and testing specialists
+- **workflow-agent**: Provides workflow intelligence for complex orchestration
+- **test-validation-agent**: Claude Code sub-agent functionality validation
 
-## Agent Selection Matrix
+## Automatic Agent Selection Examples
 
-### Quick Assessment Checks:
-1. Single file edit? → Level 1 (Direct orchestration)
-2. New feature requiring research? → Level 2 (Direct orchestration)  
-3. Multiple features/components? → Level 3 (Consult workflow-agent)
-4. Has PRD or major scope? → Level 4 (Consult workflow-agent)
-
-### Hybrid Orchestration Approach:
-**Level 1-2 (Simple):** I handle orchestration directly
-- Fast routing decisions
-- Straightforward workflows
-- Minimal overhead
-
-**Level 3-4 (Complex):** Consult workflow-agent for:
-- PRD complexity assessment and validation
-- Multi-phase project planning and state management
-- Complex error recovery decision trees
-- Workflow template selection and customization
-
-### Gate Agents (Binary Validators)
-- `task-assignment-gate`: Can task be assigned? (GO/NO-GO)
-- `completion-gate`: Is task complete? (COMPLETE/INCOMPLETE)
-- `quality-gate`: Does it meet quality standards? (PASS/FAIL)
-- `integration-gate`: Compatible with existing work? (COMPATIBLE/CONFLICTS)
-- `readiness-gate`: Ready for next phase? (READY/NOT-READY)
-
-### Work Agents
-- `project-manager-agent`: PRD parsing, task breakdown, coordination
-- `research-agent`: Technical research, architecture analysis
-- `implementation-agent`: Code writing, feature building
-- `quality-agent`: Testing, validation, compliance
-
-## Context Management & Orchestration Intelligence
-
-**My Role as Active Orchestrator:**
-- Maintain project state across all agent interactions
-- Curate context for each agent (agents are stateless)
-- **CRITICAL: Process ALL gate results and implement routing decisions**
-- Handle error recovery and workflow adjustments
-- **Never call agents sequentially without processing their responses**
-
-**Agents are Binary Functions:**
-- Input: Task + Curated Context
-- Output: Binary Result (PASS/FAIL, COMPLETE/INCOMPLETE, etc.)
-- No state retention between calls
-
-**Orchestration Decision Logic (I MUST IMPLEMENT):**
-
-**Level 1-2 (Direct Orchestration):**
+### Simple Development Tasks
 ```
-Quality Gate FAIL → Route to Implementation Agent with fix context
-Task Assignment Gate NO-GO → Route to PM for dependency resolution
-Readiness Gate NOT-READY → Route to PM for next task assignment
-Integration Gate CONFLICTS → Route to Research for architecture review
-Completion Gate INCOMPLETE → Route to Implementation Agent for completion
-Continue workflow loops until ALL gates PASS
+"Fix this typo in the header" → implementation-agent
+"Add a comment to explain this function" → implementation-agent
+"Create a login form" → implementation-agent
 ```
 
-**Level 3-4 (Workflow Agent Assisted):**
+### Research and Analysis Tasks
 ```
-Complex Request → Consult workflow-agent for:
-  - PRD complexity validation and scoring
-  - Workflow template selection and customization
-  - Multi-phase planning and state management
-  - Error recovery decision trees
-  
-Then implement workflow-agent recommendations with my routing intelligence
+"Should I use React or Vue for this project?" → research-agent
+"What are the best practices for JWT security?" → research-agent
+"How should I architect a real-time notification system?" → research-agent
 ```
 
-**My Orchestration Responsibilities:**
-1. **Process Gate Results**: Never ignore FAIL/NO-GO/CONFLICTS responses
-2. **Route Workflows**: Direct failed tasks to appropriate agents for fixes
-3. **Manage State**: Track workflow progress and context through complex loops
-4. **Coordinate Fixes**: Ensure PM coordinates complex error recovery scenarios
-5. **Validate Completion**: Only advance when gates actually PASS
-
-## Workflow Patterns
-
-**Level 1 Flow:**
+### Complex Project Development
 ```
-User Request → Implementation Agent → Done
+"Build a todo app with authentication and persistence" → project-manager-agent
+"Create an e-commerce platform" → project-manager-agent
+"Develop a user management system" → project-manager-agent
 ```
 
-**Level 2 Flow:**
+### Quality and Testing
 ```
-User Request → Research Agent → Implementation Agent → Quality Gate → Done
-```
-
-**Level 3 Flow:**
-```
-User Request → PM Agent → Research Agent → Implementation Agent → Quality Gate → Integration Gate → Done
+"Test this component in a real browser" → functional-testing-agent
+"Check if my code meets security standards" → quality-gate
+"Validate this feature works correctly" → quality-agent
 ```
 
-**Level 4 Flow (with phases):**
+## Fallback Mechanisms
+
+### Explicit Agent Requests
+Users can directly request specific agents:
 ```
-User Request → PM Agent (PRD Parse) → Phase 1 Tasks → Readiness Gate → Phase 2 Tasks → Readiness Gate → Final Delivery
+"Use the research-agent to analyze database options"
+"Have the functional-testing-agent test the login flow"
+"Get the quality-gate to review security practices"
 ```
 
-## Error Recovery
+### Multi-Agent Coordination
+Complex tasks automatically trigger coordination patterns:
+- **Complex features**: project-manager-agent coordinates specialists
+- **Failed validations**: Auto-route to appropriate fix agents
+- **Integration issues**: research-agent provides architectural guidance
 
-When gates return FAIL/NO-GO/CONFLICTS:
-1. Update project state with failure details
-2. Route back to appropriate work agent with fix context
-3. Re-run validation gates
-4. Continue workflow once gates pass
+### Quality Validation Loops
+Failed quality gates automatically route back for fixes:
+```
+Quality Gate FAIL → implementation-agent (with fix context)
+Integration Gate CONFLICTS → research-agent (architecture review)
+Completion Gate INCOMPLETE → implementation-agent (completion work)
+```
 
-This system ensures systematic delivery with proper validation at each step.
+## Tool Integration
+
+### Task Master MCP
+- Project initialization and management
+- Task breakdown and dependency tracking
+- Progress monitoring and coordination
+- Quality gate management
+
+### Context7 Integration
+- Live documentation access for research-agent
+- Up-to-date library and framework information
+- Best practices and implementation patterns
+
+### Playwright Integration
+- Real browser testing for functional validation
+- User interaction simulation and testing
+- Cross-browser compatibility verification
+
+## Agent Activation Keywords
+
+Each agent includes embedded activation criteria and examples. Claude Code automatically analyzes requests for:
+
+- **Implementation keywords**: implement, build, create, code, write, develop, fix, debug
+- **Research keywords**: research, analyze, compare, evaluate, recommend, best practices
+- **Project keywords**: build app, create application, full project, coordinate, manage
+- **Quality keywords**: test, validate, check, review, security, performance
+
+## Quality Standards
+
+All agents maintain:
+- **Security-first approach**: Input validation, secure patterns, vulnerability prevention
+- **Accessibility compliance**: WCAG 2.1 AA standards across all implementations
+- **Performance optimization**: Efficient code, bundle optimization, user experience focus
+- **Production readiness**: Enterprise-grade quality with comprehensive testing
 
 ## Task Master AI Instructions
 **Import Task Master's development workflow commands and guidelines, treat as if import is in the main CLAUDE.md file.**

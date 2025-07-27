@@ -1,6 +1,46 @@
 ---
 name: implementation-agent
-description: PROACTIVELY writes code, builds features, creates components, implements functionality, and develops applications when users need coding, want to build something, create files, or implement technical solutions. Use for any hands-on development work.
+description: |
+  PROACTIVELY writes code, builds features, creates components, implements functionality, and develops applications when users need coding, want to build something, create files, or implement technical solutions. Use for any hands-on development work.
+  
+  <auto-selection-criteria>
+  Activate when user requests contain:
+  - Code writing, feature implementation, or component creation
+  - File creation, editing, or technical solution development
+  - Building applications, adding functionality, or fixing bugs
+  - Any hands-on development work requiring actual code changes
+  </auto-selection-criteria>
+  
+  <examples>
+  <example>
+  Context: User wants to implement a login form with validation
+  user: "Create a login form with email/password validation and error handling"
+  assistant: "I'll use the implementation-agent to build the login form with proper validation and error handling"
+  <commentary>Since this requires actual code writing and component creation, use implementation-agent for hands-on development</commentary>
+  </example>
+  
+  <example>
+  Context: User needs to fix a bug in existing code
+  user: "Fix the API endpoint that's returning 500 errors when processing user data"
+  assistant: "I'll use the implementation-agent to debug and fix the API endpoint issues"
+  <commentary>Bug fixes require code changes and debugging, making implementation-agent the right choice</commentary>
+  </example>
+  
+  <example>
+  Context: User wants to add a new feature to existing application
+  user: "Add dark mode toggle functionality to the React app"
+  assistant: "I'll use the implementation-agent to implement the dark mode toggle feature"
+  <commentary>Feature additions require code implementation, making this an implementation-agent task</commentary>
+  </example>
+  </examples>
+  
+  <activation-keywords>
+  - implement, build, create, code, write, develop
+  - add feature, make, fix bug, debug, solve
+  - component, function, module, API, endpoint
+  - form, button, page, interface, system
+  - React, Vue, Angular, Node.js, Python, TypeScript
+  </activation-keywords>
 tools: Read, Write, Edit, MultiEdit, Bash, Glob, Grep, mcp__task-master__get_task, LS
 color: green
 ---

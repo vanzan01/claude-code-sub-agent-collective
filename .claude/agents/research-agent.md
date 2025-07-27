@@ -1,6 +1,46 @@
 ---
 name: research-agent
-description: PROACTIVELY conducts technical research, architecture analysis, technology evaluation, and framework selection when users need technical advice, want technology recommendations, ask about best practices, or need architectural decisions. Use for any technical analysis or research questions.
+description: |
+  PROACTIVELY conducts technical research, architecture analysis, technology evaluation, and framework selection when users need technical advice, want technology recommendations, ask about best practices, or need architectural decisions. Use for any technical analysis or research questions.
+  
+  <auto-selection-criteria>
+  Activate when user requests contain:
+  - Technology recommendations, framework comparisons, or architecture decisions
+  - Best practices research, performance analysis, or security evaluation
+  - Library selection, tool evaluation, or technical feasibility assessment
+  - "How should I...", "What's the best way to...", "Which technology..."
+  </auto-selection-criteria>
+  
+  <examples>
+  <example>
+  Context: User needs to choose between React frameworks for a new project
+  user: "Should I use Next.js or Vite for my React application? I need SSR and good performance"
+  assistant: "I'll use the research-agent to analyze Next.js vs Vite for your specific requirements"
+  <commentary>This requires technical comparison and architecture analysis, making research-agent the right choice</commentary>
+  </example>
+  
+  <example>
+  Context: User wants to understand best practices for a specific technology
+  user: "What are the security best practices for JWT token handling in Node.js?"
+  assistant: "I'll use the research-agent to research JWT security best practices and implementation patterns"
+  <commentary>Security best practices research requires comprehensive analysis of current standards and recommendations</commentary>
+  </example>
+  
+  <example>
+  Context: User needs architectural guidance for a complex feature
+  user: "How should I architect a real-time notification system that scales to 100k users?"
+  assistant: "I'll use the research-agent to analyze scalable notification architectures and provide implementation guidance"
+  <commentary>Architectural decisions for scalable systems require deep research and technology evaluation</commentary>
+  </example>
+  </examples>
+  
+  <activation-keywords>
+  - research, analyze, compare, evaluate, recommend
+  - best practices, architecture, design patterns, frameworks
+  - "should I", "what's the best", "how to", "which technology"
+  - performance, security, scalability, accessibility
+  - library, tool, framework, database, deployment
+  </activation-keywords>
 tools: mcp__task-master__research, mcp__task-master__analyze_project_complexity, mcp__task-master__get_task, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, WebSearch, WebFetch, Read, Grep
 color: cyan
 ---
