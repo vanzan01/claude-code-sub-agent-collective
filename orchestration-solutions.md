@@ -15,71 +15,82 @@
 - ✅ "Review code" → quality-agent (works)
 - ❌ "Build todo app" → Only project-manager-agent, no workflow chain
 
-## Solution 1: Workflow Selector Agent (User's Idea)
+## Solution 1: Workflow Selector Agent (Pure Auto-Selection)
 
 ### Concept
-A specialized agent that analyzes complex requests and creates workflow plans that Main Claude executes step by step.
+A specialized agent that gets auto-selected for complex requests and returns workflow plans in natural language that Main Claude processes and executes.
 
 ### Implementation
 ```yaml
 workflow-selector-agent:
-  description: "Analyzes complex requests and creates structured workflow plans"
-  
-  input: "Build a todo app with authentication"
-  
-  output: "workflow.json"
-  {
-    "workflow_id": "todo-app-auth-001",
-    "phases": [
-      {
-        "step": 1,
-        "agent": "research-agent", 
-        "task": "Analyze tech stack for React todo app with auth",
-        "context": "User wants todo app with authentication",
-        "success_criteria": "Technology recommendations provided"
-      },
-      {
-        "step": 2,
-        "agent": "implementation-agent",
-        "task": "Build todo app based on research recommendations", 
-        "context": "Use research findings from step 1",
-        "success_criteria": "Working todo app with auth implemented"
-      },
-      {
-        "step": 3,
-        "agent": "quality-agent",
-        "task": "Security review of authentication implementation",
-        "context": "Focus on auth security, input validation",
-        "success_criteria": "Security validation PASS"
-      },
-      {
-        "step": 4,
-        "agent": "functional-testing-agent",
-        "task": "Test login/logout flows in real browser",
-        "context": "Validate auth functionality works correctly",
-        "success_criteria": "Functional tests PASS"
-      }
-    ],
-    "error_recovery": {
-      "quality_fail": "return_to_step_2_with_fixes",
-      "testing_fail": "return_to_step_2_with_context",
-      "max_retries": 3
-    }
-  }
+  description: |
+    Creates structured workflow plans for complex development projects requiring multiple agent coordination.
+    
+    <auto-selection-criteria>
+    Activate when user requests contain:
+    - Complete application/system development requiring multiple phases
+    - Complex projects needing research, implementation, and validation
+    - "build app", "create system", "develop platform", "full project"
+    - Multi-component projects requiring agent coordination
+    </auto-selection-criteria>
+    
+    <examples>
+    <example>
+    Context: User wants to build a complete application
+    user: "Build a todo app with user authentication and deployment"
+    assistant: "I'll use the workflow-selector-agent to create a structured development plan"
+    <commentary>Complex application development requires workflow planning and multi-agent coordination</commentary>
+    </example>
+    </examples>
 ```
 
-### Main Claude Execution
+### Agent Response Format
+```
+## Development Workflow Plan
+
+**Project**: Todo App with Authentication
+
+### Execution Steps:
+1. **Research Phase** (research-agent)
+   - Task: Analyze tech stack for React todo app with authentication
+   - Context: User wants secure todo app with modern tech stack
+   - Success Criteria: Technology recommendations and architecture plan
+
+2. **Implementation Phase** (implementation-agent)  
+   - Task: Build todo app based on research recommendations
+   - Context: Use research findings for tech stack and architecture
+   - Success Criteria: Working todo app with authentication implemented
+
+3. **Quality Validation** (quality-agent)
+   - Task: Security review of authentication implementation
+   - Context: Focus on auth security, input validation, accessibility
+   - Success Criteria: Security validation PASS + WCAG compliance
+
+4. **Functional Testing** (functional-testing-agent)
+   - Task: Test login/logout flows in real browser
+   - Context: Validate authentication functionality works correctly
+   - Success Criteria: All user flows tested and working
+
+### Error Recovery:
+- If quality validation fails → Return to implementation with specific fixes
+- If functional testing fails → Return to implementation with test results
+- Maximum 3 retry cycles per phase
+
+**Next Step**: Execute research-agent with provided context.
+```
+
+### Main Claude Processing
 ```javascript
-1. workflow = workflow_selector_agent.plan(user_request)
-2. for each step in workflow.phases:
-     result = execute_agent(step.agent, step.task, step.context)
-     if result.status == "FAIL":
-       handle_error_recovery(workflow.error_recovery)
-3. complete_workflow()
+// Main Claude processes workflow-selector-agent response
+1. Parse workflow plan from agent response
+2. Execute each step sequentially using Task tool
+3. Pass context between steps
+4. Handle error recovery as specified in plan
+5. Continue until all steps complete successfully
 ```
 
-**Pros**: Clean separation, auditable plans, handles complex scenarios
-**Cons**: Additional complexity, requires workflow language design
+**Pros**: Pure auto-selection, no external files, auditable plans, natural language
+**Cons**: Requires response parsing logic, plan format standardization needed
 
 ## Solution 2: Agent Communication Protocol
 
@@ -265,50 +276,89 @@ class HierarchicalOrchestrator {
 **Pros**: Clear separation of concerns, scalable
 **Cons**: More complex architecture
 
-## Solution 7: Hybrid Auto-Selection + Orchestration
+## Solution 7: Hybrid Auto-Selection + Embedded Orchestration
 
 ### Concept
-Combine current auto-selection for simple tasks with orchestration for complex ones.
+Enhance existing auto-selection agents with embedded orchestration logic - no external orchestration needed.
 
 ### Implementation
+
+#### Enhanced Project Manager Agent
+```yaml
+project-manager-agent:
+  description: |
+    Manages complete project development through direct agent coordination.
+    
+    <auto-selection-criteria>
+    Activate for: complete applications, multi-feature systems, end-to-end projects
+    </auto-selection-criteria>
+    
+    <orchestration-logic>
+    1. Analyze project requirements
+    2. Auto-call research-agent via Task tool for technical analysis
+    3. Auto-call implementation-agent with research results
+    4. Auto-call quality-agent for validation
+    5. Auto-call functional-testing-agent for end-to-end testing
+    6. Handle error recovery loops automatically
+    </orchestration-logic>
+```
+
+#### Self-Orchestrating Agent Example
 ```javascript
-class HybridOrchestrator {
-  async route_request(request) {
-    const complexity = this.analyze_complexity(request)
-    
-    switch (complexity) {
-      case "simple":
-        // Current auto-selection system
-        return await this.auto_select_agent(request)
-        
-      case "feature":
-        // Simple workflow chain
-        return await this.execute_workflow([
-          "research-agent", 
-          "implementation-agent", 
-          "quality-agent"
-        ])
-        
-      case "project":
-        // Full orchestration
-        const workflow = await this.workflow_planner.create_plan(request)
-        return await this.execute_complex_workflow(workflow)
-    }
-  }
+// Inside project-manager-agent logic:
+async function coordinate_project(request) {
+  // Step 1: Research
+  const research = await claude_code.invoke_agent("research-agent", {
+    task: "analyze tech stack for " + request,
+    context: "project planning phase"
+  })
   
-  analyze_complexity(request) {
-    const simple_patterns = /^(fix|update|add|create) (comment|typo|button|variable)/i
-    const project_patterns = /^(build|create|develop) .*(app|system|platform)/i
+  // Step 2: Implementation
+  const implementation = await claude_code.invoke_agent("implementation-agent", {
+    task: "build application based on research",
+    context: research.recommendations
+  })
+  
+  // Step 3: Quality validation with retry loop
+  let quality_result
+  let retry_count = 0
+  do {
+    quality_result = await claude_code.invoke_agent("quality-agent", {
+      task: "validate implementation quality",
+      context: implementation.deliverables
+    })
     
-    if (simple_patterns.test(request)) return "simple"
-    if (project_patterns.test(request)) return "project" 
-    return "feature"
+    if (quality_result.status === "FAIL" && retry_count < 3) {
+      implementation = await claude_code.invoke_agent("implementation-agent", {
+        task: "apply quality fixes",
+        context: quality_result.fixes_needed
+      })
+      retry_count++
+    }
+  } while (quality_result.status === "FAIL" && retry_count < 3)
+  
+  // Step 4: Functional testing
+  const testing = await claude_code.invoke_agent("functional-testing-agent", {
+    task: "test application functionality",
+    context: implementation.application_details
+  })
+  
+  return {
+    project_complete: true,
+    deliverables: [research, implementation, quality_result, testing]
   }
 }
 ```
 
-**Pros**: Best of both worlds, gradual complexity handling
-**Cons**: Still need to solve orchestration for complex cases
+#### Complexity Routing
+```
+Simple patterns ("fix typo", "create button") → Direct auto-selection to implementation-agent
+Complex patterns ("build app", "create system") → Auto-selection to enhanced project-manager-agent
+Quality patterns ("review code", "test security") → Direct auto-selection to quality-agent
+```
+
+**Pros**: No external orchestration, builds on working system, gradual complexity
+**Cons**: Agents become more complex, orchestration logic distributed
 
 ## Solution 8: Agent Chain Instructions (Embedded)
 
@@ -377,11 +427,59 @@ quality-agent:
 5. **Iterate and combine best aspects** of successful approaches
 6. **Finalize and implement** chosen solution
 
+## Revised Testing Plan (No CLAUDE.md)
+
+### Top 3 Solutions for Testing
+
+**Priority 1: Solution 1 - Workflow Selector Agent**
+- Pure auto-selection approach
+- Create workflow-selector-agent with embedded coordination logic
+- Test complex project coordination through natural language plans
+
+**Priority 2: Solution 7 - Hybrid Auto-Selection + Embedded Orchestration**  
+- Enhance existing project-manager-agent with coordination capabilities
+- Use Task tool for agent-to-agent communication
+- Maintain current auto-selection for simple tasks
+
+**Priority 3: Solution 2 - Agent Communication Protocol**
+- Modify agent response formats to include coordination instructions
+- Main Claude processes responses and routes automatically
+- Distributed coordination logic
+
+### Testing Protocol
+
+**Starting Point**: Current auto-selection-agents branch
+- 6 agents with auto-selection patterns
+- No external orchestration dependencies
+- Clean repository state
+
+**Test Scenarios** (same for each solution):
+1. **Simple**: "Fix typo in header" → Should remain direct auto-selection
+2. **Medium**: "Add login form with validation" → Should trigger workflow
+3. **Complex**: "Build todo app with auth" → Should handle full coordination + error recovery
+
+**Reset Between Tests**: 
+- Git reset to clean baseline
+- No contamination between solution evaluations
+- Fresh implementation of each approach
+
+### Success Criteria
+
+**Must Preserve**:
+- ✅ Auto-selection works for simple tasks
+- ✅ No external orchestration files required
+- ✅ Agent specialization maintained
+
+**Must Add**:
+- ✅ Complex project coordination
+- ✅ Context passing between agents
+- ✅ Error recovery (quality fail → fix → retry)
+- ✅ Multi-agent workflows
+
 ## Next Steps
 
-- [ ] Choose top 3 solutions for prototyping
-- [ ] Create test harnesses for each approach
-- [ ] Implement proof-of-concept for each solution
-- [ ] Run evaluation scenarios
-- [ ] Analyze results and select winner
-- [ ] Refine and implement final orchestration system
+1. **Update and commit** corrected documentation
+2. **Begin Test 1**: Workflow Selector Agent implementation
+3. **Evaluate results** against success criteria
+4. **Reset and test** remaining solutions
+5. **Select winner** based on evaluation matrix
