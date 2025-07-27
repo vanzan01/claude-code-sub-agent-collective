@@ -1,15 +1,26 @@
 {
   "hooks": {
-    "pre-tool": {
-      "Task": "bash .claude/hooks/pre-task.sh"
-    },
-    "post-tool": {
-      "Task": "bash .claude/hooks/post-task.sh"
-    }
-  },
-  "hook_settings": {
-    "enable_logging": true,
-    "log_file": "/tmp/task-monitor.log",
-    "enforcement_mode": true
+    "PreToolUse": [
+      {
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/pre-task.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/post-task.sh"
+          }
+        ]
+      }
+    ]
   }
 }
