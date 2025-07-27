@@ -37,3 +37,5 @@ ai-docs/
 .vite/
 .roomodes
 .windsurfrules
+
+/review/*
