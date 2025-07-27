@@ -1,91 +1,115 @@
 #!/bin/bash
-# Post-Task Hook: Verify actual work and enforce deliverables
+# Post-Task Hook: Agent-Based Work Validation
 
-# Read JSON input from stdin
+# Read JSON input from stdin  
 INPUT=$(cat)
 
 # Extract tool parameters using jq
 SUBAGENT_TYPE=$(echo "$INPUT" | jq -r '.tool_input.subagent_type // ""')
 
-# Detect git changes for comprehensive work validation
-UNSTAGED_CHANGES=$(git diff --name-only 2>/dev/null | wc -l)
-UNTRACKED_FILES=$(git ls-files --others --exclude-standard 2>/dev/null | wc -l)
-STAGED_CHANGES=$(git diff --cached --name-only 2>/dev/null | wc -l)
-TOTAL_GIT_CHANGES=$((UNSTAGED_CHANGES + UNTRACKED_FILES + STAGED_CHANGES))
-
-# Get baseline changes from pre-task for comparison
-BASELINE_CHANGES=0
-if [ -f /tmp/git-baseline.txt ]; then
-    BASELINE_CHANGES=$(wc -l < /tmp/git-baseline.txt 2>/dev/null || echo 0)
+# Read task context captured by pre-hook
+if [ ! -f /tmp/task-context.json ]; then
+    echo "ERROR: No task context found - pre-hook may have failed" >&2
+    exit 1
 fi
 
-# Calculate net changes made during the task
-NET_CHANGES=$((TOTAL_GIT_CHANGES - BASELINE_CHANGES))
+TASK_PROMPT=$(jq -r '.prompt' /tmp/task-context.json)
+WORKING_DIR=$(jq -r '.working_directory' /tmp/task-context.json)
 
-echo "POST-TASK: $(date)" >> /tmp/task-monitor.log
-echo "  git_changes_detected: $TOTAL_GIT_CHANGES" >> /tmp/task-monitor.log
-echo "  net_changes_made: $NET_CHANGES" >> /tmp/task-monitor.log
-echo "  unstaged: $UNSTAGED_CHANGES, untracked: $UNTRACKED_FILES, staged: $STAGED_CHANGES" >> /tmp/task-monitor.log
+# Capture current state after task execution
+CURRENT_GIT_STATUS=$(git status --porcelain 2>/dev/null || echo "No git repository")
 
-# Agent-specific enforcement logic
+# Log task completion
+echo "TASK COMPLETE: $(date) - $SUBAGENT_TYPE" >> /tmp/task-monitor.log
+
+# Agent-based validation based on subagent type
 case "$SUBAGENT_TYPE" in
   "implementation-agent")
-    if [[ $TOTAL_GIT_CHANGES -eq 0 ]]; then
-      echo "ERROR: implementation-agent claimed implementation but git shows no changes" >&2
-      echo "ENFORCEMENT: Blocking fictional response - no git modifications detected" >&2
-      echo "REQUIRED: Use Write, Edit, or MultiEdit tools to make actual changes" >&2
-      echo "GIT STATUS: $(git status --porcelain 2>/dev/null || echo 'No git repository')" >&2
-      exit 1  # This blocks the Task tool response
-    fi
-    echo "  enforcement_result: PASSED - $TOTAL_GIT_CHANGES git changes detected" >> /tmp/task-monitor.log
-    ;;
-  
-  "research-agent")
-    # Check for research tool usage patterns in logs
-    if ! grep -q "Context7\|WebSearch\|WebFetch" /tmp/task-monitor.log; then
-      echo "WARNING: research-agent may not have used research tools" >&2
-      echo "  enforcement_result: WARNING - no research tool usage detected" >> /tmp/task-monitor.log
-    else
-      echo "  enforcement_result: PASSED - research tools used" >> /tmp/task-monitor.log
-    fi
-    ;;
+    echo "  validation: Calling completion-gate for implementation validation" >> /tmp/task-monitor.log
     
-  "quality-agent")
-    # Check for actual code analysis tool usage
-    if ! grep -q "Read\|Grep\|Bash" /tmp/task-monitor.log; then
-      echo "WARNING: quality-agent may not have analyzed actual files" >&2
-      echo "  enforcement_result: WARNING - no file analysis tools detected" >> /tmp/task-monitor.log
-    else
-      echo "  enforcement_result: PASSED - analysis tools used" >> /tmp/task-monitor.log
-    fi
-    ;;
+    # Create validation context for completion-gate agent
+    VALIDATION_PROMPT="Validate that implementation work was actually completed for this task:
+
+Task: $TASK_PROMPT
+
+Please examine the current codebase and determine if:
+1. Real implementation work was performed (not just fictional descriptions)
+2. The task requirements were actually fulfilled
+3. Code changes align with the requested functionality
+
+Respond with either 'COMPLETE' if real implementation work was done, or 'INCOMPLETE' if the work appears fictional or inadequate.
+
+Focus on whether actual deliverables exist that fulfill the task requirements."
+
+    # Call completion-gate agent for validation
+    VALIDATION_RESULT=$(echo "$VALIDATION_PROMPT" | timeout 60 claude task completion-gate 2>/dev/null || echo "VALIDATION_TIMEOUT")
     
-  "functional-testing-agent")
-    # Check for browser automation tool usage
-    if ! grep -q "playwright" /tmp/task-monitor.log; then
-      echo "WARNING: functional-testing-agent may not have used browser automation" >&2
-      echo "  enforcement_result: WARNING - no Playwright usage detected" >> /tmp/task-monitor.log
+    # Parse validation result
+    if echo "$VALIDATION_RESULT" | grep -qi "INCOMPLETE\|FICTIONAL\|NO.*WORK\|TIMEOUT"; then
+        echo "  enforcement_result: BLOCKED - completion-gate rejected work" >> /tmp/task-monitor.log
+        echo "ERROR: Completion-gate validation failed for implementation-agent" >&2
+        echo "VALIDATION: $VALIDATION_RESULT" >&2
+        echo "TASK: $TASK_PROMPT" >&2
+        exit 1
     else
-      echo "  enforcement_result: PASSED - browser automation tools used" >> /tmp/task-monitor.log
+        echo "  enforcement_result: PASSED - completion-gate approved work" >> /tmp/task-monitor.log
     fi
     ;;
     
   "devops-agent")
-    if [[ $TOTAL_GIT_CHANGES -eq 0 ]]; then
-      echo "  enforcement_result: BLOCKED - devops-agent made no git changes" >> /tmp/task-monitor.log
-      echo "ERROR: devops-agent claimed deployment setup but git shows no changes" >&2
-      echo "GIT STATUS: $(git status --porcelain 2>/dev/null || echo 'No git repository')" >&2
-      echo "---" >> /tmp/task-monitor.log
-      exit 1
+    echo "  validation: Calling completion-gate for devops validation" >> /tmp/task-monitor.log
+    
+    VALIDATION_PROMPT="Validate that DevOps/deployment work was actually completed for this task:
+
+Task: $TASK_PROMPT
+
+Please examine if real infrastructure/deployment artifacts were created and configured properly.
+
+Respond with either 'COMPLETE' if real DevOps work was done, or 'INCOMPLETE' if the work appears fictional."
+
+    VALIDATION_RESULT=$(echo "$VALIDATION_PROMPT" | timeout 60 claude task completion-gate 2>/dev/null || echo "VALIDATION_TIMEOUT")
+    
+    if echo "$VALIDATION_RESULT" | grep -qi "INCOMPLETE\|FICTIONAL\|TIMEOUT"; then
+        echo "  enforcement_result: BLOCKED - completion-gate rejected devops work" >> /tmp/task-monitor.log
+        echo "ERROR: Completion-gate validation failed for devops-agent" >&2
+        exit 1
     else
-      echo "  enforcement_result: ALLOWED - $TOTAL_GIT_CHANGES git changes detected" >> /tmp/task-monitor.log
+        echo "  enforcement_result: PASSED - completion-gate approved devops work" >> /tmp/task-monitor.log
     fi
     ;;
     
+  "functional-testing-agent")
+    echo "  validation: Calling quality-gate for testing validation" >> /tmp/task-monitor.log
+    
+    VALIDATION_PROMPT="Validate that functional testing work was actually performed for this task:
+
+Task: $TASK_PROMPT
+
+Check if real browser testing or test automation was executed.
+
+Respond with either 'COMPLETE' if real testing was performed, or 'INCOMPLETE' if fictional."
+
+    VALIDATION_RESULT=$(echo "$VALIDATION_PROMPT" | timeout 60 claude task quality-gate 2>/dev/null || echo "VALIDATION_TIMEOUT")
+    
+    if echo "$VALIDATION_RESULT" | grep -qi "INCOMPLETE\|FICTIONAL\|TIMEOUT"; then
+        echo "  enforcement_result: WARNING - quality-gate flagged testing work" >> /tmp/task-monitor.log
+        echo "WARNING: Testing validation concern: $VALIDATION_RESULT" >&2
+    else
+        echo "  enforcement_result: PASSED - quality-gate approved testing work" >> /tmp/task-monitor.log
+    fi
+    ;;
+    
+  "research-agent"|"general-purpose")
+    # Research agents don't claim implementation, so allow without deep validation
+    echo "  enforcement_result: ALLOWED - research/analysis work permitted" >> /tmp/task-monitor.log
+    ;;
+    
   *)
-    echo "  enforcement_result: SKIPPED - no enforcement rules for $SUBAGENT_TYPE" >> /tmp/task-monitor.log
+    echo "  enforcement_result: SKIPPED - no validation rules for $SUBAGENT_TYPE" >> /tmp/task-monitor.log
     ;;
 esac
 
-echo "  final_git_status: $TOTAL_GIT_CHANGES total changes" >> /tmp/task-monitor.log
 echo "---" >> /tmp/task-monitor.log
+
+# Clean up context file
+rm -f /tmp/task-context.json
