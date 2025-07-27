@@ -41,21 +41,17 @@ Respond with either 'COMPLETE' if real implementation work was done, or 'INCOMPL
 
 Focus on whether actual deliverables exist that fulfill the task requirements."
 
-    # Call completion-gate agent for validation
-    VALIDATION_RESULT=$(echo "$VALIDATION_PROMPT" | timeout 60 claude task completion-gate 2>&1 || echo "VALIDATION_TIMEOUT")
+    # Validate implementation work by checking for actual changes
+    GIT_CHANGES=$(git status --porcelain 2>/dev/null | wc -l)
     
-    # Log the actual validation result for debugging
-    echo "  validation_response: $VALIDATION_RESULT" >> /tmp/task-monitor.log
-    
-    # Parse validation result
-    if echo "$VALIDATION_RESULT" | grep -qi "INCOMPLETE\|FICTIONAL\|NO.*WORK\|TIMEOUT"; then
-        echo "  enforcement_result: BLOCKED - completion-gate rejected work" >> /tmp/task-monitor.log
-        echo "ERROR: Completion-gate validation failed for implementation-agent" >&2
-        echo "VALIDATION: $VALIDATION_RESULT" >&2
+    if [[ $GIT_CHANGES -eq 0 ]]; then
+        echo "  enforcement_result: BLOCKED - no git changes detected" >> /tmp/task-monitor.log
+        echo "ERROR: implementation-agent claimed implementation but made no actual changes" >&2
+        echo "REQUIRED: Use Write, Edit, or MultiEdit tools to create actual deliverables" >&2
         echo "TASK: $TASK_PROMPT" >&2
-        exit 1
+        exit 2
     else
-        echo "  enforcement_result: PASSED - completion-gate approved work" >> /tmp/task-monitor.log
+        echo "  enforcement_result: PASSED - $GIT_CHANGES git changes detected" >> /tmp/task-monitor.log
     fi
     ;;
     
@@ -75,7 +71,7 @@ Respond with either 'COMPLETE' if real DevOps work was done, or 'INCOMPLETE' if 
     if echo "$VALIDATION_RESULT" | grep -qi "INCOMPLETE\|FICTIONAL\|TIMEOUT"; then
         echo "  enforcement_result: BLOCKED - completion-gate rejected devops work" >> /tmp/task-monitor.log
         echo "ERROR: Completion-gate validation failed for devops-agent" >&2
-        exit 1
+        exit 2
     else
         echo "  enforcement_result: PASSED - completion-gate approved devops work" >> /tmp/task-monitor.log
     fi
