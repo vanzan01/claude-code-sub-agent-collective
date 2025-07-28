@@ -151,6 +151,37 @@ Execute [agent-name] with provided context
 }
 ```
 
+## Parallel Execution Rules
+
+**TRUE PARALLEL EXECUTION**: When work can be done in parallel, structure it properly:
+
+**WRONG** (Sequential disguised as parallel):
+```json
+{
+  "steps": [
+    {"id": 1, "task": "Create file A", "depends_on": []},
+    {"id": 2, "task": "Create file B", "depends_on": []}, 
+    {"id": 3, "task": "Combine A+B", "depends_on": [1,2]}
+  ]
+}
+```
+
+**CORRECT** (True parallel execution):
+```json
+{
+  "steps": [
+    {"id": 1, "task": "Create file A AND Create file B in parallel", "depends_on": []},
+    {"id": 2, "task": "Combine A+B", "depends_on": [1]}
+  ]
+}
+```
+
+**PARALLEL EXECUTION PRINCIPLE**: 
+- If multiple tasks can run simultaneously, combine them into ONE step with multiple sub-tasks
+- Step completes only when ALL parallel sub-tasks within it are done
+- Next step waits for entire previous step (all parallel work) to complete
+- Use "AND" in task descriptions to indicate parallel sub-tasks within a step
+
 ## Key Requirements
 
 **CRITICAL**: ALWAYS use the exact JSON workflow structure. NEVER deviate from the template. Follow this template exactly:
