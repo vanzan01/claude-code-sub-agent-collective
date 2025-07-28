@@ -1,5 +1,15 @@
 # Three-Tier Orchestration Architecture for Autonomous AI Development
 
+## A Message from the Creator
+
+> Hi everyone! Since the launch of Cursor Memory Bank, I haven't stopped innovating and exploring new possibilities. When Claude Code was released, I immediately moved to it and have been working on fresh ideas and solutions as you can see throughout my repositories. Now, with Claude Code's agent mode, I'm making another attempt at what I originally tried with Cursor Memory Bank—but with hooks and agents, I can get much closer to creating an autonomous development team.
+>
+> What people often miss is the importance of context and deterministic actions, which I can now replicate effectively with hooks. With TaskMaster being operated by my project manager agent, it forms a truly complete team capable of delivering ready-made complex prototypes.
+>
+> I hope you enjoy this journey with me. I will continue leading with my original thoughts and ideas—come be part of the adventure!
+
+---
+
 ## What it does
 
 🚀 **Go from idea to working prototype in one request.**
