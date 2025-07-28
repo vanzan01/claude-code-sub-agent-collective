@@ -15,8 +15,18 @@ echo "  AGENT: $SUBAGENT_TYPE" >> /tmp/workflow-log.log
 if [[ "$SUBAGENT_TYPE" == "workflow-agent" ]]; then
     echo "  ACTION: Creating workflow.json from workflow-agent response" >> /tmp/workflow-log.log
     
-    # Extract JSON from workflow-agent response
-    WORKFLOW_JSON=$(echo "$TOOL_RESULT" | grep -A 1000 '{' | grep -B 1000 '}' | head -1)
+    # Extract JSON from workflow-agent response (handle mixed content)
+    WORKFLOW_JSON=$(echo "$TOOL_RESULT" | sed -n '/^{/,/^}$/p' | head -1)
+    
+    # Fallback: try to extract JSON block from mixed content
+    if [[ -z "$WORKFLOW_JSON" ]]; then
+        WORKFLOW_JSON=$(echo "$TOOL_RESULT" | sed -n '/```json/,/```/p' | sed '1d;$d')
+    fi
+    
+    # Another fallback: extract any JSON-like structure
+    if [[ -z "$WORKFLOW_JSON" ]]; then
+        WORKFLOW_JSON=$(echo "$TOOL_RESULT" | grep -Pzo '(?s)\{.*\}' | tr -d '\0' | head -1)
+    fi
     
     if [[ -z "$WORKFLOW_JSON" ]]; then
         echo "  ERROR: No JSON found in workflow-agent response" >> /tmp/workflow-log.log
