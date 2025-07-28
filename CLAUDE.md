@@ -1,136 +1,21 @@
-# Agent Orchestration System
+# Claude Code Rules
 
-## Complexity Assessment Rules
+## Hook and Agent System Rules
 
-I assess request complexity and select appropriate agents automatically.
+**CRITICAL**: Any changes to hooks (.claude/hooks/) or agent configurations require a user restart.
 
-### Complexity Levels
+**When to ask for restart:**
+- Modifying .claude/hooks/pre-task.sh
+- Modifying .claude/hooks/post-task.sh  
+- Modifying .claude/settings.json hook configuration
+- Changes to agent validation logic
+- Updates to enforcement rules
 
-**Level 1 (Simple):** Single file edits, typos, small fixes
-- Agents: `implementation-agent` only
-- Examples: "Fix this typo", "Add a comment", "Update variable name"
+**Procedure:**
+1. Commit changes first
+2. Ask user to restart Claude Code
+3. DO NOT continue testing until restart confirmed
+4. Never assume hooks work without restart
 
-**Level 2 (Feature):** Adding functionality, requires research + implementation  
-- Agents: `research-agent` → `implementation-agent` → `quality-gate`
-- Examples: "Add login feature", "Create user profile page", "Implement search"
-
-**Level 3 (Multi-feature):** Multiple components, integration concerns
-- Agents: `project-manager-agent` → `research-agent` → `implementation-agent` → `quality-gate` → `integration-gate`
-- Examples: "Add user management system", "Build admin dashboard", "Create API layer"
-
-**Level 4 (Project):** Full PRD, multiple phases, all quality gates
-- Agents: Full workflow with all gates + `readiness-gate` between phases
-- Examples: "Build e-commerce platform", "Create mobile app", "Develop CRM system"
-
-## Agent Selection Matrix
-
-### Quick Assessment Checks:
-1. Single file edit? → Level 1 (Direct orchestration)
-2. New feature requiring research? → Level 2 (Direct orchestration)  
-3. Multiple features/components? → Level 3 (Consult workflow-agent)
-4. Has PRD or major scope? → Level 4 (Consult workflow-agent)
-
-### Hybrid Orchestration Approach:
-**Level 1-2 (Simple):** I handle orchestration directly
-- Fast routing decisions
-- Straightforward workflows
-- Minimal overhead
-
-**Level 3-4 (Complex):** Consult workflow-agent for:
-- PRD complexity assessment and validation
-- Multi-phase project planning and state management
-- Complex error recovery decision trees
-- Workflow template selection and customization
-
-### Gate Agents (Binary Validators)
-- `task-assignment-gate`: Can task be assigned? (GO/NO-GO)
-- `completion-gate`: Is task complete? (COMPLETE/INCOMPLETE)
-- `quality-gate`: Does it meet quality standards? (PASS/FAIL)
-- `integration-gate`: Compatible with existing work? (COMPATIBLE/CONFLICTS)
-- `readiness-gate`: Ready for next phase? (READY/NOT-READY)
-
-### Work Agents
-- `project-manager-agent`: PRD parsing, task breakdown, coordination
-- `research-agent`: Technical research, architecture analysis
-- `implementation-agent`: Code writing, feature building
-- `quality-agent`: Testing, validation, compliance
-
-## Context Management & Orchestration Intelligence
-
-**My Role as Active Orchestrator:**
-- Maintain project state across all agent interactions
-- Curate context for each agent (agents are stateless)
-- **CRITICAL: Process ALL gate results and implement routing decisions**
-- Handle error recovery and workflow adjustments
-- **Never call agents sequentially without processing their responses**
-
-**Agents are Binary Functions:**
-- Input: Task + Curated Context
-- Output: Binary Result (PASS/FAIL, COMPLETE/INCOMPLETE, etc.)
-- No state retention between calls
-
-**Orchestration Decision Logic (I MUST IMPLEMENT):**
-
-**Level 1-2 (Direct Orchestration):**
-```
-Quality Gate FAIL → Route to Implementation Agent with fix context
-Task Assignment Gate NO-GO → Route to PM for dependency resolution
-Readiness Gate NOT-READY → Route to PM for next task assignment
-Integration Gate CONFLICTS → Route to Research for architecture review
-Completion Gate INCOMPLETE → Route to Implementation Agent for completion
-Continue workflow loops until ALL gates PASS
-```
-
-**Level 3-4 (Workflow Agent Assisted):**
-```
-Complex Request → Consult workflow-agent for:
-  - PRD complexity validation and scoring
-  - Workflow template selection and customization
-  - Multi-phase planning and state management
-  - Error recovery decision trees
-  
-Then implement workflow-agent recommendations with my routing intelligence
-```
-
-**My Orchestration Responsibilities:**
-1. **Process Gate Results**: Never ignore FAIL/NO-GO/CONFLICTS responses
-2. **Route Workflows**: Direct failed tasks to appropriate agents for fixes
-3. **Manage State**: Track workflow progress and context through complex loops
-4. **Coordinate Fixes**: Ensure PM coordinates complex error recovery scenarios
-5. **Validate Completion**: Only advance when gates actually PASS
-
-## Workflow Patterns
-
-**Level 1 Flow:**
-```
-User Request → Implementation Agent → Done
-```
-
-**Level 2 Flow:**
-```
-User Request → Research Agent → Implementation Agent → Quality Gate → Done
-```
-
-**Level 3 Flow:**
-```
-User Request → PM Agent → Research Agent → Implementation Agent → Quality Gate → Integration Gate → Done
-```
-
-**Level 4 Flow (with phases):**
-```
-User Request → PM Agent (PRD Parse) → Phase 1 Tasks → Readiness Gate → Phase 2 Tasks → Readiness Gate → Final Delivery
-```
-
-## Error Recovery
-
-When gates return FAIL/NO-GO/CONFLICTS:
-1. Update project state with failure details
-2. Route back to appropriate work agent with fix context
-3. Re-run validation gates
-4. Continue workflow once gates pass
-
-This system ensures systematic delivery with proper validation at each step.
-
-## Task Master AI Instructions
-**Import Task Master's development workflow commands and guidelines, treat as if import is in the main CLAUDE.md file.**
-@./.taskmaster/CLAUDE.md
+**Why this matters:**
+Hooks are loaded at startup. Changes don't take effect until restart. Testing without restart gives false results and wastes time.

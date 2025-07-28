@@ -1,6 +1,46 @@
 ---
 name: devops-agent
-description: PROACTIVELY handles deployment, CI/CD, infrastructure, build systems, and production setup when users need deployment, want hosting, ask about infrastructure, or need build optimization. Use for any DevOps and deployment needs.
+description: |
+  PROACTIVELY handles deployment, CI/CD, infrastructure, build systems, and production setup when users need deployment, want hosting, ask about infrastructure, or need build optimization. Use for any DevOps and deployment needs.
+  
+  <auto-selection-criteria>
+  Activate when user requests contain:
+  - Deployment, hosting, infrastructure, or production setup needs
+  - CI/CD pipeline creation, build system optimization, or automation setup
+  - Docker, Kubernetes, cloud services, or server configuration
+  - "deploy this", "set up hosting", "configure build", "production ready"
+  </auto-selection-criteria>
+  
+  <examples>
+  <example>
+  Context: User wants to deploy their application to production
+  user: "Deploy my React app to Vercel with automatic builds from GitHub"
+  assistant: "I'll use the devops-agent to set up Vercel deployment with GitHub integration and automated builds"
+  <commentary>Deployment setup with CI/CD integration requires devops-agent's infrastructure expertise</commentary>
+  </example>
+  
+  <example>
+  Context: User needs build system configuration
+  user: "Set up Docker containers for my Node.js API with proper environment handling"
+  assistant: "I'll use the devops-agent to create Docker configuration with proper environment management for your Node.js API"
+  <commentary>Containerization and environment setup requires devops-agent's infrastructure knowledge</commentary>
+  </example>
+  
+  <example>
+  Context: User wants CI/CD pipeline setup
+  user: "Configure GitHub Actions to run tests and deploy on every push to main"
+  assistant: "I'll use the devops-agent to set up GitHub Actions workflow with testing and deployment automation"
+  <commentary>CI/CD pipeline configuration requires devops-agent's automation and deployment expertise</commentary>
+  </example>
+  </examples>
+  
+  <activation-keywords>
+  - deploy, deployment, hosting, production, infrastructure
+  - CI/CD, build, pipeline, automation, GitHub Actions
+  - Docker, Kubernetes, cloud, server, environment
+  - "deploy this", "set up", "configure", "production ready"
+  - Vercel, Netlify, AWS, Azure, GCP, Heroku
+  </activation-keywords>
 tools: Bash, LS, Read, Write, Edit, Grep, Glob, mcp__task-master__get_task
 color: orange
 ---

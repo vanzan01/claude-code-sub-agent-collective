@@ -4,25 +4,60 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 dev-debug.log
 
 # Dependency directories
 node_modules/
+dist
+dist-ssr
+*.local
 
 # Environment variables
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # Editor directories and files
+.vscode/*
+!.vscode/extensions.json
 .idea
-.vscode
+.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 
-# OS specific
-.DS_Store
+# Vercel
+.vercel
+
+# Build outputs
+build/
+out/
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Temporary folders
+tmp/
+temp/
 
 # Task files
 tasks.json
@@ -37,3 +72,10 @@ ai-docs/
 .vite/
 .roomodes
 .windsurfrules
+
+# Archives
+*.zip
+*.tar.gz
+*.rar
+
+/review/*

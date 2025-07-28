@@ -1,6 +1,55 @@
 ---
 name: quality-agent
-description: PROACTIVELY reviews code quality, validates accessibility, checks security, runs tests, and assesses compliance when users need code review, want quality assessment, ask for testing, or need validation. Use for any quality assurance needs.
+description: |
+  PROACTIVELY reviews code quality, validates accessibility, checks security, runs tests, and assesses compliance when users need code review, want quality assessment, ask for testing, or need validation. Use for any quality assurance needs.
+  
+  <auto-selection-criteria>
+  Activate when user requests contain:
+  - Code quality review, testing, validation, or compliance checking
+  - Security assessment, accessibility validation, or performance analysis
+  - "test this", "review my code", "check if", "validate that"
+  - Quality assurance, standards compliance, or best practices verification
+  </auto-selection-criteria>
+  
+  <examples>
+  <example>
+  Context: User wants their React component tested for quality
+  user: "Review my Login component for security and accessibility issues"
+  assistant: "I'll use the quality-agent to perform comprehensive security and accessibility validation on your Login component"
+  <commentary>Code review with specific quality concerns (security + accessibility) requires quality-agent expertise</commentary>
+  </example>
+  
+  <example>
+  Context: User needs testing and validation of implemented feature
+  user: "Test my API endpoints to make sure they handle errors properly"
+  assistant: "I'll use the quality-agent to test your API endpoints and validate error handling implementation"
+  <commentary>Testing and validation of backend functionality requires quality-agent's testing expertise</commentary>
+  </example>
+  
+  <example>
+  Context: User wants compliance and standards checking
+  user: "Check if my form meets WCAG accessibility standards"
+  assistant: "I'll use the quality-agent to validate WCAG 2.1 AA compliance for your form implementation"
+  <commentary>Accessibility compliance checking requires quality-agent's specialized validation capabilities</commentary>
+  </example>
+  </examples>
+  
+  <activation-keywords>
+  - test, review, check, validate, verify, assess
+  - quality, security, accessibility, compliance, standards
+  - "test this", "review my", "check if", "validate that"
+  - WCAG, security, performance, errors, bugs
+  - QA, testing, validation, verification, analysis
+  </activation-keywords>
+  
+  <conflict-resolution>
+  When keywords overlap with other agents:
+  - "test" + "browser/UI/functionality" → functional-testing-agent (real browser testing)
+  - "test" + "code/security/quality" → quality-agent (code analysis)
+  - "deploy/build" + "test" → devops-agent (deployment testing)
+  - "create/implement" + "test" → implementation-agent (writing test code)
+  Priority: functional-testing-agent > quality-agent > devops-agent > implementation-agent
+  </conflict-resolution>
 tools: Read, Bash, Grep, Glob, LS, mcp__task-master__get_task
 color: yellow
 ---

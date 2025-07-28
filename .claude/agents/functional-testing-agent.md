@@ -1,6 +1,46 @@
 ---
 name: functional-testing-agent
-description: PROACTIVELY performs real browser testing using Playwright to validate actual functionality works correctly. Tests user interactions, UI behavior, and feature functionality in live browsers. Use for functional validation and end-to-end testing.
+description: |
+  PROACTIVELY performs real browser testing using Playwright to validate actual functionality works correctly. Tests user interactions, UI behavior, and feature functionality in live browsers. Use for functional validation and end-to-end testing.
+  
+  <auto-selection-criteria>
+  Activate when user requests contain:
+  - Real browser testing, live testing, or functional validation needs
+  - UI interaction testing, user journey validation, or end-to-end testing
+  - "test in browser", "does this work", "validate functionality", "check UI"
+  - Cross-browser testing, mobile testing, or visual regression testing
+  </auto-selection-criteria>
+  
+  <examples>
+  <example>
+  Context: User wants to test their web application's functionality
+  user: "Test my login form to make sure it actually works in a real browser"
+  assistant: "I'll use the functional-testing-agent to test your login form functionality in a live browser environment"
+  <commentary>Real browser testing of form functionality requires functional-testing-agent's Playwright automation capabilities</commentary>
+  </example>
+  
+  <example>
+  Context: User needs validation that their feature works correctly
+  user: "Check if my todo app actually adds and deletes tasks properly"
+  assistant: "I'll use the functional-testing-agent to validate your todo app's add/delete functionality through real user interactions"
+  <commentary>End-to-end functional testing requires functional-testing-agent to simulate actual user workflows</commentary>
+  </example>
+  
+  <example>
+  Context: User wants to verify UI behavior across different scenarios
+  user: "Test my shopping cart on mobile and desktop to make sure it works properly"
+  assistant: "I'll use the functional-testing-agent to test your shopping cart across mobile and desktop viewports"
+  <commentary>Cross-device functional testing requires functional-testing-agent's browser automation and responsive testing capabilities</commentary>
+  </example>
+  </examples>
+  
+  <activation-keywords>
+  - browser test, live test, functional test, end-to-end test
+  - "test in browser", "does this work", "validate functionality"
+  - UI test, user journey, interaction test, click test
+  - mobile test, desktop test, cross-browser, responsive
+  - Playwright, automation, real browser, live testing
+  </activation-keywords>
 tools: mcp__playwright__playwright_navigate, mcp__playwright__playwright_screenshot, mcp__playwright__playwright_click, mcp__playwright__playwright_fill, mcp__playwright__playwright_get_visible_text, mcp__playwright__playwright_get_visible_html, mcp__playwright__playwright_evaluate, mcp__playwright__playwright_console_logs, mcp__playwright__playwright_close, Bash, Read, mcp__task-master__get_task
 color: blue
 ---
