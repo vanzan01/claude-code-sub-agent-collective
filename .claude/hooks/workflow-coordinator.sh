@@ -11,7 +11,7 @@ echo "END RAW INPUT" >> /tmp/workflow-log.log
 
 # Extract tool parameters
 SUBAGENT_TYPE=$(echo "$INPUT" | jq -r '.tool_input.subagent_type // ""')
-TOOL_RESULT=$(echo "$INPUT" | jq -r '.tool_result // ""')
+TOOL_RESULT=$(echo "$INPUT" | jq -r '.tool_response.content[0].text // ""')
 
 echo "  PARSED SUBAGENT_TYPE: '$SUBAGENT_TYPE'" >> /tmp/workflow-log.log
 echo "  PARSED TOOL_RESULT LENGTH: ${#TOOL_RESULT}" >> /tmp/workflow-log.log
@@ -26,12 +26,12 @@ if [[ "$SUBAGENT_TYPE" == "workflow-agent" ]]; then
     echo "$TOOL_RESULT" >> /tmp/workflow-log.log
     echo "  DEBUG - END TOOL_RESULT" >> /tmp/workflow-log.log
     
-    # Extract JSON from workflow-agent response (handle mixed content)
-    WORKFLOW_JSON=$(echo "$TOOL_RESULT" | sed -n '/^{/,/^}$/p' | head -1)
+    # Extract JSON from workflow-agent response (handle markdown code blocks)
+    WORKFLOW_JSON=$(echo "$TOOL_RESULT" | sed -n '/```json/,/```/p' | sed '1d;$d')
     
-    # Fallback: try to extract JSON block from mixed content
+    # Fallback: try to extract pure JSON (starts with {)
     if [[ -z "$WORKFLOW_JSON" ]]; then
-        WORKFLOW_JSON=$(echo "$TOOL_RESULT" | sed -n '/```json/,/```/p' | sed '1d;$d')
+        WORKFLOW_JSON=$(echo "$TOOL_RESULT" | sed -n '/^{/,/^}$/p' | head -1)
     fi
     
     # Another fallback: extract any JSON-like structure
