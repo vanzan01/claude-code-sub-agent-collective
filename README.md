@@ -143,7 +143,7 @@ graph TD
     classDef routeNode fill:#f1f8e9,stroke:#558b2f,stroke-width:2px,color:#1a1a1a
     
     class User userNode
-    class WA routerNode  
+    class WA routerNode
     class PM pmNode
     class Research,Research2,Impl1,Impl2,Impl3,FuncTest,FuncTest2 agentNode
     class QG1,SG,IG gateNode
