@@ -4,9 +4,17 @@
 # Read JSON input from stdin  
 INPUT=$(cat)
 
+# Debug the hook input
+echo "WORKFLOW COORDINATOR RAW INPUT:" >> /tmp/workflow-log.log
+echo "$INPUT" >> /tmp/workflow-log.log
+echo "END RAW INPUT" >> /tmp/workflow-log.log
+
 # Extract tool parameters
 SUBAGENT_TYPE=$(echo "$INPUT" | jq -r '.tool_input.subagent_type // ""')
 TOOL_RESULT=$(echo "$INPUT" | jq -r '.tool_result // ""')
+
+echo "  PARSED SUBAGENT_TYPE: '$SUBAGENT_TYPE'" >> /tmp/workflow-log.log
+echo "  PARSED TOOL_RESULT LENGTH: ${#TOOL_RESULT}" >> /tmp/workflow-log.log
 
 echo "WORKFLOW COORDINATOR: $(date)" >> /tmp/workflow-log.log
 echo "  AGENT: $SUBAGENT_TYPE" >> /tmp/workflow-log.log
@@ -14,6 +22,9 @@ echo "  AGENT: $SUBAGENT_TYPE" >> /tmp/workflow-log.log
 # Handle workflow-agent responses - create workflow.json
 if [[ "$SUBAGENT_TYPE" == "workflow-agent" ]]; then
     echo "  ACTION: Creating workflow.json from workflow-agent response" >> /tmp/workflow-log.log
+    echo "  DEBUG - TOOL_RESULT:" >> /tmp/workflow-log.log
+    echo "$TOOL_RESULT" >> /tmp/workflow-log.log
+    echo "  DEBUG - END TOOL_RESULT" >> /tmp/workflow-log.log
     
     # Extract JSON from workflow-agent response (handle mixed content)
     WORKFLOW_JSON=$(echo "$TOOL_RESULT" | sed -n '/^{/,/^}$/p' | head -1)
