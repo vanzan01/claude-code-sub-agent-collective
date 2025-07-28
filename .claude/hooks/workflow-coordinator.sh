@@ -85,30 +85,45 @@ update_execution_queue() {
        }' workflow.json > "$TEMP_FILE" && mv "$TEMP_FILE" workflow.json
 }
 
-# Handle workflow-agent responses - create and validate workflow.json
+# Handle workflow-agent responses - implement Three-Tier Architecture
 if [[ "$SUBAGENT_TYPE" == "workflow-agent" ]]; then
-    echo "  ACTION: Creating workflow from workflow-agent" >> /tmp/workflow-log.log
+    echo "  ACTION: Processing workflow-agent Three-Tier routing" >> /tmp/workflow-log.log
     
-    # Extract JSON from response
+    # Check for direct routing response
+    if echo "$TOOL_RESULT" | jq -e '.routing == "direct"' >/dev/null 2>&1; then
+        AGENT=$(echo "$TOOL_RESULT" | jq -r '.agent')
+        REASON=$(echo "$TOOL_RESULT" | jq -r '.reason')
+        echo "🎯 DIRECT ROUTE: Execute $AGENT ($REASON)"
+        echo "  DIRECT ROUTING: $AGENT - $REASON" >> /tmp/workflow-log.log
+        exit 0
+    fi
+    
+    # Check for PM analysis routing
+    if echo "$TOOL_RESULT" | jq -e '.routing == "pm_analysis"' >/dev/null 2>&1; then
+        REASON=$(echo "$TOOL_RESULT" | jq -r '.reason')
+        echo "🔬 COMPLEX ROUTE: Execute project-manager-agent ($REASON)"
+        echo "  PM ROUTING: project-manager-agent - $REASON" >> /tmp/workflow-log.log
+        exit 0
+    fi
+    
+    # Otherwise treat as standard workflow JSON
+    echo "  ACTION: Creating standard workflow from workflow-agent" >> /tmp/workflow-log.log
+    
+    # Extract JSON from response (handle both pure JSON and JSON in markdown)
     WORKFLOW_JSON=$(echo "$TOOL_RESULT" | sed -n '/```json/,/```/p' | sed '1d;$d')
     
-    # Fallback extraction methods
+    # Fallback: if no markdown code blocks, try extracting JSON directly
     if [[ -z "$WORKFLOW_JSON" ]]; then
-        WORKFLOW_JSON=$(echo "$TOOL_RESULT" | grep -Pzo '(?s)\{.*\}' | tr -d '\0')
+        WORKFLOW_JSON="$TOOL_RESULT"
     fi
     
-    if [[ -z "$WORKFLOW_JSON" ]]; then
-        echo "ERROR: No JSON found in workflow-agent response" >&2
-        echo "REQUIRED: Response must contain valid JSON workflow" >&2
-        exit 2
-    fi
-    
-    # Validate JSON syntax
+    # Validate it's actually JSON
     if ! echo "$WORKFLOW_JSON" | jq . >/dev/null 2>&1; then
         echo "ERROR: workflow-agent provided malformed JSON" >&2
-        echo "REQUIRED: Use valid JSON format" >&2
+        echo "REQUIRED: Use valid JSON format or routing response" >&2
         exit 2
     fi
+    
     
     # Validate required fields
     MISSING=""
