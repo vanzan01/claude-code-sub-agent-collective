@@ -105,38 +105,36 @@ The van-agent ensures your agent ecosystem stays healthy and properly coordinate
 
 ```mermaid
 graph TB
-    subgraph "Research Framework"
-        subgraph "Central Hub"
-            RA[🎯 Routing Agent<br/>Semantic Analysis]
-        end
-        
-        subgraph "Coordination"  
-            EPM[🏗️ Project Manager<br/>6 Quality Gates]
-        end
-        
-        subgraph "Research"
-            PRD[📋 PRD Research<br/>Context7]
-            RESEARCH[🔬 Research Agent<br/>Analysis]
-        end
-        
-        subgraph "Implementation"
-            COMP[🎨 Components<br/>UI & Styling]
-            FEAT[💾 Features<br/>Business Logic]
-            INFRA[🏗️ Infrastructure<br/>Build & Deploy]
-            TEST[🧪 Testing<br/>Validation]
-            POLISH[✨ Polish<br/>Performance]
-        end
-        
-        subgraph "Quality Gates"
-            EQG[🛡️ Quality Gate]
-            CG[✅ Complete Gate]
-            RG[🎯 Ready Gate]
-        end
-        
-        subgraph "System"
-            HOOKS[⚙️ Hooks<br/>Validation]
-            TM[📊 TaskMaster<br/>State]
-        end
+    subgraph "Central Hub"
+        RA[🎯 Routing Agent<br/>Semantic Analysis]
+    end
+    
+    subgraph "Coordination"  
+        EPM[🏗️ Project Manager<br/>6 Quality Gates]
+    end
+    
+    subgraph "Research"
+        PRD[📋 PRD Research<br/>Context7]
+        RESEARCH[🔬 Research Agent<br/>Analysis]
+    end
+    
+    subgraph "Implementation"
+        COMP[🎨 Components<br/>UI & Styling]
+        FEAT[💾 Features<br/>Business Logic]
+        INFRA[🏗️ Infrastructure<br/>Build & Deploy]
+        TEST[🧪 Testing<br/>Validation]
+        POLISH[✨ Polish<br/>Performance]
+    end
+    
+    subgraph "Quality Gates"
+        EQG[🛡️ Quality Gate]
+        CG[✅ Complete Gate]
+        RG[🎯 Ready Gate]
+    end
+    
+    subgraph "System"
+        HOOKS[⚙️ Hooks<br/>Validation]
+        TM[📊 TaskMaster<br/>State]
     end
     
     %% Hub connections
@@ -166,12 +164,12 @@ graph TB
     HOOKS -.-> RA
     TM -.-> EPM
     
-    classDef hub fill:#ffd700,stroke:#ff8c00,stroke-width:4px,color:#1a1a1a
-    classDef coordination fill:#e3f2fd,stroke:#1976d2,stroke-width:3px,color:#1a1a1a
-    classDef research fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px,color:#1a1a1a
-    classDef implementation fill:#e8f5e8,stroke:#2d5a27,stroke-width:3px,color:#1a1a1a
-    classDef quality fill:#fce4ec,stroke:#a91e63,stroke-width:3px,color:#1a1a1a
-    classDef system fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#1a1a1a
+    classDef hub fill:#ffd700,stroke:#ff8c00,stroke-width:6px,color:#1a1a1a,font-size:20px
+    classDef coordination fill:#e3f2fd,stroke:#1976d2,stroke-width:4px,color:#1a1a1a,font-size:16px
+    classDef research fill:#f3e5f5,stroke:#7b1fa2,stroke-width:4px,color:#1a1a1a,font-size:16px
+    classDef implementation fill:#e8f5e8,stroke:#2d5a27,stroke-width:3px,color:#1a1a1a,font-size:16px
+    classDef quality fill:#fce4ec,stroke:#a91e63,stroke-width:4px,color:#1a1a1a,font-size:16px
+    classDef system fill:#fff3e0,stroke:#f57c00,stroke-width:3px,color:#1a1a1a,font-size:16px
     
     class RA hub
     class EPM coordination
