@@ -24,19 +24,25 @@
 
 ## Research: Solving Multi-Agent Coordination
 
-After hundreds of hours researching agent coordination problems in my Cursor Memory Bank project, I identified three critical failures that plague ALL multi-agent systems:
+After months of researching and testing agent coordination problems in my Cursor Memory Bank project, I identified three critical failures that plague ALL multi-agent systems. This breakthrough was only possible with Claude Code's sub-agent architecture and hooks system - each agent having its own isolated context window, combined with deterministic hooks for validation, allowed me to reach this next level of coordination research:
 
 **🔥 Context Degradation** - Agents lose context across interactions and forget critical instructions  
 **🔥 Coordination Drift** - Peer-to-peer communication becomes unreliable and non-deterministic  
 **🔥 Quality Inconsistency** - Agents skip steps and behave inconsistently without enforcement
 
-### Research Breakthroughs
+### Research Hypotheses Under Test
 
-**📊 JIT Context Loading** - Agents get exactly the context they need, when they need it (prevents information overload)
+**📊 JIT Context Loading Hypothesis**
+- **Testing:** Can graph-based context delivery prevent agent focus loss?
+- **Hypothesis:** Dynamic context assembly from knowledge graphs will outperform global context approaches
 
-**🔗 Hub-and-Spoke Pattern** - Zero peer communication, all coordination through central hub (eliminates context drift)
+**🔗 Hub-and-Spoke Coordination Hypothesis**  
+- **Testing:** Can central hub routing eliminate context drift?
+- **Hypothesis:** Routing-agent orchestration will prove more reliable than peer-to-peer communication
 
-**🔒 HANDOFF_TOKEN Validation** - Progressive retry system confirms agents actually processed instructions (ensures comprehension)
+**🔒 HANDOFF_TOKEN Validation Hypothesis**
+- **Testing:** Can cryptographic tokens confirm agent comprehension?
+- **Hypothesis:** Progressive retry logic (3 attempts) will eliminate silent failure problems
 
 ---
 
@@ -241,10 +247,10 @@ graph TD
 
 ## Research Results
 
-- **Improved** context retention through hub-and-spoke vs peer communication
-- **Improved** instruction following with HANDOFF_TOKEN validation
-- **Improved** quality compliance through mandatory gates vs optional checks
-- **Improved** knowledge integration with Context7 vs stale training data
+**Context Engineering Hypothesis Testing:**
+- **Context retention** - Hub-and-spoke coordination vs peer communication patterns
+- **Instruction comprehension** - HANDOFF_TOKEN validation vs standard agent handoffs  
+- **Coordination reliability** - Progressive retry systems vs single-attempt coordination
 
 ## Dependencies
 
