@@ -4,11 +4,15 @@
 
 > Hi everyone! Since the launch of [Cursor Memory Bank](https://github.com/vanzan01/cursor-memory-bank) (2,400+ stars), I haven't stopped innovating and exploring new possibilities. When Claude Code was released, I immediately moved to it and have been working on fresh ideas and solutions as you can see throughout my repositories. 
 >
-> **This isn't just another agent repository.** This is the culmination of months of research building on my cursor memory bank project, where I discovered that **agents don't hold context well, lose context often, and forget the things you say**. 
+> **This isn't just another agent repository.** This is pioneering work in what's now being called **Context Engineering** - the emerging field of structuring everything an LLM needs (prompts, memory, tools, data) to make intelligent, autonomous decisions reliably.
 >
-> To solve this, I've developed a **graph-based JIT loading system** that allows agents to build context on the fly, **confirm that agents have read the context**, and catch missing information that happens often but goes unnoticed. **Hooks handle deterministic things** ensuring that agents are more accurate.
+> While researching my cursor memory bank project, I discovered that **agents don't hold context well, lose context often, and forget the things you say**. This is the core challenge that context engineering aims to solve.
 >
-> Now, with Claude Code's agent mode, I'm making another attempt at what I originally tried with Cursor Memory Bank—but with hooks and agents, I can get much closer to creating an autonomous development team. With TaskMaster being operated by my project manager agent, it forms a truly complete team capable of delivering ready-made complex prototypes.
+> My solution implements true **context engineering principles**: a **graph-based JIT context loading system** that provides agents exactly the context they need, when they need it. Combined with **HANDOFF_TOKEN validation** to confirm agent comprehension and **hub-and-spoke coordination** to eliminate context drift - this represents a complete context engineering architecture.
+>
+> What makes this unique is that instead of overwhelming agents with global context (which causes them to lose focus), my system uses **just-in-time context delivery** - agents get precisely relevant context loaded dynamically based on their specific task. This is context engineering in practice.
+>
+> Now, with Claude Code's agent mode, I'm making another attempt at what I originally tried with Cursor Memory Bank—but with context engineering principles, hooks, and coordinated agents, I can get much closer to creating a truly autonomous development team.
 >
 > I hope you enjoy this journey with me. I will continue leading with my original thoughts and ideas—come be part of the adventure!
 
@@ -16,56 +20,19 @@
 
 ## Research: Solving Multi-Agent Coordination
 
-### Core Problems Identified
+After hundreds of hours researching agent coordination problems in my Cursor Memory Bank project, I identified three critical failures that plague ALL multi-agent systems:
 
-After hundreds of hours of research following my Cursor Memory Bank project, I identified critical problems that plague ALL multi-agent systems:
+**🔥 Context Degradation** - Agents lose context across interactions and forget critical instructions  
+**🔥 Coordination Drift** - Peer-to-peer communication becomes unreliable and non-deterministic  
+**🔥 Quality Inconsistency** - Agents skip steps and behave inconsistently without enforcement
 
-**Agent Context Degradation**
-- Agents don't hold context well across interactions
-- They lose context frequently and miss critical instructions  
-- Information gets forgotten or corrupted during handoffs
+### Research Breakthroughs
 
-**Coordination Reliability Issues**
-- Agent-to-agent communication creates context drift
-- Peer coordination becomes unreliable and non-deterministic
-- Missing information happens often but goes unnoticed
+**📊 JIT Context Loading** - Agents get exactly the context they need, when they need it (prevents information overload)
 
-**Execution Determinism Problems**
-- Agents skip quality steps when not properly enforced
-- Inconsistent behavior across different execution runs
-- No reliable way to validate agent comprehension
+**🔗 Hub-and-Spoke Pattern** - Zero peer communication, all coordination through central hub (eliminates context drift)
 
-### Research Solutions
-
-**📊 Graph-Based JIT Context Loading**
-- **Problem**: Global context becomes overwhelming and agents lose focus
-- **Solution**: Decision graphs provide context exactly when/where needed
-- **Innovation**: JIT context loading prevents information overload while ensuring relevance
-
-**🔗 Hub-and-Spoke Coordination Pattern**
-- **Problem**: Agent-to-agent communication creates unreliable context drift
-- **Solution**: Central delegator (routing-agent) maintains conversation context
-- **Innovation**: No peer-to-peer agent communication - only hub communication
-
-**✅ Deterministic Validation Systems**
-- **Problem**: No reliable way to confirm agents processed instructions correctly
-- **Solution**: HANDOFF_TOKEN system validates agent comprehension
-- **Innovation**: Progressive retry with escalation ensures reliable coordination
-
-**🛡️ Mandatory Quality Gate Architecture**
-- **Problem**: Agents skip quality steps when not enforced
-- **Solution**: 6-gate system with NO bypass allowed + retry tracking
-- **Innovation**: Quality becomes structural requirement, not optional step
-
-**🧩 Domain Isolation Research**
-- **Problem**: Multi-capability agents get confused between responsibilities
-- **Solution**: Ultra-narrow agent focus with strict boundary enforcement
-- **Innovation**: Agent types that CANNOT do certain actions by design
-
-**📚 Real-Time Knowledge Integration**
-- **Problem**: Agents operate on stale training data
-- **Solution**: Mandatory Context7 research at every development phase
-- **Innovation**: Research compliance tracking throughout development lifecycle
+**🔒 HANDOFF_TOKEN Validation** - Progressive retry system confirms agents actually processed instructions (ensures comprehension)
 
 ---
 
@@ -82,6 +49,50 @@ Research framework for reliable multi-agent coordination.
 1. Copy `.claude/` directory to your project
 2. Install MCP dependencies: task-master, context7, playwright
 3. Use: `@routing-agent your request`
+
+## System Management
+
+### Using the VAN Maintenance Agent
+
+The **van-maintenance-agent** manages the agent ecosystem and handles system maintenance:
+
+```bash
+@van-maintenance-agent [maintenance task]
+```
+
+**Common Use Cases:**
+
+**🆕 Adding New Agents**
+```bash
+@van-maintenance-agent integrate new agent [agent-name] into the ecosystem
+```
+- Automatically updates interaction diagrams
+- Adds agent to categorization system
+- Creates proper handoff relationships
+- Updates workflow patterns
+
+**🔧 Troubleshooting Agent Issues**
+```bash
+@van-maintenance-agent fix mermaid syntax errors in agent files
+@van-maintenance-agent update agent relationships after changes
+@van-maintenance-agent validate handoff token consistency
+```
+
+**📊 System Health Checks**
+```bash
+@van-maintenance-agent perform comprehensive ecosystem audit
+@van-maintenance-agent analyze agent categorization accuracy
+@van-maintenance-agent review workflow pattern coverage
+```
+
+**🛠️ Documentation Maintenance**
+```bash
+@van-maintenance-agent update agent interaction documentation
+@van-maintenance-agent fix outdated agent relationships
+@van-maintenance-agent validate ecosystem integrity
+```
+
+The van-agent ensures your agent ecosystem stays healthy and properly coordinated as it evolves.
 
 ## Architecture
 
@@ -170,112 +181,60 @@ graph TB
     class HOOKS,TM system
 ```
 
-### Graph-Based Semantic Routing Flow
+### Semantic Analysis & JIT Context Loading
 
 ```mermaid
-graph TB
-    subgraph "Input System"
-        USER[👤 User Request] --> RA[🎯 Routing Agent<br/>Semantic Analysis]
-    end
+graph TD
+    REQUEST[👤 REQUEST] --> PARSE[🧠 SEMANTIC<br/>ANALYSIS]
     
-    subgraph "State Analysis"
-        RA --> STATE{📁 Project State}
-        STATE --> EXISTING[🏠 Existing Project<br/>Enhancement Mode]
-        STATE --> INCOMPLETE[🔧 Incomplete Project<br/>Completion Mode] 
-        STATE --> NEW[✨ New Project<br/>Creation Mode]
-    end
+    PARSE --> CLASSIFY{🎯 INTENT<br/>CLASSIFICATION}
     
-    subgraph "Existing Project Routing"
-        EXISTING --> SEMANTIC[🧠 Semantic Analysis<br/>Request Classification]
-        SEMANTIC --> COMP_E[🎨 Component Agent<br/>UI & Styling]
-        SEMANTIC --> FEAT_E[💾 Feature Agent<br/>Business Logic]
-        SEMANTIC --> INFRA_E[🏗️ Infrastructure Agent<br/>Build & Deploy]
-        SEMANTIC --> TEST_E[🧪 Testing Agent<br/>Validation]
-        SEMANTIC --> RESEARCH_E[🔬 Research Agent<br/>Analysis]
-    end
+    CLASSIFY -->|UI| UI[🎨 UI CONTEXT<br/>JIT LOAD]
+    CLASSIFY -->|DATA| DATA[💾 DATA CONTEXT<br/>JIT LOAD]
+    CLASSIFY -->|BUILD| BUILD[🏗️ BUILD CONTEXT<br/>JIT LOAD]
+    CLASSIFY -->|TEST| TEST[🧪 TEST CONTEXT<br/>JIT LOAD]
+    CLASSIFY -->|INFO| INFO[🔬 RESEARCH CONTEXT<br/>JIT LOAD]
     
-    subgraph "Incomplete Project Routing"
-        INCOMPLETE --> MISSING[🔍 Gap Analysis<br/>Missing Components]
-        MISSING --> INFRA_M[🏗️ Infrastructure<br/>Foundation]
-        MISSING --> FEAT_M[💾 Features<br/>Core Logic]
-        MISSING --> COMP_M[🎨 Components<br/>UI Layer]
-        MISSING --> TEST_M[🧪 Testing<br/>Quality Layer]
-        MISSING --> POLISH_M[✨ Polish<br/>Final Touch]
-    end
+    UI --> AGENT_UI[🎨 COMPONENT<br/>AGENT]
+    DATA --> AGENT_DATA[💾 FEATURE<br/>AGENT]
+    BUILD --> AGENT_BUILD[🏗️ INFRASTRUCTURE<br/>AGENT]
+    TEST --> AGENT_TEST[🧪 TESTING<br/>AGENT]
+    INFO --> AGENT_INFO[🔬 RESEARCH<br/>AGENT]
     
-    subgraph "New Project Routing"
-        NEW --> CLASSIFY[📝 Project Classification<br/>Type Analysis]
-        CLASSIFY --> PRD_R[📋 PRD Research<br/>Requirements]
-        CLASSIFY --> SIMPLE_R[🎯 Simple Route<br/>Direct Implementation]
-        CLASSIFY --> WORKFLOW_R[🔄 Workflow Route<br/>Multi-Agent]
-        CLASSIFY --> APP_R[🎨 App Route<br/>Component Focus]
-    end
+    AGENT_UI --> TOKEN[🔒 HANDOFF<br/>TOKEN]
+    AGENT_DATA --> TOKEN
+    AGENT_BUILD --> TOKEN
+    AGENT_TEST --> TOKEN
+    AGENT_INFO --> TOKEN
     
-    subgraph "Complex Project Management"
-        COMPLEX[👑 Project Manager<br/>Orchestration]
-        SEMANTIC --> COMPLEX
-        CLASSIFY --> COMPLEX
-    end
+    TOKEN --> VALIDATE{✅ VALID?}
     
-    subgraph "Quality Gates"
-        G1[📋 Planning] --> G2[🏗️ Infrastructure] 
-        G2 --> G3[💻 Implementation] 
-        G3 --> G4[🧪 Testing] 
-        G4 --> G5[✨ Polish] 
-        G5 --> G6[🎯 Complete]
-    end
+    VALIDATE -->|PASS| SUCCESS[🎯 EXECUTE<br/>WITH CONTEXT]
+    VALIDATE -->|FAIL| RETRY[🔄 RETRY<br/>3X MAX]
     
-    subgraph "Validation System"
-        HOOKS[⚙️ Hook Validation<br/>HANDOFF_TOKEN]
-        RETURN[🔄 Return Hub<br/>Next Decision]
-    end
+    RETRY --> ESCALATE[🆘 ESCALATE<br/>TO PM]
     
-    %% Complex routing to gates
-    COMPLEX --> G1
+    SUCCESS -.-> HUB[🔄 RETURN<br/>TO HUB]
+    ESCALATE -.-> HUB
+    HUB -.-> PARSE
     
-    %% Return flows to hub
-    COMP_E -.-> RETURN
-    FEAT_E -.-> RETURN
-    INFRA_E -.-> RETURN
-    TEST_E -.-> RETURN
-    RESEARCH_E -.-> RETURN
+    classDef input fill:#e1f5fe,stroke:#0277bd,stroke-width:4px,color:#1a1a1a,font-size:18px
+    classDef semantic fill:#ffd700,stroke:#ff8c00,stroke-width:6px,color:#1a1a1a,font-size:20px
+    classDef classify fill:#e3f2fd,stroke:#1976d2,stroke-width:4px,color:#1a1a1a,font-size:16px
+    classDef context fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px,color:#1a1a1a,font-size:16px
+    classDef agent fill:#e8f5e8,stroke:#2d5a27,stroke-width:3px,color:#1a1a1a,font-size:16px
+    classDef token fill:#fce4ec,stroke:#a91e63,stroke-width:4px,color:#1a1a1a,font-size:16px
+    classDef validate fill:#fff3e0,stroke:#f57c00,stroke-width:3px,color:#1a1a1a,font-size:16px
+    classDef system fill:#f1f8e9,stroke:#689f38,stroke-width:3px,color:#1a1a1a,font-size:16px
     
-    INFRA_M -.-> RETURN
-    FEAT_M -.-> RETURN
-    COMP_M -.-> RETURN
-    TEST_M -.-> RETURN
-    POLISH_M -.-> RETURN
-    
-    PRD_R -.-> RETURN
-    SIMPLE_R -.-> RETURN
-    WORKFLOW_R -.-> RETURN
-    APP_R -.-> RETURN
-    
-    G6 -.-> RETURN
-    RETURN -.-> RA
-    
-    %% Validation flow
-    RA -.-> HOOKS
-    HOOKS -.-> RETURN
-    
-    %% Styling
-    classDef input fill:#e1f5fe,stroke:#0277bd,stroke-width:3px,color:#1a1a1a
-    classDef hub fill:#ffd700,stroke:#ff8c00,stroke-width:4px,color:#1a1a1a
-    classDef analysis fill:#e3f2fd,stroke:#1976d2,stroke-width:3px,color:#1a1a1a
-    classDef agent fill:#e8f5e8,stroke:#2d5a27,stroke-width:2px,color:#1a1a1a
-    classDef manager fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px,color:#1a1a1a
-    classDef gate fill:#fce4ec,stroke:#a91e63,stroke-width:2px,color:#1a1a1a
-    classDef system fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#1a1a1a
-    
-    class USER input
-    class RA hub
-    class STATE,EXISTING,INCOMPLETE,NEW,SEMANTIC,MISSING,CLASSIFY analysis
-    class COMP_E,FEAT_E,INFRA_E,TEST_E,RESEARCH_E agent
-    class INFRA_M,FEAT_M,COMP_M,TEST_M,POLISH_M agent
-    class PRD_R,SIMPLE_R,WORKFLOW_R,APP_R agent
-    class COMPLEX manager
-    class G1,G2,G3,G4,G5,G6 gate
-    class HOOKS,RETURN system
+    class REQUEST input
+    class PARSE semantic
+    class CLASSIFY classify
+    class UI,DATA,BUILD,TEST,INFO context
+    class AGENT_UI,AGENT_DATA,AGENT_BUILD,AGENT_TEST,AGENT_INFO agent
+    class TOKEN token
+    class VALIDATE validate
+    class SUCCESS,RETRY,ESCALATE,HUB system
 ```
 
 ## Research Results
