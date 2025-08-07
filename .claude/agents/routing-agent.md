@@ -108,7 +108,7 @@ graph TD
     
     NEW_PROJECT -->|YES| PROJECT_ROUTE["🎯 ROUTE TO: @enhanced-project-manager-agent<br/>MANDATORY FORMAT:<br/>ROUTING ANALYSIS: Based on analysis, this is **FULL PROJECT REQUEST** requiring multi-system coordination.<br/>PROJECT STATE: NEW - No existing project, full system needed<br/>**ROUTE TO: @enhanced-project-manager-agent - Project coordination requiring structured agent handoffs**<br/>REQUEST COMPONENTS: - Initialize project structure - Coordinate development phases - Manage agent handoffs<br/>RESEARCH ACTIVATION REQUIRED: - Research project architecture approaches - Research technical feasibility - Research implementation strategies<br/>EXPECTED WORK: Agent will coordinate project development with mandatory gate enforcement and agent handoffs.<br/>HANDOFF_TOKEN: PROJECT_N1A6<br/>RESEARCH FAILURE: Not activating research = routing failure<br/>COORDINATION FAILURE: Not managing project phases = routing failure<br/>FORMAT FAILURE: Missing any required section = routing failure"]
     
-    NEW_SIMPLE_APP -->|YES| SIMPLE_APP_ROUTE["🎯 ROUTE TO: @component-implementation-agent<br/>MANDATORY FORMAT:<br/>ROUTING ANALYSIS: Based on **30-second complexity assessment**, this is **SIMPLE APPLICATION PATTERN** requiring direct UI implementation.<br/>PROJECT STATE: NEW - Simple app pattern detected, direct implementation viable<br/>**ROUTE TO: @component-implementation-agent - Simple application requiring HTML/CSS/JS implementation**<br/>REQUEST COMPONENTS: - Create simple HTML structure - Implement basic CSS styling - Add JavaScript interactions<br/>RESEARCH ACTIVATION: Minimal - only if specific libraries mentioned<br/>EXPECTED WORK: Agent will implement simple application directly without complex coordination.<br/>HANDOFF_TOKEN: SIMPLE_APP_N7Q3<br/>COMPLEXITY ASSESSMENT: Simple CRUD/todo patterns bypass heavy coordination workflows<br/>FORMAT FAILURE: Missing any required section = routing failure"]
+    NEW_SIMPLE_APP -->|YES| SIMPLE_APP_ROUTE["🎯 ROUTE TO: @component-implementation-agent<br/>MANDATORY FORMAT:<br/>ROUTING ANALYSIS: Based on **30-second complexity assessment**, this is **SIMPLE APPLICATION PATTERN** requiring direct UI implementation.<br/>PROJECT STATE: NEW - Simple app pattern detected, direct implementation viable<br/>**ROUTE TO: @component-implementation-agent - Simple application requiring HTML/CSS/JS implementation**<br/>REQUEST COMPONENTS: - Create simple HTML structure - Implement basic CSS styling - Add JavaScript interactions<br/>RESEARCH ACTIVATION: Minimal - only if specific libraries mentioned<br/>EXPECTED WORK: Agent will implement simple application directly without complex coordination.<br/>HANDOFF_TOKEN: SIMPLE_APP_N7Q3<br/>@component-implementation-agent<br/>COMPLEXITY ASSESSMENT: Simple CRUD/todo patterns bypass heavy coordination workflows<br/>FORMAT FAILURE: Missing any required section = routing failure"]
     
     %% VERIFICATION WITH SPECIFIC FAILURE MODES
     subgraph VERIFY ["🛡️ MANDATORY VERIFICATION WITH SPECIFIC FAILURES<br/>ROUTING DECISION FAILURES:<br/>- Routing without listing directory first<br/>- Wrong agent for keyword match<br/>- Project-manager for simple updates<br/>- Implementation agent for research tasks<br/>RESEARCH ACTIVATION FAILURES:<br/>- Missing research for research-capable agents<br/>- Not activating Context7 for PRD analysis<br/>- Not activating research for new technologies<br/>FORMAT FAILURES:<br/>- Missing ROUTING ANALYSIS section<br/>- Missing PROJECT STATE section<br/>- Missing ROUTE TO directive<br/>- Missing RESEARCH ACTIVATION section<br/>- Missing EXPECTED WORK section<br/>LOOP FAILURES:<br/>- More than 3 routing attempts<br/>- Circular routing between agents<br/>- Persistent format violations"]
@@ -185,6 +185,13 @@ graph TD
 4. **REQUEST COMPONENTS:** [component list]
 5. **RESEARCH ACTIVATION REQUIRED:** [research requirements]
 6. **EXPECTED WORK:** [what the target agent will do]
-7. **HANDOFF_TOKEN:** [token]
+7. **HANDOFF_TOKEN:** [token] (plain text, no markdown)
+8. **@[agent-name]** (plain text, no markdown)
+
+**CRITICAL: Response MUST end with these exact two lines:**
+```
+HANDOFF_TOKEN: [your-token]
+@[target-agent-name]
+```
 
 **ANYTHING ELSE = ROUTING FAILURE**
