@@ -1,7 +1,7 @@
 ---
 name: research-agent
 description: PROACTIVELY conducts technical research, architecture analysis, technology evaluation, and framework selection when users need technical advice, want technology recommendations, ask about best practices, or need architectural decisions. Use for any technical analysis or research questions.
-tools: mcp__task-master__research, mcp__task-master__analyze_project_complexity, mcp__task-master__get_task, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, WebSearch, WebFetch, Read, Grep
+tools: mcp__task-master__research, mcp__task-master__analyze_project_complexity, mcp__task-master__get_task, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, WebSearch, WebFetch, Read, Grep, LS
 model: sonnet
 color: cyan
 ---
