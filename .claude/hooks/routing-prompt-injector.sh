@@ -12,9 +12,10 @@ TOOL_OUTPUT=$(echo "$INPUT" | jq -r '.tool_response.content[0].text // ""' 2>/de
 # Log debug information
 echo "=== ROUTING PROMPT INJECTOR: $(date) ===" >> /tmp/routing-log.log
 echo "TOOL_OUTPUT_PREVIEW: $(echo "$TOOL_OUTPUT" | head -c 200)..." >> /tmp/routing-log.log
+echo "FULL_INPUT_JSON: $INPUT" >> /tmp/routing-log.log
 
-# Check for completion scenarios first
-if echo "$TOOL_OUTPUT" | grep -qiE '(COMPLETE|TASK.*COMPLETE|ALREADY.*COMPLETE|TASK.*DONE|IMPLEMENTATION.*COMPLETE|WORK.*COMPLETE|FULLY.*COMPLETE|PROJECT.*COMPLETE)'; then
+# Check for completion scenarios first - must be actual completion statements, not just words containing "COMPLETE"
+if echo "$TOOL_OUTPUT" | grep -qiE '(^COMPLETE|TASK[[:space:]]+COMPLETE|ALREADY[[:space:]]+COMPLETE|TASK[[:space:]]+DONE|IMPLEMENTATION[[:space:]]+COMPLETE|WORK[[:space:]]+COMPLETE|FULLY[[:space:]]+COMPLETE)'; then
     echo "COMPLETION_TOKEN: TASK_COMPLETE_$(date +%s)" >> /tmp/routing-log.log
     # No prompt injection needed - task is complete
     exit 0
@@ -28,26 +29,27 @@ if echo "$TOOL_OUTPUT" | grep -q 'HANDOFF_TOKEN:[[:space:]]*[A-Z0-9_]\+'; then
     # Extract the target agent from the routing response
     TARGET_AGENT=$(echo "$TOOL_OUTPUT" | grep -o '@[a-z-]*-agent' | head -1 | sed 's/@//')
     
-    # Extract the original user request (this needs to be passed through somehow)
-    # For now, we'll use a generic prompt that can be customized
-    ORIGINAL_REQUEST="create a todo application using html, css, js"
+    # Extract the original user request from the tool parameters
+    ORIGINAL_REQUEST=$(echo "$INPUT" | jq -r '.tool_request.params.prompt // ""' 2>/dev/null)
+    
+    # Fallback: try different JSON paths
+    if [[ -z "$ORIGINAL_REQUEST" || "$ORIGINAL_REQUEST" == "null" ]]; then
+        ORIGINAL_REQUEST=$(echo "$INPUT" | jq -r '.tool_call.parameters.prompt // ""' 2>/dev/null)
+    fi
+    
+    # Last fallback: extract from tool output if routing-agent echoed it
+    if [[ -z "$ORIGINAL_REQUEST" || "$ORIGINAL_REQUEST" == "null" ]]; then
+        ORIGINAL_REQUEST="implement the user's request"
+    fi
     
     echo "ROUTING_SUCCESS: Token=$HANDOFF_TOKEN, Target=$TARGET_AGENT" >> /tmp/routing-log.log
     
-    # Output JSON for prompt injection with proper Task tool execution
+    # Output JSON for prompt injection with @agent syntax
     cat << EOF
 {
   "hookSpecificOutput": {
     "hookEventName": "PostToolUse",
-    "injectedPrompt": "🎯 ROUTING SUCCESS DETECTED - EXECUTING HANDOFF\n\nHandoff Token: $HANDOFF_TOKEN\nTarget Agent: $TARGET_AGENT\n\nExecuting automatic Task tool call:"
-  },
-  "toolCall": {
-    "toolName": "Task",
-    "parameters": {
-      "subagent_type": "$TARGET_AGENT",
-      "description": "Execute routed request via handoff",
-      "prompt": "$ORIGINAL_REQUEST"
-    }
+    "injectedPrompt": "🎯 ROUTING SUCCESS DETECTED - EXECUTING HANDOFF\n\nHandoff Token: $HANDOFF_TOKEN\nTarget Agent: $TARGET_AGENT\n\n@$TARGET_AGENT $ORIGINAL_REQUEST"
   }
 }
 EOF
@@ -58,6 +60,15 @@ EOF
 else
     # No handoff token found - use retry logic from original script
     echo "ROUTING_FAILURE: No handoff token found" >> /tmp/routing-log.log
+    
+    # Extract the original user request for retry
+    ORIGINAL_REQUEST=$(echo "$INPUT" | jq -r '.tool_request.params.prompt // ""' 2>/dev/null)
+    if [[ -z "$ORIGINAL_REQUEST" || "$ORIGINAL_REQUEST" == "null" ]]; then
+        ORIGINAL_REQUEST=$(echo "$INPUT" | jq -r '.tool_call.parameters.prompt // ""' 2>/dev/null)
+    fi
+    if [[ -z "$ORIGINAL_REQUEST" || "$ORIGINAL_REQUEST" == "null" ]]; then
+        ORIGINAL_REQUEST="implement the user's request"
+    fi
     
     # Check retry count
     RETRY_COUNT_FILE="/tmp/routing-retry-count"
@@ -75,20 +86,12 @@ else
     
     # Progressive retry system with automatic Task tool execution
     if [[ $RETRY_COUNT -le 3 ]]; then
-        # Output retry instruction with automatic Task tool call
+        # Output retry instruction with @agent syntax
         cat << EOF
 {
   "hookSpecificOutput": {
     "hookEventName": "PostToolUse", 
-    "injectedPrompt": "🔄 ROUTING RETRY $RETRY_COUNT/3: No HANDOFF_TOKEN detected. Automatically retrying routing-agent with format requirements."
-  },
-  "toolCall": {
-    "toolName": "Task",
-    "parameters": {
-      "subagent_type": "routing-agent",
-      "description": "Retry routing with format requirements",
-      "prompt": "create a todo application using html, css, js\n\nMANDATORY FORMAT REQUIREMENT: Your response MUST end with these exact two lines:\nHANDOFF_TOKEN: [generate a unique token]\n@[target-agent-name]\n\nThe handoff token must be in format: HANDOFF_TOKEN: [A-Z0-9_]+ and the agent name must start with @"
-    }
+    "injectedPrompt": "🔄 ROUTING RETRY $RETRY_COUNT/3: No HANDOFF_TOKEN detected. Automatically retrying routing-agent with format requirements.\n\n@routing-agent $ORIGINAL_REQUEST\n\nMANDATORY FORMAT REQUIREMENT: Your response MUST end with these exact two lines:\nHANDOFF_TOKEN: [generate a unique token]\n@[target-agent-name]\n\nThe handoff token must be in format: HANDOFF_TOKEN: [A-Z0-9_]+ and the agent name must start with @"
   }
 }
 EOF
@@ -100,15 +103,7 @@ EOF
 {
   "hookSpecificOutput": {
     "hookEventName": "PostToolUse",
-    "injectedPrompt": "❌ ROUTING SYSTEM FAILURE: All retries exhausted ($RETRY_COUNT attempts). Executing fallback direct implementation."
-  },
-  "toolCall": {
-    "toolName": "Task",
-    "parameters": {
-      "subagent_type": "component-implementation-agent",
-      "description": "Direct implementation fallback after routing failure",
-      "prompt": "create a todo application using html, css, js"
-    }
+    "injectedPrompt": "❌ ROUTING SYSTEM FAILURE: All retries exhausted ($RETRY_COUNT attempts). Executing fallback direct implementation.\n\n@component-implementation-agent $ORIGINAL_REQUEST"
   }
 }
 EOF
