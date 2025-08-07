@@ -40,9 +40,10 @@ After months of researching and testing agent coordination problems in my Cursor
 - **Testing:** Can central hub routing eliminate context drift?
 - **Hypothesis:** Routing-agent orchestration will prove more reliable than peer-to-peer communication
 
-**🔒 HANDOFF_TOKEN Validation Hypothesis**
-- **Testing:** Can cryptographic tokens confirm agent comprehension?
-- **Hypothesis:** Progressive retry logic (3 attempts) will eliminate silent failure problems
+**🔒 HANDOFF_TOKEN Validation Hypothesis** 
+- **Status:** PAUSED - Redesigning handoff mechanism 
+- **Issue:** Current token validation approach needs refinement for better agent coordination
+- **Next:** Exploring simplified handoff patterns without explicit token requirements
 
 ---
 
@@ -52,7 +53,9 @@ Research framework for reliable multi-agent coordination.
 
 **Usage:** `@routing-agent your request`
 
-**Core Innovation:** Solves fundamental agent coordination problems through hub-and-spoke pattern, HANDOFF_TOKEN validation, and mandatory quality gates.
+**Core Innovation:** Solves fundamental agent coordination problems through hub-and-spoke pattern, automated routing, and mandatory quality gates.
+
+**Note:** HANDOFF_TOKEN validation is currently disabled while redesigning the handoff mechanism for better reliability.
 
 ## Quick Start
 
@@ -109,7 +112,7 @@ The van-agent ensures your agent ecosystem stays healthy and properly coordinate
 **Central Hub (routing-agent):** Graph-based semantic analysis, JIT context loading
 **Quality Gates:** 6 mandatory gates with no bypass (Planning → Infrastructure → Implementation → Testing → Polish → Completion)
 **Specialized Agents:** Ultra-narrow domain focus (component, feature, infrastructure, testing, polish)
-**Validation:** HANDOFF_TOKEN system with progressive retry
+**Validation:** Progressive retry system (HANDOFF_TOKEN temporarily disabled for redesign)
 
 ### Hub-and-Spoke Coordination Architecture
 
@@ -265,6 +268,6 @@ claude mcp add playwright -s user -- npx -y playwright-mcp-server
 - `.claude/agents/routing-agent.md` - Central hub with graph-based routing
 - `.claude/agents/enhanced-project-manager-agent.md` - 6-gate quality process
 - `.claude/agents/van-maintenance-agent.md` - Agent ecosystem maintenance
-- `.claude/hooks/routing-executor.sh` - HANDOFF_TOKEN validation
+- `.claude/hooks/routing-executor.sh` - Routing validation (HANDOFF_TOKEN disabled)
 
 **Built on**: [cursor-memory-bank](https://github.com/vanzan01/cursor-memory-bank) (2,400+ stars) research into agent coordination problems.
