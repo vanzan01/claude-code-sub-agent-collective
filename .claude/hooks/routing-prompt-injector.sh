@@ -34,12 +34,20 @@ if echo "$TOOL_OUTPUT" | grep -q 'HANDOFF_TOKEN:[[:space:]]*[A-Z0-9_]\+'; then
     
     echo "ROUTING_SUCCESS: Token=$HANDOFF_TOKEN, Target=$TARGET_AGENT" >> /tmp/routing-log.log
     
-    # Output JSON for prompt injection
+    # Output JSON for prompt injection with proper Task tool execution
     cat << EOF
 {
   "hookSpecificOutput": {
     "hookEventName": "PostToolUse",
-    "injectedPrompt": "IMMEDIATE ACTION REQUIRED: You have successfully routed a request and must now execute the handoff. Execute this exact Task tool call immediately:\n\nTask(subagent_type='$TARGET_AGENT', description='Execute routed request', prompt='$ORIGINAL_REQUEST')\n\nDo not respond with explanatory text - execute the Task tool call now."
+    "injectedPrompt": "🎯 ROUTING SUCCESS DETECTED - EXECUTING HANDOFF\n\nHandoff Token: $HANDOFF_TOKEN\nTarget Agent: $TARGET_AGENT\n\nExecuting automatic Task tool call:"
+  },
+  "toolCall": {
+    "toolName": "Task",
+    "parameters": {
+      "subagent_type": "$TARGET_AGENT",
+      "description": "Execute routed request via handoff",
+      "prompt": "$ORIGINAL_REQUEST"
+    }
   }
 }
 EOF
