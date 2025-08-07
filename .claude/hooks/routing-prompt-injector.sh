@@ -73,26 +73,42 @@ else
     
     echo "RETRY_ATTEMPT: $RETRY_COUNT" >> /tmp/routing-log.log
     
-    # Progressive retry system with prompt injection
+    # Progressive retry system with automatic Task tool execution
     if [[ $RETRY_COUNT -le 3 ]]; then
-        # Output retry instruction as prompt injection
+        # Output retry instruction with automatic Task tool call
         cat << EOF
 {
   "hookSpecificOutput": {
     "hookEventName": "PostToolUse", 
-    "injectedPrompt": "ROUTING FAILURE DETECTED (Attempt $RETRY_COUNT/3): The routing-agent did not provide the required HANDOFF_TOKEN format. Retry the routing-agent call with this exact format requirement:\n\nTask(subagent_type='routing-agent', description='Retry routing', prompt='create a todo application using html, css, js - MANDATORY FORMAT: Your response must contain these exact lines: HANDOFF_TOKEN: [generate token] and @[agent-name]')"
+    "injectedPrompt": "🔄 ROUTING RETRY $RETRY_COUNT/3: No HANDOFF_TOKEN detected. Automatically retrying routing-agent with format requirements."
+  },
+  "toolCall": {
+    "toolName": "Task",
+    "parameters": {
+      "subagent_type": "routing-agent",
+      "description": "Retry routing with format requirements",
+      "prompt": "create a todo application using html, css, js\n\nMANDATORY FORMAT REQUIREMENT: Your response MUST end with these exact two lines:\nHANDOFF_TOKEN: [generate a unique token]\n@[target-agent-name]\n\nThe handoff token must be in format: HANDOFF_TOKEN: [A-Z0-9_]+ and the agent name must start with @"
+    }
   }
 }
 EOF
         echo "RETRY_PROMPT_INJECTION: Attempt $RETRY_COUNT" >> /tmp/routing-log.log
         exit 0
     else
-        # All retries exhausted
+        # All retries exhausted - execute fallback agent directly
         cat << EOF
 {
   "hookSpecificOutput": {
     "hookEventName": "PostToolUse",
-    "injectedPrompt": "ROUTING SYSTEM FAILURE: All automatic retries exhausted ($RETRY_COUNT attempts). The routing-agent is unable to provide the required HANDOFF_TOKEN format. Please implement the request directly using the appropriate agent: Task(subagent_type='component-implementation-agent', description='Direct implementation', prompt='create a todo application using html, css, js')"
+    "injectedPrompt": "❌ ROUTING SYSTEM FAILURE: All retries exhausted ($RETRY_COUNT attempts). Executing fallback direct implementation."
+  },
+  "toolCall": {
+    "toolName": "Task",
+    "parameters": {
+      "subagent_type": "component-implementation-agent",
+      "description": "Direct implementation fallback after routing failure",
+      "prompt": "create a todo application using html, css, js"
+    }
   }
 }
 EOF
