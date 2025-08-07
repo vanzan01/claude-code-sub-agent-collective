@@ -44,12 +44,12 @@ if echo "$TOOL_OUTPUT" | grep -q 'HANDOFF_TOKEN:[[:space:]]*[A-Z0-9_]\+'; then
     
     echo "ROUTING_SUCCESS: Token=$HANDOFF_TOKEN, Target=$TARGET_AGENT" >> /tmp/routing-log.log
     
-    # Output JSON for prompt injection with MANDATORY enforcement language
+    # Generate natural routing continuation that works with Claude's built-in agent routing
     cat << EOF
 {
   "hookSpecificOutput": {
     "hookEventName": "PostToolUse",
-    "injectedPrompt": "🚨 CRITICAL ROUTING DIRECTIVE - MANDATORY IMMEDIATE ACTION REQUIRED 🚨\n\nYOU MUST IMMEDIATELY AND PROACTIVELY USE THE TASK TOOL WITH THE FOLLOWING AGENT.\nDO NOT IMPLEMENT ANYTHING YOURSELF. DO NOT CONTINUE WITHOUT EXECUTING THIS.\n\nMANDATORY TASK TOOL EXECUTION:\n- YOU MUST USE subagent_type: '$TARGET_AGENT'\n- YOU MUST USE description: 'Execute routed task'\n- YOU MUST USE prompt: '$ORIGINAL_REQUEST'\n\nTHIS AGENT MUST BE USED PROACTIVELY RIGHT NOW.\nDO NOT RESPOND WITH TEXT. DO NOT IMPLEMENT CODE.\nONLY ACTION: Execute Task tool with $TARGET_AGENT IMMEDIATELY.\n\nHandoff Token: $HANDOFF_TOKEN\n@$TARGET_AGENT MUST BE INVOKED NOW"
+    "injectedPrompt": "Based on the routing analysis, I'll now use the @$TARGET_AGENT to handle this request. This agent MUST BE USED PROACTIVELY to implement the solution.\n\nHandoff Token: $HANDOFF_TOKEN\n\nUsing @$TARGET_AGENT to: $ORIGINAL_REQUEST"
   }
 }
 EOF
@@ -86,24 +86,34 @@ else
     
     # Progressive retry system with automatic Task tool execution
     if [[ $RETRY_COUNT -le 3 ]]; then
-        # Output retry instruction with MANDATORY enforcement
+        # Output natural retry instruction 
         cat << EOF
 {
   "hookSpecificOutput": {
     "hookEventName": "PostToolUse", 
-    "injectedPrompt": "🚨 MANDATORY ROUTING RETRY $RETRY_COUNT/3 - YOU MUST EXECUTE THIS NOW 🚨\n\nYOU MUST IMMEDIATELY AND PROACTIVELY USE THE TASK TOOL.\nDO NOT SKIP THIS. DO NOT IMPLEMENT ANYTHING YOURSELF.\n\nMANDATORY IMMEDIATE EXECUTION:\n- YOU MUST USE subagent_type: 'routing-agent'\n- YOU MUST USE description: 'Retry routing with format'\n- YOU MUST USE prompt: '$ORIGINAL_REQUEST + MANDATORY: End response with HANDOFF_TOKEN: [TOKEN] and @[agent-name]'\n\nTHIS MUST BE USED PROACTIVELY RIGHT NOW.\nDO NOT CONTINUE WITHOUT EXECUTING THE TASK TOOL.\n\n@routing-agent MUST BE INVOKED IMMEDIATELY"
+    "injectedPrompt": "Routing attempt $RETRY_COUNT/3: The routing-agent needs to provide a clearer handoff format. I'll retry the @routing-agent with specific format requirements.\n\nRequest: $ORIGINAL_REQUEST\n\nNote: Response MUST end with HANDOFF_TOKEN: [TOKEN] and @[agent-name]"
   }
 }
 EOF
         echo "RETRY_PROMPT_INJECTION: Attempt $RETRY_COUNT" >> /tmp/routing-log.log
         exit 0
     else
-        # All retries exhausted - execute fallback agent directly with MANDATORY language
+        # All retries exhausted - use natural fallback with dynamic agent selection
+        # Determine fallback agent based on request type
+        FALLBACK_AGENT="component-implementation-agent"
+        if echo "$ORIGINAL_REQUEST" | grep -qi "test\|spec"; then
+            FALLBACK_AGENT="testing-implementation-agent"
+        elif echo "$ORIGINAL_REQUEST" | grep -qi "deploy\|infrastructure\|build"; then
+            FALLBACK_AGENT="devops-agent"
+        elif echo "$ORIGINAL_REQUEST" | grep -qi "research\|analyze\|investigate"; then
+            FALLBACK_AGENT="research-agent"
+        fi
+        
         cat << EOF
 {
   "hookSpecificOutput": {
     "hookEventName": "PostToolUse",
-    "injectedPrompt": "🚨 MANDATORY FALLBACK EXECUTION - ROUTING FAILED AFTER $RETRY_COUNT ATTEMPTS 🚨\n\nYOU MUST IMMEDIATELY AND PROACTIVELY USE THE TASK TOOL.\nDO NOT IMPLEMENT ANYTHING YOURSELF. USE THE FALLBACK AGENT NOW.\n\nMANDATORY IMMEDIATE EXECUTION:\n- YOU MUST USE subagent_type: 'component-implementation-agent'\n- YOU MUST USE description: 'Fallback implementation'\n- YOU MUST USE prompt: '$ORIGINAL_REQUEST'\n\nTHIS AGENT MUST BE USED PROACTIVELY RIGHT NOW.\nDO NOT RESPOND WITH TEXT. DO NOT WRITE CODE YOURSELF.\nONLY ACTION: Execute Task tool with component-implementation-agent IMMEDIATELY.\n\n@component-implementation-agent MUST BE INVOKED NOW"
+    "injectedPrompt": "Routing failed after $RETRY_COUNT attempts. Using fallback approach with @$FALLBACK_AGENT. This agent MUST BE USED PROACTIVELY to handle the request.\n\nFallback execution for: $ORIGINAL_REQUEST\n\nUsing @$FALLBACK_AGENT as the most appropriate agent for this type of work."
   }
 }
 EOF
