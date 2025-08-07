@@ -50,17 +50,21 @@ if echo "$TOOL_OUTPUT" | grep -q 'HANDOFF_TOKEN:[[:space:]]*[A-Z0-9_]\+'; then
         rm -f "$RETRY_COUNT_FILE"
     fi
     
-    # Provide clear, actionable success message with automatic invocation guidance
+    # Provide clear, actionable success message with explicit execution instructions
     echo ""
     echo "🎯 ROUTING SUCCESS: Valid handoff token found ($HANDOFF_TOKEN)"
     echo "📋 TARGET AGENT: $TARGET_AGENT"
     echo "🔄 ROUTING ANALYSIS: $ROUTING_REASON"
     echo ""
-    echo "✅ AUTOMATIC ROUTING INSTRUCTION:"
-    echo "   IMMEDIATELY invoke the Task tool with subagent_type='$TARGET_AGENT'"
-    echo "   Use your original user request as the prompt parameter"
+    echo "🤖 CLAUDE INSTRUCTION: You must now execute the following action:"
     echo ""
-    echo "🚀 NEXT STEP: Execute Task tool now - do not implement directly"
+    echo "EXECUTE_TASK_TOOL:"
+    echo "  subagent_type: $TARGET_AGENT"
+    echo "  description: Implement user request via routing"  
+    echo "  prompt: [USE YOUR ORIGINAL USER REQUEST EXACTLY]"
+    echo ""
+    echo "⚠️  DO NOT implement directly - you must use the Task tool to invoke $TARGET_AGENT"
+    echo "✅ Routing phase complete - proceed to implementation phase"
     echo ""
     
     # Exit with success (code 0) - this ensures no stderr and clear success indication
@@ -93,11 +97,13 @@ else
         case $RETRY_COUNT in
             1)
                 echo "🔄 ROUTING RETRY 1/3: Attempting with basic format reminder" >&2
-                echo "RETRY: Call routing-agent again with this exact prompt addition:" >&2
                 echo "" >&2
-                echo "MANDATORY FORMAT - Your response must contain these exact lines:" >&2
-                echo "HANDOFF_TOKEN: [generate a token]" >&2
-                echo "@[agent-name]" >&2
+                echo "🤖 CLAUDE INSTRUCTION: Retry routing-agent with format correction:" >&2
+                echo "" >&2
+                echo "RETRY_TASK_TOOL:" >&2
+                echo "  subagent_type: routing-agent" >&2
+                echo "  prompt: [ORIGINAL REQUEST] + 'MANDATORY FORMAT - Your response must contain these exact lines: HANDOFF_TOKEN: [generate a token] and @[agent-name]'" >&2
+                echo "" >&2
                 ;;
             2)
                 echo "🔄 ROUTING RETRY 2/3: Attempting with explicit template enforcement" >&2
@@ -111,14 +117,13 @@ else
                 ;;
             3)
                 echo "🔄 ROUTING RETRY 3/3: Final attempt with format skeleton injection" >&2
-                echo "RETRY: Call routing-agent with this exact ending requirement:" >&2
                 echo "" >&2
-                echo "Add to prompt: 'Your response must end with these two lines (fill in the brackets):'" >&2
-                echo "HANDOFF_TOKEN: [YOUR_TOKEN_HERE]" >&2
-                echo "@[AGENT_NAME_HERE]" >&2
+                echo "🤖 CLAUDE INSTRUCTION: Final routing-agent retry with explicit format:" >&2
                 echo "" >&2
-                echo "Replace [YOUR_TOKEN_HERE] with a token like COMP_A1B2" >&2
-                echo "Replace [AGENT_NAME_HERE] with: component-implementation-agent" >&2
+                echo "RETRY_TASK_TOOL:" >&2
+                echo "  subagent_type: routing-agent" >&2
+                echo "  prompt: [ORIGINAL REQUEST] + 'Your response must end with these two lines: HANDOFF_TOKEN: [TOKEN] and @[agent-name]'" >&2
+                echo "" >&2
                 ;;
         esac
         
@@ -131,13 +136,15 @@ else
     else
         # All retries exhausted - escalate to user
         echo "❌ ROUTING FAILURE: All automatic retries exhausted ($RETRY_COUNT attempts)" >&2
-        echo "The routing-agent consistently failed to provide required HANDOFF_TOKEN format." >&2
         echo "" >&2
-        echo "🔄 ESCALATION TO USER REQUIRED:" >&2
-        echo "1. Manual routing decision needed" >&2
-        echo "2. Consider direct agent invocation" >&2
-        echo "3. Or implement task directly if routing continues to fail" >&2
-        echo "⚠️  Automatic retry system has been exhausted" >&2
+        echo "🤖 CLAUDE INSTRUCTION: Routing system failed - inform user:" >&2
+        echo "" >&2
+        echo "ROUTING_FAILED:" >&2
+        echo "  reason: routing-agent unable to provide correct HANDOFF_TOKEN format" >&2
+        echo "  attempts: $RETRY_COUNT retries exhausted" >&2
+        echo "  action_required: manual intervention or direct implementation" >&2
+        echo "" >&2
+        echo "⚠️  Report this routing failure to the user and suggest alternatives" >&2
         
         # Reset retry count for future routing attempts
         rm -f "$RETRY_COUNT_FILE"
