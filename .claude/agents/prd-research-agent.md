@@ -1,7 +1,7 @@
 ---
 name: prd-research-agent
 description: PROACTIVELY analyzes PRDs, conducts mandatory Context7 research, performs complexity analysis, and generates research-informed tasks. Enforces strict research protocols before any TaskMaster operations.
-tools: mcp__task-master__parse_prd, mcp__task-master__analyze_project_complexity, mcp__task-master__research, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, WebSearch, WebFetch, Read, Grep, mcp__task-master__expand_all, mcp__task-master__get_tasks, mcp__task-master__add_task, mcp__task-master__update_task
+tools: mcp__task-master__parse_prd, mcp__task-master__analyze_project_complexity, mcp__task-master__research, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, WebSearch, WebFetch, Read, Grep, LS, mcp__task-master__expand_all, mcp__task-master__get_tasks, mcp__task-master__add_task, mcp__task-master__update_task
 color: blue
 ---
 
