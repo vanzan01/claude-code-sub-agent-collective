@@ -44,12 +44,12 @@ if echo "$TOOL_OUTPUT" | grep -q 'HANDOFF_TOKEN:[[:space:]]*[A-Z0-9_]\+'; then
     
     echo "ROUTING_SUCCESS: Token=$HANDOFF_TOKEN, Target=$TARGET_AGENT" >> /tmp/routing-log.log
     
-    # Output JSON for prompt injection with @agent syntax
+    # Output JSON for prompt injection with MANDATORY enforcement language
     cat << EOF
 {
   "hookSpecificOutput": {
     "hookEventName": "PostToolUse",
-    "injectedPrompt": "🎯 ROUTING SUCCESS DETECTED - EXECUTING HANDOFF\n\nHandoff Token: $HANDOFF_TOKEN\nTarget Agent: $TARGET_AGENT\n\n@$TARGET_AGENT $ORIGINAL_REQUEST"
+    "injectedPrompt": "🚨 CRITICAL ROUTING DIRECTIVE - MANDATORY IMMEDIATE ACTION REQUIRED 🚨\n\nYOU MUST IMMEDIATELY AND PROACTIVELY USE THE TASK TOOL WITH THE FOLLOWING AGENT.\nDO NOT IMPLEMENT ANYTHING YOURSELF. DO NOT CONTINUE WITHOUT EXECUTING THIS.\n\nMANDATORY TASK TOOL EXECUTION:\n- YOU MUST USE subagent_type: '$TARGET_AGENT'\n- YOU MUST USE description: 'Execute routed task'\n- YOU MUST USE prompt: '$ORIGINAL_REQUEST'\n\nTHIS AGENT MUST BE USED PROACTIVELY RIGHT NOW.\nDO NOT RESPOND WITH TEXT. DO NOT IMPLEMENT CODE.\nONLY ACTION: Execute Task tool with $TARGET_AGENT IMMEDIATELY.\n\nHandoff Token: $HANDOFF_TOKEN\n@$TARGET_AGENT MUST BE INVOKED NOW"
   }
 }
 EOF
@@ -86,24 +86,24 @@ else
     
     # Progressive retry system with automatic Task tool execution
     if [[ $RETRY_COUNT -le 3 ]]; then
-        # Output retry instruction with @agent syntax
+        # Output retry instruction with MANDATORY enforcement
         cat << EOF
 {
   "hookSpecificOutput": {
     "hookEventName": "PostToolUse", 
-    "injectedPrompt": "🔄 ROUTING RETRY $RETRY_COUNT/3: No HANDOFF_TOKEN detected. Automatically retrying routing-agent with format requirements.\n\n@routing-agent $ORIGINAL_REQUEST\n\nMANDATORY FORMAT REQUIREMENT: Your response MUST end with these exact two lines:\nHANDOFF_TOKEN: [generate a unique token]\n@[target-agent-name]\n\nThe handoff token must be in format: HANDOFF_TOKEN: [A-Z0-9_]+ and the agent name must start with @"
+    "injectedPrompt": "🚨 MANDATORY ROUTING RETRY $RETRY_COUNT/3 - YOU MUST EXECUTE THIS NOW 🚨\n\nYOU MUST IMMEDIATELY AND PROACTIVELY USE THE TASK TOOL.\nDO NOT SKIP THIS. DO NOT IMPLEMENT ANYTHING YOURSELF.\n\nMANDATORY IMMEDIATE EXECUTION:\n- YOU MUST USE subagent_type: 'routing-agent'\n- YOU MUST USE description: 'Retry routing with format'\n- YOU MUST USE prompt: '$ORIGINAL_REQUEST + MANDATORY: End response with HANDOFF_TOKEN: [TOKEN] and @[agent-name]'\n\nTHIS MUST BE USED PROACTIVELY RIGHT NOW.\nDO NOT CONTINUE WITHOUT EXECUTING THE TASK TOOL.\n\n@routing-agent MUST BE INVOKED IMMEDIATELY"
   }
 }
 EOF
         echo "RETRY_PROMPT_INJECTION: Attempt $RETRY_COUNT" >> /tmp/routing-log.log
         exit 0
     else
-        # All retries exhausted - execute fallback agent directly
+        # All retries exhausted - execute fallback agent directly with MANDATORY language
         cat << EOF
 {
   "hookSpecificOutput": {
     "hookEventName": "PostToolUse",
-    "injectedPrompt": "❌ ROUTING SYSTEM FAILURE: All retries exhausted ($RETRY_COUNT attempts). Executing fallback direct implementation.\n\n@component-implementation-agent $ORIGINAL_REQUEST"
+    "injectedPrompt": "🚨 MANDATORY FALLBACK EXECUTION - ROUTING FAILED AFTER $RETRY_COUNT ATTEMPTS 🚨\n\nYOU MUST IMMEDIATELY AND PROACTIVELY USE THE TASK TOOL.\nDO NOT IMPLEMENT ANYTHING YOURSELF. USE THE FALLBACK AGENT NOW.\n\nMANDATORY IMMEDIATE EXECUTION:\n- YOU MUST USE subagent_type: 'component-implementation-agent'\n- YOU MUST USE description: 'Fallback implementation'\n- YOU MUST USE prompt: '$ORIGINAL_REQUEST'\n\nTHIS AGENT MUST BE USED PROACTIVELY RIGHT NOW.\nDO NOT RESPOND WITH TEXT. DO NOT WRITE CODE YOURSELF.\nONLY ACTION: Execute Task tool with component-implementation-agent IMMEDIATELY.\n\n@component-implementation-agent MUST BE INVOKED NOW"
   }
 }
 EOF
