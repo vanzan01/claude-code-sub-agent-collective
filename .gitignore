@@ -65,6 +65,8 @@ test-*
 *-test.log
 maintenance-test.log
 test-backups/
+collective-metrics.log
+delegation-test.log
 
 # AI documentation and strategizing (PRIVATE)
 ai-docs/
@@ -85,6 +87,11 @@ ai-docs/
 implementation/
 coverage/
 maintenance-reports/
+
+# NPX package test artifacts  
+claude-code-collective/.test-metrics*
+claude-code-collective/.claude-collective/metrics/sessions/
+claude-code-collective/.claude-collective/metrics/snapshots/
 
 /review/*
 

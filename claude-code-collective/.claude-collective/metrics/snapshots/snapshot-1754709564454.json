@@ -1,1 +1,0 @@
-{"timestamp":1754709564454,"sessionId":"1754709504373","metrics":[{"id":"1754709504634-mai9c8tub","sessionId":"1754709504373","timestamp":1754709504634,"eventType":"agent_spawn_success","data":{"agentId":"quick-agent-175-base-me3oqezu-6uek","templateId":"base","spawnTime":17,"purpose":"\"Command interface test\""},"metadata":{"version":"1.0.0","collector":"MetricsCollector"}}]}
