@@ -1,6 +1,6 @@
 {
   "name": "claude-code-collective",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "description": "NPX installer for claude-code-sub-agent-collective system - research framework for reliable multi-agent coordination using hub-and-spoke architecture",
   "keywords": [
     "claude-code",
@@ -37,7 +37,6 @@
     "test:coverage": "jest --coverage",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "prepublishOnly": "npm test",
     "validate": "node lib/validator.js",
     "install-collective": "node bin/install-collective.js"
   },

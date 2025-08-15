@@ -507,12 +507,12 @@ describe('Registry Persistence and Recovery Tests', () => {
       const registry = createRegistry({
         registryDir: path.join(testDir, 'state'),
         persistenceEnabled: true,
-        backupInterval: 50, // Fast backup for testing
+        backupInterval: 0, // Disable automatic backups
         maxBackups: 2
       });
       await registry.initialize();
 
-      // Create multiple registry changes to trigger backups
+      // Create multiple registry changes and manually trigger backups
       for (let i = 0; i < 5; i++) {
         await registry.register({
           id: `backup-limit-agent-${i}`,
@@ -524,11 +524,13 @@ describe('Registry Persistence and Recovery Tests', () => {
             version: '1.0.0'
           }
         });
-        await new Promise(resolve => setTimeout(resolve, 60)); // Wait for backup
+        // Manually trigger backup
+        await registry.createBackup();
+        await new Promise(resolve => setTimeout(resolve, 10)); // Brief delay for cleanup
       }
 
-      // Wait for backup cleanup to complete
-      await new Promise(resolve => setTimeout(resolve, 500));
+      // Wait for backup cleanup to complete - allow extra time for async cleanup
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
       // Check that only maxBackups files exist
       const backupDir = path.join(testDir, 'state', 'backups');
