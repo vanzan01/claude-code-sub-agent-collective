@@ -1,0 +1,25 @@
+{
+  "name": "claude-collective-tests",
+  "version": "1.0.0",
+  "description": "Test framework for claude-code-sub-agent-collective system validation",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:jest": "jest",
+    "test:jest:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:contracts": "jest --testPathPattern=contracts",
+    "test:handoffs": "jest --testPathPattern=handoffs",
+    "test:agents": "jest --testPathPattern=agents",
+    "metrics:report": "node metrics-report.js"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-junit": "^16.0.0",
+    "vitest": "^3.2.4",
+    "@vitest/ui": "^3.2.4"
+  },
+  "dependencies": {
+    "fs-extra": "^11.3.1"
+  }
+}

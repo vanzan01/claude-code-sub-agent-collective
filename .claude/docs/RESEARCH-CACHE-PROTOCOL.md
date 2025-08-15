@@ -1,21 +1,35 @@
-# Research Cache Protocol
+# Dual Research System Protocol
 
 ## Overview
-This protocol prevents redundant Context7 research calls by implementing a cache-first research system across all agents using TaskMaster's existing `.taskmaster/docs/research/` directory.
+This protocol optimizes research quality by combining **Context7** (official documentation) with **TaskMaster Research** (Claude's web research capabilities) while implementing intelligent caching to prevent redundant calls. All research is cached in TaskMaster's `.taskmaster/docs/research/` directory.
+
+## Dual Research Strategy
+
+### Research Tool Responsibilities
+| Tool | Purpose | Strengths | When to Use |
+|------|---------|-----------|-------------|
+| **Context7** | Official library documentation | • Authoritative API docs<br>• Current version info<br>• Official examples<br>• Configuration patterns | • Getting API references<br>• Understanding official patterns<br>• Version-specific features |
+| **TaskMaster Research** | Industry best practices via Claude web | • Current trends<br>• Real-world patterns<br>• Community insights<br>• Comparative analysis | • Best practice research<br>• Implementation strategies<br>• Technology comparisons<br>• Architectural decisions |
+
+### Combined Research Workflow
+1. **Context7 First**: Get official documentation and API references
+2. **TaskMaster Research**: Gather industry best practices and real-world insights  
+3. **Synthesis**: Combine both sources into comprehensive research documents
+4. **Cache**: Store combined findings for reuse
 
 ## Cache Structure
 ```
 .taskmaster/docs/research/
-├── 2025-07-31_tailwind-v4-syntax-patterns.md
-├── 2025-07-31_react-18-vite-typescript-architecture.md
-├── 2025-07-31_shadcn-ui-v4-component-system.md
+├── 2025-01-13_react-state-management-patterns.md     # Combined Context7 + TaskMaster
+├── 2025-01-13_tailwind-v4-implementation-guide.md   # Combined research
+├── 2025-01-13_vite-react-typescript-setup.md        # Dual source research
 └── ...
 ```
 
 ## Cache Freshness Rules
-- **Fresh**: < 7 days old → REUSE without Context7 call
-- **Stale**: 7+ days old → Context7 refresh required  
-- **Missing**: No cache file → Context7 research required
+- **Fresh**: < 7 days old → REUSE without new research calls
+- **Stale**: 7+ days old → Refresh both Context7 and TaskMaster research  
+- **Missing**: No cache file → Execute full dual research workflow
 
 ## Agent Responsibilities
 
@@ -44,7 +58,7 @@ for (library of libraries) {
 ```
 
 ### 2. Research Agent  
-**BEFORE** Context7 calls:
+**Dual Research Execution**:
 ```javascript
 // Check cache first
 const cacheFiles = Grep(pattern: libraryName, path: ".taskmaster/docs/research/");
@@ -53,18 +67,26 @@ if (cacheFiles.length > 0) {
   const cacheContent = Read(cacheFiles[0]);
   const fileDate = extractDateFromFilename(cacheFiles[0]);
   
-  if (isFileeFresh(fileDate, 7)) {
-    // Use cached research, skip Context7
+  if (isFileFresh(fileDate, 7)) {
+    // Use cached research, skip both research calls
     return cacheContent;
   }
 }
 
-// Only call Context7 if cache miss or stale
-mcp__context7__resolve-library-id(libraryName);
-mcp__context7__get-library-docs(resolvedId);
+// Execute dual research for fresh/missing cache
+// Step 1: Context7 for official documentation
+const context7Id = mcp__context7__resolve-library-id(libraryName);
+const officialDocs = mcp__context7__get-library-docs(context7Id, topic="implementation");
 
-// Save new research to cache
-mcp__task-master__research(query, saveToFile: true);
+// Step 2: TaskMaster for best practices and trends  
+const industryResearch = mcp__task-master__research(
+  query: `${libraryName} best practices, implementation patterns, and current industry trends`,
+  projectRoot: projectPath,
+  saveToFile: true
+);
+
+// Step 3: Create combined research document
+const combinedResearch = synthesizeResearch(officialDocs, industryResearch);
 ```
 
 ### 3. Implementation Agent
@@ -83,32 +105,88 @@ if (task.research_requirements?.cache_files) {
 }
 ```
 
-## Cache File Format
-Standard format for research cache files:
+## Dual Research Document Format
+Standard format for combined research cache files:
 ```markdown
 ---
-title: Research Session
-library: tailwind-css
-version: v4.1.11
-query: "Tailwind CSS v4 syntax patterns import configuration"
-date: 2025-07-31
-timestamp: 2025-07-31T04:25:50.501Z
+title: React State Management Research
+library: react
+query: "React state management patterns for large applications"
+date: 2025-01-13
+timestamp: 2025-01-13T15:42:30.123Z
+sources: ["context7", "taskmaster-web"]
+research_tools: ["mcp__context7__get-library-docs", "mcp__task-master__research"]
 ---
 
-# Tailwind CSS v4 Research Findings
+# React State Management Research
 
-## Current Version Syntax
-- Import: `@import "tailwindcss";` (NOT @tailwind directives)
-- Plugin: `@tailwindcss/vite` required for Vite
-- Config: components.json with empty tailwind.config field
+## Official Documentation (Context7)
+> Source: React official documentation and API references
 
-## Breaking Changes from v3
-- Removed @tailwind base/components/utilities
-- New @theme {} inline syntax for CSS variables
-- Different PostCSS plugin name: '@tailwindcss/postcss'
+### Current API Patterns
+- useState for local component state
+- useReducer for complex state logic
+- useContext for prop drilling solutions
+- Built-in state management patterns
 
-## Implementation Guidance
-[Detailed implementation patterns...]
+### Official Recommendations
+- Start with useState and useReducer
+- Context for deeply nested props only
+- External libraries for complex global state
+
+## Industry Best Practices (TaskMaster/Claude Web)
+> Source: Current industry trends and community insights
+
+### Current Community Trends (2025)
+- Zustand gaining popularity for simplicity
+- Redux Toolkit still dominant for enterprise
+- React Query/TanStack Query for server state
+- Jotai for atomic state management
+
+### Real-World Implementation Patterns
+- State co-location principle
+- Separate server state from client state
+- Custom hooks for state logic encapsulation
+- Performance optimization strategies
+
+## Synthesized Recommendations
+
+### For Large Applications
+1. **State Architecture**: Separate server state (React Query) from client state
+2. **Local State**: useState/useReducer for component-level state
+3. **Global State**: Redux Toolkit for complex business logic, Zustand for simple global state
+4. **Performance**: Use React.memo, useMemo, useCallback strategically
+
+### Implementation Strategy
+```typescript
+// Recommended state architecture
+// 1. Server state with React Query
+const { data, isLoading } = useQuery(['users'], fetchUsers);
+
+// 2. Global client state with Zustand
+const useAppStore = create((set) => ({
+  theme: 'light',
+  toggleTheme: () => set((state) => ({ theme: state.theme === 'light' ? 'dark' : 'light' }))
+}));
+
+// 3. Local component state with useState
+const [localData, setLocalData] = useState(null);
+```
+
+### Migration Path
+- Phase 1: Implement React Query for server state
+- Phase 2: Consolidate client state with chosen solution
+- Phase 3: Optimize performance with React optimization hooks
+
+## Context7 Source Details
+- Library ID: /facebook/react
+- Documentation Version: 18.2.0
+- API Coverage: Hooks, Context, Performance
+
+## TaskMaster Research Context
+- Project Type: Large-scale application
+- Query Focus: State management patterns
+- Research Scope: Architecture and best practices
 ```
 
 ## Cache Validation Rules

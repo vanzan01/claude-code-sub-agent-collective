@@ -1,0 +1,29 @@
+{
+  "name": "{{PROJECT_NAME}}-collective-tests",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Testing framework for claude-code-sub-agent-collective",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:handoffs": "jest --testPathPattern=handoffs",
+    "test:directives": "jest --testPathPattern=directives",
+    "test:contracts": "jest --testPathPattern=contracts",
+    "metrics": "node lib/metrics.js",
+    "report": "node lib/report.js"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.10"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "roots": ["<rootDir>/tests"],
+    "testMatch": ["**/?(*.)+(spec|test).js"],
+    "collectCoverageFrom": ["tests/**/*.js"],
+    "coverageDirectory": "coverage",
+    "verbose": true,
+    "testTimeout": 10000
+  }
+}

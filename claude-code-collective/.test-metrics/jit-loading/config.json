@@ -1,0 +1,33 @@
+{
+  "hypotheses": {
+    "h1_jitLoading": {
+      "name": "JIT Context Loading",
+      "description": "On-demand context loading is more efficient than preloading",
+      "targetReduction": 0.3,
+      "confidenceThreshold": 0.95
+    },
+    "h2_hubSpoke": {
+      "name": "Hub-and-Spoke Coordination",
+      "description": "Centralized routing outperforms distributed communication",
+      "targetCompliance": 0.9,
+      "confidenceThreshold": 0.95
+    },
+    "h3_tddHandoffs": {
+      "name": "Test-Driven Development Handoffs",
+      "description": "Contract-based handoffs improve quality and reduce errors",
+      "targetSuccessRate": 0.8,
+      "confidenceThreshold": 0.95
+    }
+  },
+  "collection": {
+    "bufferSize": 100,
+    "flushInterval": 30000,
+    "enableValidation": true,
+    "enableCompression": true
+  },
+  "analysis": {
+    "minSampleSize": 30,
+    "confidenceLevel": 0.95,
+    "significanceLevel": 0.05
+  }
+}

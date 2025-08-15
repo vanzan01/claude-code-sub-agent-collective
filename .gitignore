@@ -59,9 +59,12 @@ coverage/
 tmp/
 temp/
 
-# Task files
-tasks.json
-tasks/
+# Test artifacts and backups
+*.backup
+test-*
+*-test.log
+maintenance-test.log
+test-backups/
 
 # AI documentation and strategizing (PRIVATE)
 ai-docs/
@@ -78,4 +81,16 @@ ai-docs/
 *.tar.gz
 *.rar
 
+# Development and testing directories
+implementation/
+coverage/
+maintenance-reports/
+
 /review/*
+
+.vscode
+# OS specific
+
+# Task files
+# tasks.json
+# tasks/ 

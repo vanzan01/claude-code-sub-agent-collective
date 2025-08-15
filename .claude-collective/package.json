@@ -1,0 +1,21 @@
+{
+  "name": "claude-collective-tests",
+  "version": "1.0.0",
+  "description": "Test framework for claude-code-sub-agent-collective system validation",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:contracts": "jest --testPathPattern=contracts",
+    "test:handoffs": "jest --testPathPattern=handoffs",
+    "test:agents": "jest --testPathPattern=agents",
+    "metrics:report": "node metrics-report.js"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-junit": "^16.0.0"
+  },
+  "dependencies": {
+    "fs-extra": "^11.1.1"
+  }
+}

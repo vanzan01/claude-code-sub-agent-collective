@@ -1,34 +1,102 @@
 {
   "hooks": {
-    "PreToolUse": [
+    "SessionStart": [
       {
-        "matcher": "Edit",
+        "matcher": "startup",
         "hooks": [
           {
             "type": "command",
-            "command": "echo ''; echo '✅ EDIT OPERATION DETECTED'; echo '📋 FILE MODIFICATION: Preparing to edit file'; echo '🎯 STATUS: Edit operation starting'; echo ''"
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/load-behavioral-system.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/load-behavioral-system.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/load-behavioral-system.sh"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/directive-enforcer.sh"
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/collective-metrics.sh"
+          }
+        ]
+      },
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/collective-metrics.sh"
           }
         ]
       }
     ],
     "PostToolUse": [
       {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/collective-metrics.sh"
+          }
+        ]
+      },
+      {
         "matcher": "Task",
         "hooks": [
           {
             "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/routing-executor.sh"
+            "command": ".claude/hooks/routing-executor.sh"
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/collective-metrics.sh"
           }
         ]
       }
     ],
     "SubagentStop": [
       {
-        "matcher": "*",
+        "matcher": ".*-agent$",
         "hooks": [
           {
             "type": "command",
-            "command": "echo ''; echo '✅ SUBAGENT COMPLETION DETECTED'; echo '📋 AGENT RESPONSE: Subagent task completed successfully'; echo '🎯 STATUS: Ready for next operation'; echo ''"
+            "command": ".claude/hooks/test-driven-handoff.sh"
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/collective-metrics.sh"
+          }
+        ]
+      },
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/collective-metrics.sh"
           }
         ]
       }

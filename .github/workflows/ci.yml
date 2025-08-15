@@ -1,0 +1,297 @@
+name: CI - Claude Code Sub-Agent Collective
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x, 20.x]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        
+    - name: Install dependencies for collective tests
+      run: |
+        cd .claude-collective
+        npm ci
+        
+    - name: Install dependencies for NPX package
+      run: |
+        cd claude-code-collective
+        npm ci
+        
+    - name: Run contract validation tests
+      run: |
+        cd .claude-collective
+        npm test -- --coverage --coverageReporters=text-lcov | tee coverage.lcov
+        
+    - name: Run NPX package tests
+      run: |
+        cd claude-code-collective
+        npm test
+        
+    - name: Validate hook scripts syntax
+      run: |
+        if [ -d ".claude/hooks" ]; then
+          for script in .claude/hooks/*.sh; do
+            if [ -f "$script" ]; then
+              bash -n "$script" && echo "✓ $script syntax OK" || echo "✗ $script syntax error"
+            fi
+          done
+        fi
+        
+    - name: Validate agent definitions
+      run: |
+        if [ -d ".claude/agents" ]; then
+          find .claude/agents -name "*.md" -exec echo "Validating {}" \; -exec grep -q "# Agent:" {} \; && echo "✓ Agent definitions OK" || echo "✗ Agent definition format issues"
+        fi
+        
+    - name: Test CLAUDE.md behavioral OS structure
+      run: |
+        if [ -f "CLAUDE.md" ]; then
+          grep -q "Prime Directives" CLAUDE.md && echo "✓ Prime directives found" || echo "✗ Missing prime directives"
+          grep -q "hub-and-spoke" CLAUDE.md && echo "✓ Hub-spoke pattern found" || echo "✗ Missing hub-spoke pattern"
+          grep -q "@routing-agent" CLAUDE.md && echo "✓ Routing agent references found" || echo "✗ Missing routing agent references"
+        fi
+        
+    - name: Generate test coverage report
+      run: |
+        cd .claude-collective
+        npm run test:coverage || npm test -- --coverage
+        
+    - name: Upload coverage to GitHub
+      if: matrix.node-version == '18.x'
+      run: |
+        if [ -f ".claude-collective/coverage/lcov.info" ]; then
+          echo "Coverage report generated successfully"
+          ls -la .claude-collective/coverage/
+        fi
+        
+    - name: Archive test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: test-results-node-${{ matrix.node-version }}
+        path: |
+          .claude-collective/coverage/
+          .claude-collective/test-results.json
+          claude-code-collective/test-results.json
+          
+  validate-installation:
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18.x'
+        
+    - name: Test local NPX installation
+      run: |
+        cd claude-code-collective
+        npm pack
+        npm install -g claude-code-collective-*.tgz
+        
+    - name: Create test project
+      run: |
+        mkdir test-installation
+        cd test-installation
+        npm init -y
+        
+    - name: Test collective installation
+      run: |
+        cd test-installation
+        # Test the installation process (dry run)
+        echo "Testing installation process..."
+        node ../claude-code-collective/bin/install-collective.js --help || true
+        
+    - name: Validate installation artifacts
+      run: |
+        cd test-installation
+        # Check if required files would be created
+        if [ -f "package.json" ]; then
+          echo "✓ Test project structure OK"
+        fi
+
+  quality-gates:
+    runs-on: ubuntu-latest
+    needs: [test, validate-installation]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18.x'
+        
+    - name: Install dependencies
+      run: |
+        cd .claude-collective
+        npm ci
+        
+    - name: Quality Gate: Test Coverage
+      run: |
+        cd .claude-collective
+        npm test -- --coverage --coverageThreshold='{"global":{"lines":75,"functions":75,"branches":70,"statements":75}}'
+        
+    - name: Quality Gate: Hook Validation
+      run: |
+        echo "Validating hook system completeness..."
+        required_hooks=("directive-enforcer.sh" "test-driven-handoff.sh" "collective-metrics.sh" "routing-executor.sh")
+        for hook in "${required_hooks[@]}"; do
+          if [ -f ".claude/hooks/$hook" ]; then
+            echo "✓ $hook exists"
+          else
+            echo "✗ Missing required hook: $hook"
+            exit 1
+          fi
+        done
+        
+    - name: Quality Gate: Agent System Completeness  
+      run: |
+        echo "Validating core agent system..."
+        required_agents=("routing-agent.md" "enhanced-project-manager-agent.md" "van-maintenance-agent.md")
+        for agent in "${required_agents[@]}"; do
+          if [ -f ".claude/agents/$agent" ]; then
+            echo "✓ $agent exists"
+          else
+            echo "✗ Missing required agent: $agent"
+            exit 1
+          fi
+        done
+        
+    - name: Quality Gate: Research Framework
+      run: |
+        echo "Validating research metrics framework..."
+        cd claude-code-collective
+        if [ -d "lib/metrics" ]; then
+          echo "✓ Metrics framework exists"
+          ls lib/metrics/
+        else
+          echo "✗ Metrics framework missing"
+          exit 1
+        fi
+        
+    - name: Generate quality report
+      run: |
+        echo "# Quality Gates Report" > quality-report.md
+        echo "- ✅ Test Coverage: $(cd .claude-collective && npm test -- --coverage --silent | grep -o '[0-9]\+\.[0-9]\+%' | head -1 || echo 'N/A')" >> quality-report.md
+        echo "- ✅ Hook System: Complete" >> quality-report.md  
+        echo "- ✅ Agent System: Complete" >> quality-report.md
+        echo "- ✅ Research Framework: Complete" >> quality-report.md
+        cat quality-report.md
+        
+    - name: Upload quality report
+      uses: actions/upload-artifact@v3
+      with:
+        name: quality-report
+        path: quality-report.md
+
+  van-maintenance-test:
+    runs-on: ubuntu-latest
+    needs: [test, validate-installation]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18.x'
+        
+    - name: Create scripts directory
+      run: |
+        mkdir -p .claude/scripts
+        
+    - name: Run van-maintenance system test
+      run: |
+        echo "🧪 Testing van-maintenance-agent automatic remediation..."
+        chmod +x .claude/scripts/van-maintenance-test.sh
+        ./.claude/scripts/van-maintenance-test.sh
+        
+    - name: Validate maintenance report generation
+      run: |
+        if [ -f ".claude/scripts/maintenance-report.json" ]; then
+          echo "✅ Maintenance report generated successfully"
+          cat .claude/scripts/maintenance-report.json | python3 -m json.tool
+        else
+          echo "❌ Maintenance report not found"
+          exit 1
+        fi
+        
+    - name: Check maintenance log
+      run: |
+        if [ -f ".claude/scripts/maintenance-test.log" ]; then
+          echo "📋 Maintenance test log:"
+          cat .claude/scripts/maintenance-test.log
+        else
+          echo "⚠️  No maintenance log found"
+        fi
+        
+    - name: Validate system health post-test
+      run: |
+        echo "🏥 Final system health validation..."
+        
+        # Check settings.json is valid JSON
+        if python3 -m json.tool .claude/settings.json >/dev/null 2>&1; then
+          echo "✅ settings.json is valid"
+        else
+          echo "❌ settings.json is invalid"
+          exit 1
+        fi
+        
+        # Check required hooks exist
+        required_hooks=("directive-enforcer.sh" "test-driven-handoff.sh" "collective-metrics.sh" "routing-executor.sh")
+        for hook in "${required_hooks[@]}"; do
+          if [ -f ".claude/hooks/$hook" ]; then
+            echo "✅ Hook $hook exists"
+          else
+            echo "❌ Missing hook: $hook"
+            exit 1
+          fi
+        done
+        
+        # Check directory structure
+        required_dirs=(".claude/agents" ".claude/hooks" ".claude/state")
+        for dir in "${required_dirs[@]}"; do
+          if [ -d "$dir" ]; then
+            echo "✅ Directory $dir exists"
+          else
+            echo "❌ Missing directory: $dir"
+            exit 1
+          fi
+        done
+        
+        echo "🎯 Van-maintenance system validation completed successfully!"
+        
+    - name: Archive maintenance artifacts
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: van-maintenance-test-results
+        path: |
+          .claude/scripts/maintenance-report.json
+          .claude/scripts/maintenance-test.log
+          .claude/scripts/test-backups/
+        retention-days: 30

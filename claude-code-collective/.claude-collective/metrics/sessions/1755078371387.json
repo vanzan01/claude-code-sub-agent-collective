@@ -1,0 +1,13 @@
+{
+  "sessionId": "1755078371387",
+  "startTime": 1755078371387,
+  "endTime": 1755078375000,
+  "duration": 3613,
+  "metricsCollected": 0,
+  "finalState": {
+    "bufferSize": 0,
+    "isInitialized": true,
+    "sessionId": "1755078371387",
+    "uptime": 3636
+  }
+}

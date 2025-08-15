@@ -1,0 +1,70 @@
+{
+  "name": "claude-code-collective",
+  "version": "1.0.6",
+  "description": "NPX installer for claude-code-sub-agent-collective system - research framework for reliable multi-agent coordination using hub-and-spoke architecture",
+  "keywords": [
+    "claude-code",
+    "sub-agents",
+    "collective",
+    "multi-agent",
+    "coordination",
+    "hub-and-spoke",
+    "context-engineering",
+    "test-driven-handoffs",
+    "ai-development",
+    "orchestration"
+  ],
+  "homepage": "https://github.com/vanzan01/claude-code-sub-agent-collective#claude-code-collective",
+  "bugs": {
+    "url": "https://github.com/vanzan01/claude-code-sub-agent-collective/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vanzan01/claude-code-sub-agent-collective.git",
+    "directory": "claude-code-collective"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Vanzan01",
+    "url": "https://github.com/vanzan01"
+  },
+  "main": "lib/index.js",
+  "bin": {
+    "claude-code-collective": "bin/install-collective.js"
+  },
+  "scripts": {
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "prepublishOnly": "npm test",
+    "validate": "node lib/validator.js",
+    "install-collective": "node bin/install-collective.js"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^9.4.1",
+    "enquirer": "^2.4.1",
+    "fs-extra": "^11.1.1",
+    "handlebars": "^4.7.8",
+    "inquirer": "^8.2.6",
+    "ora": "^5.4.1",
+    "semver": "^7.5.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.50.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.0.3"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "templates/",
+    "docs/README.md"
+  ],
+  "preferGlobal": false
+}
