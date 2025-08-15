@@ -60,17 +60,31 @@ global.testUtils = {
 
 // Set up test directories
 const testTempDir = path.join(__dirname, 'temp');
-beforeEach(() => {
+beforeEach(async () => {
   if (fs.existsSync(testTempDir)) {
-    fs.removeSync(testTempDir);
+    try {
+      await fs.remove(testTempDir);
+    } catch (error) {
+      // Retry once if directory removal fails
+      setTimeout(() => {
+        if (fs.existsSync(testTempDir)) {
+          fs.removeSync(testTempDir);
+        }
+      }, 100);
+    }
   }
   fs.ensureDirSync(testTempDir);
 });
 
-afterEach(() => {
+afterEach(async () => {
   global.testUtils.cleanup();
   if (fs.existsSync(testTempDir)) {
-    fs.removeSync(testTempDir);
+    try {
+      await fs.remove(testTempDir);
+    } catch (error) {
+      // Ignore cleanup errors in tests
+      console.warn('Test cleanup warning:', error.message);
+    }
   }
 });
 

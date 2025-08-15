@@ -2,7 +2,7 @@
 // Contract validation system tests
 // Tests the TestContractValidator integration
 
-const TestContractValidator = require('../../../claude-code-collective/lib/TestContractValidator');
+const TestContractValidator = require('../../lib/TestContractValidator');
 const fs = require('fs-extra');
 const path = require('path');
 

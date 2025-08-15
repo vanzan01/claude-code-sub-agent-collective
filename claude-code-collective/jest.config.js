@@ -25,10 +25,6 @@ module.exports = {
   
   // Test result processors
   reporters: [
-    'default',
-    ['jest-junit', {
-      outputDirectory: 'coverage',
-      outputName: 'junit.xml'
-    }]
+    'default'
   ]
 };
