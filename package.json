@@ -1,0 +1,56 @@
+{
+  "name": "claude-code-collective",
+  "version": "2.0.4",
+  "description": "Sub-agent collective framework for Claude Code with TDD validation, TaskMaster Task ID integration, hub-spoke coordination, and deterministic handoffs",
+  "main": "lib/index.js",
+  "bin": {
+    "claude-code-collective": "./bin/claude-code-collective.js"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:jest": "jest",
+    "test:jest:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:contracts": "jest --testPathPattern=contracts",
+    "test:handoffs": "jest --testPathPattern=handoffs",
+    "test:agents": "jest --testPathPattern=agents",
+    "metrics:report": "node lib/metrics/index.js",
+    "install-collective": "node lib/installer.js",
+    "validate": "node lib/validator.js"
+  },
+  "keywords": [
+    "claude-code",
+    "sub-agent",
+    "collective",
+    "tdd",
+    "automation",
+    "ai-agents",
+    "hub-spoke",
+    "handoffs"
+  ],
+  "author": "Claude Code Sub-Agent Collective",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anthropics/claude-code-sub-agent-collective.git"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-junit": "^16.0.0",
+    "vitest": "^3.2.4",
+    "@vitest/ui": "^3.2.4"
+  },
+  "dependencies": {
+    "fs-extra": "^11.3.1",
+    "chalk": "^4.1.2",
+    "inquirer": "^8.2.0",
+    "enquirer": "^2.3.6",
+    "handlebars": "^4.7.7",
+    "commander": "^11.0.0",
+    "deepmerge": "^4.3.1"
+  }
+}
