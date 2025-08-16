@@ -47,18 +47,18 @@ jobs:
     - name: Validate directive enforcement
       run: |
         # Test that directive enforcer exists and is executable
-        test -x .claude/hooks/directive-enforcer.sh
+        test -x templates/.claude/hooks/directive-enforcer.sh
         echo "✅ Directive enforcer is executable"
         
         # Test basic directive patterns
         echo "Testing directive enforcement patterns..."
         
         # Should pass (no violations)
-        echo "normal file operation" | USER_PROMPT="normal file operation" TOOL_NAME="Write" .claude/hooks/directive-enforcer.sh
+        echo "normal file operation" | USER_PROMPT="normal file operation" TOOL_NAME="Write" templates/.claude/hooks/directive-enforcer.sh
         echo "✅ Normal operations pass"
         
         # Should fail (direct implementation)
-        if echo "implement new login function" | USER_PROMPT="implement new login function" TOOL_NAME="Write" .claude/hooks/directive-enforcer.sh 2>/dev/null; then
+        if echo "implement new login function" | USER_PROMPT="implement new login function" TOOL_NAME="Write" templates/.claude/hooks/directive-enforcer.sh 2>/dev/null; then
           echo "❌ DIRECTIVE 1 failed - should have blocked direct implementation"
           exit 1
         else
@@ -66,7 +66,7 @@ jobs:
         fi
         
         # Should fail (peer-to-peer routing)
-        if echo "send from @agent-a to @agent-b directly" | USER_PROMPT="send from @agent-a to @agent-b directly" TOOL_NAME="Write" .claude/hooks/directive-enforcer.sh 2>/dev/null; then
+        if echo "send from @agent-a to @agent-b directly" | USER_PROMPT="send from @agent-a to @agent-b directly" TOOL_NAME="Write" templates/.claude/hooks/directive-enforcer.sh 2>/dev/null; then
           echo "❌ DIRECTIVE 2 failed - should have blocked peer-to-peer routing"
           exit 1
         else
@@ -108,13 +108,13 @@ jobs:
     - name: Lint hook scripts
       run: |
         echo "Linting hook scripts..."
-        find .claude/hooks -name "*.sh" -type f -exec shellcheck {} +
+        find templates/.claude/hooks -name "*.sh" -type f -exec shellcheck {} +
         echo "✅ All hook scripts pass shellcheck"
 
     - name: Validate hook permissions
       run: |
         echo "Checking hook script permissions..."
-        find .claude/hooks -name "*.sh" -type f -exec test -x {} \; -print
+        find templates/.claude/hooks -name "*.sh" -type f -exec test -x {} \; -print
         echo "✅ All hook scripts are executable"
 
   integration:
@@ -131,7 +131,6 @@ jobs:
 
     - name: Test NPX package locally
       run: |
-        cd claude-code-collective
         npm install
         npm pack
         
@@ -139,7 +138,7 @@ jobs:
         mkdir -p /tmp/test-install
         cd /tmp/test-install
         npm init -y
-        npm install $GITHUB_WORKSPACE/claude-code-collective/claude-code-collective-*.tgz
+        npm install $GITHUB_WORKSPACE/claude-code-collective-*.tgz
         
         echo "✅ NPX package installation test passed"
 
@@ -147,14 +146,14 @@ jobs:
       run: |
         echo "Testing complete system integration..."
         
-        # Check all required directories exist
-        test -d .claude/agents || { echo "❌ Missing .claude/agents"; exit 1; }
-        test -d .claude/hooks || { echo "❌ Missing .claude/hooks"; exit 1; }
+        # Check all required template directories exist
+        test -d templates/.claude/agents || { echo "❌ Missing templates/.claude/agents"; exit 1; }
+        test -d templates/.claude/hooks || { echo "❌ Missing templates/.claude/hooks"; exit 1; }
         test -d .claude-collective || { echo "❌ Missing .claude-collective"; exit 1; }
         test -f CLAUDE.md || { echo "❌ Missing CLAUDE.md"; exit 1; }
         
-        # Check key files
-        test -f .claude/settings.json || { echo "❌ Missing settings.json"; exit 1; }
+        # Check key template files
+        test -f templates/.claude/settings.json || { echo "❌ Missing templates/.claude/settings.json"; exit 1; }
         test -f .claude-collective/jest.config.js || { echo "❌ Missing jest.config.js"; exit 1; }
         test -f .claude-collective/package.json || { echo "❌ Missing package.json"; exit 1; }
         
