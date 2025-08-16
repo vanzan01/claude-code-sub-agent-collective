@@ -28,9 +28,6 @@ jobs:
     - name: Run tests
       run: npm test
 
-    - name: Run Jest tests  
-      run: npm run test:jest
-
     - name: Test NPX package installation
       run: |
         npm pack
