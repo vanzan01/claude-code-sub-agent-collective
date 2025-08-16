@@ -6,6 +6,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is the **Claude Code Sub-Agent Collective** - an NPX-distributed framework that installs specialized AI agents, hooks, and behavioral systems for TDD-focused development workflows. The system enforces test-driven development through automated handoff validation and provides intelligent task routing through a hub-and-spoke architecture.
 
+## CRITICAL REPOSITORY INFORMATION
+
+**Git Remote URL:** https://github.com/vanzan01/claude-code-sub-agent-collective.git
+**NEVER CHANGE THIS URL** - Always use this exact repository URL for all git operations.
+
 ## Architecture
 
 ### Core System
