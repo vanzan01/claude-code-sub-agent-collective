@@ -3,20 +3,20 @@
     "main": {
       "provider": "claude-code",
       "modelId": "sonnet",
-      "maxTokens": 64000,
-      "temperature": 0.2
+      "maxTokens": 8000,
+      "temperature": 0.1    
     },
     "research": {
       "provider": "claude-code",
       "modelId": "sonnet",
-      "maxTokens": 64000,
+      "maxTokens": 8000,
       "temperature": 0.1
     },
     "fallback": {
       "provider": "claude-code",
       "modelId": "sonnet",
-      "maxTokens": 64000,
-      "temperature": 0.2
+      "maxTokens": 8000,
+      "temperature": 0.1
     }
   },
   "global": {
