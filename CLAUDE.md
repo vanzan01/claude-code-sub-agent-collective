@@ -42,9 +42,30 @@ npm run validate          # Validate installation
 npm run metrics:report    # View metrics data
 ```
 
+### Local Testing Workflow
+
+For testing changes before publishing (see ai-docs/Simple-Local-Testing-Workflow.md):
+
+```bash
+# Automated testing script
+./scripts/test-local.sh    # Creates versioned test directory, installs package, verifies version
+
+# Manual testing (after running test-local.sh)
+npx claude-code-collective init
+npx claude-code-collective status
+npx claude-code-collective validate
+
+# Cleanup when done
+./scripts/cleanup-tests.sh # Removes test directories and tarballs
+```
+
+#### Testing Scripts Available
+- `scripts/test-local.sh` - Automated package testing with versioned directories (ccc-testing-v1, v2, etc.)
+- `scripts/cleanup-tests.sh` - Clean up test artifacts and directories
+
 ### NPX Package Testing
 ```bash
-# Test the NPX package locally
+# Test the NPX package locally (quick testing)
 npx . init                 # Test installation from current directory
 npx . status              # Test status command
 npx . validate            # Test validation
@@ -73,6 +94,53 @@ npx . validate            # Test validation
 - `lib/file-mapping.js` - Template to destination mapping
 
 ## Development Workflow
+
+### Branch-Based Testing Workflow
+
+**Standard process for testing changes before merging:**
+
+1. **Create Feature Branch**
+   ```bash
+   git checkout -b feature/your-feature-name
+   # Make changes...
+   git add . && git commit -m "feat: your changes"
+   ```
+
+2. **Test Locally** 
+   ```bash
+   ./scripts/test-local.sh
+   # This creates ccc-testing-vN directory and tests your changes
+   # Script shows version number to confirm you're testing your branch
+   ```
+
+3. **Manual Testing** (you'll be in test directory)
+   ```bash
+   npx claude-code-collective init
+   npx claude-code-collective status  
+   npx claude-code-collective validate
+   # Test all functionality you changed
+   ```
+
+4. **Fix Issues** (if any)
+   ```bash
+   cd ../taskmaster-agent-claude-code
+   # Make fixes...
+   git add . && git commit -m "fix: issue description"
+   # Repeat from step 2
+   ```
+
+5. **Clean Up & Merge**
+   ```bash
+   ./scripts/cleanup-tests.sh  # Remove test artifacts
+   git push -u origin feature/your-feature-name
+   # Create PR, merge when approved
+   ```
+
+**Key Benefits:**
+- Tests exact user installation experience
+- Catches template/file mapping issues
+- Verifies version changes work correctly
+- No need to push to test (works locally)
 
 ### Adding New Agents
 1. Create agent definition in `templates/agents/agent-name.md`
