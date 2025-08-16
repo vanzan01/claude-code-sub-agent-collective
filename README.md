@@ -288,6 +288,10 @@ MIT License - Use it, break it, fix it, whatever works for you.
 
 ### Recent Updates
 
+**v1.1.1** - 🧪 **Test Validation & Release Cleanup**: Fixed backup limits test race condition preventing reliable test execution. Disabled automatic backup timer in tests to prevent race conditions between cleanup and concurrent backup creation. All 132 NPX package tests now pass consistently. Complete repository cleanup for public release - removed development artifacts, logs, node_modules, and test data. Repository optimized from ~50-100MB to ~11MB.
+
+**v1.1.0** - 🧠 **Context7 Integration & TDD Optimization**: Major upgrade with Context7 MCP integration for real-time library documentation access. Comprehensive TDD test optimization reducing from hundreds of tests to 5 essential tests per component. Enhanced agent collective with research-backed task generation, hub-and-spoke coordination validation, and improved test-driven handoff contracts. All 173 tests pass across both .claude-collective (41/41) and NPX package (132/132) test suites.
+
 **v1.3.9** - 🔧 **SessionStart Hook Fix**: Fixed verbose output issue where SessionStart hook displayed context content to users instead of loading silently. Hook now uses Claude Code's JSON API format with suppressOutput: true for clean startup experience while preserving full behavioral system loading.
 
 **v1.3.8** - 🧹 **Tool Configuration Cleanup**: Fixed prd-research-agent tool configuration contradictions. Removed restricted tools from tool list and eliminated ineffective restricted_tools field. Agent now has clean access only to tools it actually uses. Documentation updated to match implementation.
