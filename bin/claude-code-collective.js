@@ -74,6 +74,37 @@ program
     }
   });
 
+// Status command
+program
+  .command('status')
+  .description('Show collective installation status')
+  .argument('[path]', 'Project directory to check', '.')
+  .action(async (pathArg) => {
+    try {
+      const installer = new CollectiveInstaller({ targetPath: pathArg });
+      const status = await installer.getInstallationStatus();
+      
+      console.log(chalk.cyan('📊 Claude Code Collective Status\n'));
+      console.log(`📁 Project: ${path.basename(path.resolve(pathArg))}`);
+      console.log(`📦 Version: ${status.version || 'Not installed'}`);
+      console.log(`🚀 Installed: ${status.installed ? '✅ Yes' : '❌ No'}`);
+      console.log(`🧠 Behavioral System: ${status.behavioral ? '✅ Active' : '❌ Missing'}`);
+      console.log(`🧪 Testing Framework: ${status.testing ? '✅ Ready' : '❌ Missing'}`);
+      console.log(`🪝 Hooks: ${status.hooks ? '✅ Configured' : '❌ Missing'}`);
+      console.log(`🤖 Agents: ${status.agents?.length || 0} installed`);
+      
+      if (status.installed) {
+        console.log(chalk.green('\n✅ Collective is operational'));
+      } else {
+        console.log(chalk.yellow('\n⚠️  Run "npx claude-code-collective init" to install'));
+      }
+      
+    } catch (error) {
+      console.error(chalk.red('❌ Status check failed:'), error.message);
+      process.exit(1);
+    }
+  });
+
 // Validate command
 program
   .command('validate')
