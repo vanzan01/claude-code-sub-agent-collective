@@ -63,6 +63,16 @@ npx claude-code-collective validate
 - `scripts/test-local.sh` - Automated package testing in dedicated `../npm-tests/` directory
 - `scripts/cleanup-tests.sh` - Clean up test artifacts and directories (removes npm-tests when empty)
 
+#### NPM Testing Directory Naming Standards
+
+**MANDATORY NAMING CONVENTION**: All npm testing directories MUST follow the established pattern:
+
+- **Manual testing**: `ccc-manual-v[N]` (e.g., `ccc-manual-v1`, `ccc-manual-v2`)
+- **Automated testing**: `ccc-automated-v[N]` (e.g., `ccc-automated-v1`, `ccc-automated-v2`) 
+- **Feature-specific testing**: `ccc-[feature]-v[N]` (e.g., `ccc-backup-test-v1`, `ccc-hooks-test-v1`)
+
+**DO NOT** use arbitrary names like `test-backup-validation` or any other format. Always use the `ccc-*` prefix followed by descriptive name and version number.
+
 ### NPX Package Testing
 ```bash
 # Test the NPX package locally (quick testing)
@@ -222,5 +232,18 @@ npx . validate            # Test validation
 - All new functionality must have tests first
 - Agent handoffs must include contract validation
 - Behavioral changes require integration test updates
+
+### Standards Compliance
+
+**CRITICAL**: Do not modify established standards without explicit permission. This includes:
+
+- **Naming conventions** (testing directories, file patterns, etc.)
+- **Code formatting standards** 
+- **Testing procedures and workflows**
+- **Documentation structure**
+- **Git workflow patterns**
+- **Release processes**
+
+When in doubt, follow existing patterns exactly. Ask for clarification before deviating from any established standard.
 
 This codebase implements a sophisticated agent collective system with strong TDD enforcement and intelligent routing capabilities.

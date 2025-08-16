@@ -61,7 +61,6 @@ temp/
 
 # Test artifacts and backups
 *.backup
-test-*
 *-test.log
 maintenance-test.log
 test-backups/
@@ -81,6 +80,7 @@ ai-docs/
 # Archives
 *.zip
 *.tar.gz
+*.tgz
 *.rar
 
 # Development and testing directories
