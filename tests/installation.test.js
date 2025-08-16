@@ -204,7 +204,7 @@ describe('NPX Installation Tests', () => {
     test('should handle permission errors gracefully', async () => {
       // Mock permission error
       const originalEnsureDir = fs.ensureDir;
-      fs.ensureDir = jest.fn().mockRejectedValue(
+      fs.ensureDir = vi.fn().mockRejectedValue(
         new Error('EACCES: permission denied')
       );
       
@@ -218,7 +218,7 @@ describe('NPX Installation Tests', () => {
     test('should rollback on installation failure', async () => {
       // Mock failure during template installation
       const originalCopyFile = fs.copy;
-      fs.copy = jest.fn()
+      fs.copy = vi.fn()
         .mockResolvedValueOnce() // First copy succeeds
         .mockRejectedValueOnce(new Error('Copy failed')); // Second fails
       
@@ -240,7 +240,7 @@ describe('NPX Installation Tests', () => {
     test('should validate template files before installation', async () => {
       // Mock missing critical template
       const originalExistsSync = fs.existsSync;
-      fs.existsSync = jest.fn().mockImplementation((filePath) => {
+      fs.existsSync = vi.fn().mockImplementation((filePath) => {
         if (filePath.includes('CLAUDE.md')) return false;
         return originalExistsSync(filePath);
       });
