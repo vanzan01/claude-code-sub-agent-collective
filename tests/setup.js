@@ -60,18 +60,39 @@ global.testUtils = {
 
 // Set up test directories
 const testTempDir = path.join(__dirname, 'temp');
-beforeEach(() => {
-  if (fs.existsSync(testTempDir)) {
+
+// Robust cleanup function for concurrent test safety
+async function cleanupTempDir() {
+  if (!fs.existsSync(testTempDir)) return;
+  
+  try {
     fs.removeSync(testTempDir);
+  } catch (error) {
+    if (error.code === 'ENOTEMPTY' || error.code === 'EBUSY') {
+      // Directory in use, try force cleanup
+      try {
+        await new Promise(resolve => setTimeout(resolve, 10));
+        fs.removeSync(testTempDir);
+      } catch (retryError) {
+        // If still failing, just clear contents
+        try {
+          fs.emptyDirSync(testTempDir);
+        } catch (emptyError) {
+          // Silent fail for CI race conditions
+        }
+      }
+    }
   }
+}
+
+beforeEach(async () => {
+  await cleanupTempDir();
   fs.ensureDirSync(testTempDir);
 });
 
-afterEach(() => {
+afterEach(async () => {
   global.testUtils.cleanup();
-  if (fs.existsSync(testTempDir)) {
-    fs.removeSync(testTempDir);
-  }
+  await cleanupTempDir();
 });
 
 // Configure test timeout
