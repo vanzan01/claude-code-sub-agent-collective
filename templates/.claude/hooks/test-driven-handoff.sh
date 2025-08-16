@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # test-driven-handoff.sh
 # TRUE Test-Driven Handoffs with Contract Validation
 # Executes actual test contracts to validate agent handoffs

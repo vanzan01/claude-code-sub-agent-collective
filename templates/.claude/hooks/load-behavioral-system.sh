@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Load Collective Behavioral System
 # SessionStart hook to inject behavioral files into Claude's context
 

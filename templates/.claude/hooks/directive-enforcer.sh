@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # directive-enforcer.sh
 # Claude Code Sub-Agent Collective - Directive Enforcement Hook
 # Validates behavioral directives before tool execution

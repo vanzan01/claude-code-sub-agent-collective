@@ -82,7 +82,7 @@ jobs:
         fi
         
     - name: Archive test results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: test-results-node-${{ matrix.node-version }}
@@ -202,7 +202,7 @@ jobs:
         cat quality-report.md
         
     - name: Upload quality report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: quality-report
         path: quality-report.md
@@ -286,7 +286,7 @@ jobs:
         echo "🎯 Van-maintenance system validation completed successfully!"
         
     - name: Archive maintenance artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: van-maintenance-test-results
