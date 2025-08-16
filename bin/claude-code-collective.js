@@ -7,6 +7,7 @@
 
 const { Command } = require('commander');
 const chalk = require('chalk');
+const path = require('path');
 const { ClaudeCodeCollective } = require('../lib/index');
 const { InteractiveInstaller } = require('../lib/interactive-installer');
 const { CollectiveInstaller } = require('../lib/installer');

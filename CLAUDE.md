@@ -48,7 +48,7 @@ For testing changes before publishing (see ai-docs/Simple-Local-Testing-Workflow
 
 ```bash
 # Automated testing script
-./scripts/test-local.sh    # Creates versioned test directory, installs package, verifies version
+./scripts/test-local.sh    # Creates ../npm-tests/ccc-testing-vN, installs package, verifies version
 
 # Manual testing (after running test-local.sh)
 npx claude-code-collective init
@@ -60,8 +60,8 @@ npx claude-code-collective validate
 ```
 
 #### Testing Scripts Available
-- `scripts/test-local.sh` - Automated package testing with versioned directories (ccc-testing-v1, v2, etc.)
-- `scripts/cleanup-tests.sh` - Clean up test artifacts and directories
+- `scripts/test-local.sh` - Automated package testing in dedicated `../npm-tests/` directory
+- `scripts/cleanup-tests.sh` - Clean up test artifacts and directories (removes npm-tests when empty)
 
 ### NPX Package Testing
 ```bash
