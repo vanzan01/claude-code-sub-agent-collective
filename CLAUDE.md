@@ -115,9 +115,13 @@ npx . validate            # Test validation
 
 3. **Manual Testing** (you'll be in test directory)
    ```bash
-   npx claude-code-collective init
+   # Non-interactive testing (for validation/CI)
+   npx claude-code-collective init --yes --force
    npx claude-code-collective status  
    npx claude-code-collective validate
+   
+   # Interactive testing (for development)
+   npx claude-code-collective init
    # Test all functionality you changed
    ```
 
