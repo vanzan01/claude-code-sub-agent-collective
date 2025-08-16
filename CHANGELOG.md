@@ -5,7 +5,7 @@ All notable changes to the TaskMaster Agent autonomous development system will b
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.6-test] - 2025-08-16
+## [2.0.6] - 2025-08-16
 
 ### 🔧 Fixed
 - **Critical Backup System Bug**: Fixed backup system that was claiming to backup files but not actually doing it
