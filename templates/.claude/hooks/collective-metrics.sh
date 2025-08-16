@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # collective-metrics.sh
 # Phase 3 - Hook Integration System
 # Collects performance metrics and coordination statistics for research validation

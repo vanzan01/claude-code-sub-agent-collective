@@ -5,6 +5,120 @@ All notable changes to the TaskMaster Agent autonomous development system will b
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.6] - 2025-08-16
+
+### 🔧 Fixed
+- **Critical Backup System Bug**: Fixed backup system that was claiming to backup files but not actually doing it
+  - Added conflicting hook files to `analysis.existingFiles` so they actually get backed up
+  - Added SHA-256 file comparison to detect identical files and skip unnecessary operations
+  - Backup validation now works correctly for both settings.json and hook files
+
+### 🧪 Added
+- **NPM Testing Workflow**: Comprehensive testing infrastructure for package development
+  - `scripts/test-automated.sh` - Automated backup functionality testing
+  - `scripts/test-local.sh` - Local package testing workflow with version validation
+  - `scripts/test-manual.sh` - Manual testing setup for interactive validation
+- **Testing Standards**: Mandatory NPM testing directory naming conventions (`ccc-*` pattern)
+- **Standards Compliance**: Documentation to prevent unauthorized changes to established conventions
+
+### 🛠️ Improved
+- **Template Resolution**: Better template directory resolution for different installation contexts
+- **File Mapping**: Improved template file organization and exclusion handling
+- **Git Ignore**: Fixed problematic `test-*` pattern and added `*.tgz` for package artifacts
+- **Documentation**: Updated CLAUDE.md with testing workflows and compliance standards
+
+### 🎯 Technical Details
+- Backup system now uses `analysis.existingFiles.map(f => f.path)` correctly
+- SHA-256 file comparison prevents unnecessary backup operations for identical files
+- Testing scripts follow established `ccc-[type]-v[N]` naming convention
+- All changes validated through comprehensive testing workflow
+
+---
+
+## [2.0.5] - 2025-08-09
+
+### 🔄 Changed
+- **Project Structure**: Major consolidation moving from distributed structure to single root directory
+- **NPX Package**: Streamlined distribution with all components in unified location
+- **Template System**: Reorganized templates for more efficient installation
+- **Documentation**: Updated CLAUDE.md to reflect new streamlined project structure
+
+### 🛠️ Fixed
+- **Template File Resolution**: Improved handling of template files during NPX installation
+- **Directory Structure**: Resolved issues with nested project organization
+- **Validation**: Enhanced status command with graceful validation and error handling
+
+### 📦 Development
+- Dedicated npm-tests directory for package testing without polluting active projects
+- Automated validation and non-interactive testing flags
+- Branch-based testing workflow documentation
+
+---
+
+## [1.1.1] - 2025-01-20
+
+### 🧪 Fixed
+- **Test Validation & Release Cleanup**: Fixed backup limits test race condition preventing reliable test execution
+- **Backup Timer**: Disabled automatic backup timer in tests to prevent race conditions between cleanup and concurrent backup creation
+- **Repository Cleanup**: Complete cleanup for public release - removed development artifacts, logs, node_modules, and test data
+- **Package Size**: Repository optimized from ~50-100MB to ~11MB
+
+### ✅ Validation
+- All 132 NPX package tests now pass consistently
+- Complete test suite reliability achieved
+
+---
+
+## [1.1.0] - 2025-01-19
+
+### 🧠 Added
+- **Context7 Integration**: Major upgrade with Context7 MCP integration for real-time library documentation access
+- **TDD Optimization**: Comprehensive TDD test optimization reducing from hundreds of tests to 5 essential tests per component
+- **Agent Collective**: Enhanced agent collective with research-backed task generation
+- **Hub-and-Spoke Coordination**: Validation and improved test-driven handoff contracts
+
+### ✅ Validation
+- All 173 tests pass across both .claude-collective (41/41) and NPX package (132/132) test suites
+
+---
+
+## [1.3.9] - 2025-01-18
+
+### 🔧 Fixed
+- **SessionStart Hook**: Fixed verbose output issue where SessionStart hook displayed context content to users instead of loading silently
+- **Hook Output**: Hook now uses Claude Code's JSON API format with suppressOutput: true for clean startup experience
+- **Behavioral System**: Preserved full behavioral system loading while eliminating user-visible output
+
+---
+
+## [1.3.8] - 2025-01-17
+
+### 🧹 Fixed
+- **Tool Configuration**: Fixed prd-research-agent tool configuration contradictions
+- **Restricted Tools**: Removed restricted tools from tool list and eliminated ineffective restricted_tools field
+- **Agent Access**: Agent now has clean access only to tools it actually uses
+- **Documentation**: Updated documentation to match implementation
+
+---
+
+## [1.3.7] - 2025-01-16
+
+### 🔧 Fixed
+- **NPX Installer**: Fixed agent library file installation
+- **Agent Libraries**: ResearchDrivenAnalyzer and other agent lib files now properly copy during NPX installation
+- **File Mapping**: Updated file-mapping.js to include agent lib directory mapping for complete template distribution
+
+---
+
+## [1.3.6] - 2025-01-15
+
+### 🐛 Fixed
+- **Critical Orchestrator Bug**: Fixed premature TDD validation that was blocking implementation workflows
+- **Hook Logic**: Hook now correctly distinguishes between deployment messages ("Deploying agent") and completion messages ("Phase completed")
+- **Validation Triggers**: Prevented false validation triggers before work is actually done
+
+---
+
 ## [1.0.6] - 2025-08-09
 
 ### Added

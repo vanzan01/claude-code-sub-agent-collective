@@ -284,36 +284,8 @@ MIT License - Use it, break it, fix it, whatever works for you.
 
 ---
 
+**Experimental** | **TDD-Focused** | **Personal Project** | **Use At Your Own Risk**
+
 ## Changelog
 
-### Recent Updates
-
-**v1.1.1** - 🧪 **Test Validation & Release Cleanup**: Fixed backup limits test race condition preventing reliable test execution. Disabled automatic backup timer in tests to prevent race conditions between cleanup and concurrent backup creation. All 132 NPX package tests now pass consistently. Complete repository cleanup for public release - removed development artifacts, logs, node_modules, and test data. Repository optimized from ~50-100MB to ~11MB.
-
-**v1.1.0** - 🧠 **Context7 Integration & TDD Optimization**: Major upgrade with Context7 MCP integration for real-time library documentation access. Comprehensive TDD test optimization reducing from hundreds of tests to 5 essential tests per component. Enhanced agent collective with research-backed task generation, hub-and-spoke coordination validation, and improved test-driven handoff contracts. All 173 tests pass across both .claude-collective (41/41) and NPX package (132/132) test suites.
-
-**v1.3.9** - 🔧 **SessionStart Hook Fix**: Fixed verbose output issue where SessionStart hook displayed context content to users instead of loading silently. Hook now uses Claude Code's JSON API format with suppressOutput: true for clean startup experience while preserving full behavioral system loading.
-
-**v1.3.8** - 🧹 **Tool Configuration Cleanup**: Fixed prd-research-agent tool configuration contradictions. Removed restricted tools from tool list and eliminated ineffective restricted_tools field. Agent now has clean access only to tools it actually uses. Documentation updated to match implementation.
-
-**v1.3.7** - 🔧 **NPX Installer Fix**: Fixed agent library file installation. ResearchDrivenAnalyzer and other agent lib files now properly copy during NPX installation. Updated file-mapping.js to include agent lib directory mapping for complete template distribution.
-
-**v1.3.6** - 🐛 **Critical Orchestrator Bug Fix**: Fixed premature TDD validation that was blocking implementation workflows. Hook now correctly distinguishes between deployment messages ("Deploying agent") and completion messages ("Phase completed"), preventing false validation triggers before work is actually done.
-
-### Version History
-
-**v1.3.5** - 🧠 **Autonomous PRD Research Agent**: Major upgrade transforms prd-research-agent from delegation-heavy to fully autonomous. New ResearchDrivenAnalyzer class provides intelligent complexity scoring using Context7 patterns. Agent now makes research-informed decisions instead of blind delegation.
-
-**v1.3.4** - 🐛 **TDD Hook Dependency Fix**: Fixed false positive test failures when node_modules missing in .claude-collective/. Hook now automatically installs dependencies before running tests, preventing "Cannot find module" errors from blocking agent handoffs.
-
-**v1.3.3** - ⚡ **TaskMaster Speed Optimization**: Eliminated slow Perplexity API calls from TaskMaster complexity analysis and task expansion. Agents now use fast Context7 research + pass results as context instead of triggering internal research calls.
-
-**v1.3.2** - 🐛 **TDD Hook Fix**: Fixed build validation hook to check for package.json existence before running npm build. Prevents handoff failures in test environments without package.json.
-
-**v1.3.1** - 🐛 **Critical Bug Fix**: Fixed false positive test failures in TDD validation system. Vitest output parsing now correctly recognizes `✓` success indicators and "Tests X passed (X)" format.
-
-**v1.3.0** - First stable release with research optimization, TDD enforcement, and Context7 integration.
-
----
-
-**Experimental** | **TDD-Focused** | **Personal Project** | **Use At Your Own Risk**
+See [CHANGELOG.md](CHANGELOG.md) for detailed version history and release notes.

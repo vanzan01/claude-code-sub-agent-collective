@@ -232,7 +232,7 @@ describe('Phase 5 - Command System Implementation', () => {
     });
 
     test('should persist history to disk', async () => {
-      await history.addCommand('/collective status', { success: true }, 100);
+      history.addCommand('/collective status', { success: true }, 100);
       await history.saveHistory();
       
       expect(await fs.pathExists(tempHistoryFile)).toBe(true);

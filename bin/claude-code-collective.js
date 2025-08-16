@@ -7,6 +7,7 @@
 
 const { Command } = require('commander');
 const chalk = require('chalk');
+const path = require('path');
 const { ClaudeCodeCollective } = require('../lib/index');
 const { InteractiveInstaller } = require('../lib/interactive-installer');
 const { CollectiveInstaller } = require('../lib/installer');
@@ -70,6 +71,37 @@ program
       if (program.opts().verbose) {
         console.error(error.stack);
       }
+      process.exit(1);
+    }
+  });
+
+// Status command
+program
+  .command('status')
+  .description('Show collective installation status')
+  .argument('[projectPath]', 'Project directory to check', '.')
+  .action(async (projectPath) => {
+    try {
+      const installer = new CollectiveInstaller({ targetPath: projectPath });
+      const status = await installer.getInstallationStatus();
+      
+      console.log(chalk.cyan('📊 Claude Code Collective Status\n'));
+      console.log(`📁 Project: ${path.basename(path.resolve(projectPath))}`);
+      console.log(`📦 Version: ${status.version || 'Not installed'}`);
+      console.log(`🚀 Installed: ${status.installed ? '✅ Yes' : '❌ No'}`);
+      console.log(`🧠 Behavioral System: ${status.behavioral ? '✅ Active' : '❌ Missing'}`);
+      console.log(`🧪 Testing Framework: ${status.testing ? '✅ Ready' : '❌ Missing'}`);
+      console.log(`🪝 Hooks: ${status.hooks ? '✅ Configured' : '❌ Missing'}`);
+      console.log(`🤖 Agents: ${status.agents?.length || 0} installed`);
+      
+      if (status.installed) {
+        console.log(chalk.green('\n✅ Collective is operational'));
+      } else {
+        console.log(chalk.yellow('\n⚠️  Run "npx claude-code-collective init" to install'));
+      }
+      
+    } catch (error) {
+      console.error(chalk.red('❌ Status check failed:'), error.message);
       process.exit(1);
     }
   });

@@ -61,7 +61,6 @@ temp/
 
 # Test artifacts and backups
 *.backup
-test-*
 *-test.log
 maintenance-test.log
 test-backups/
@@ -81,6 +80,7 @@ ai-docs/
 # Archives
 *.zip
 *.tar.gz
+*.tgz
 *.rar
 
 # Development and testing directories
@@ -101,3 +101,4 @@ claude-code-collective/.claude-collective/metrics/snapshots/
 # Task files
 # tasks.json
 # tasks/ 
+.claude-collective/metrics/
