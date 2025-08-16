@@ -78,14 +78,14 @@ program
 program
   .command('status')
   .description('Show collective installation status')
-  .argument('[path]', 'Project directory to check', '.')
-  .action(async (pathArg) => {
+  .argument('[projectPath]', 'Project directory to check', '.')
+  .action(async (projectPath) => {
     try {
-      const installer = new CollectiveInstaller({ targetPath: pathArg });
+      const installer = new CollectiveInstaller({ targetPath: projectPath });
       const status = await installer.getInstallationStatus();
       
       console.log(chalk.cyan('📊 Claude Code Collective Status\n'));
-      console.log(`📁 Project: ${path.basename(path.resolve(pathArg))}`);
+      console.log(`📁 Project: ${path.basename(path.resolve(projectPath))}`);
       console.log(`📦 Version: ${status.version || 'Not installed'}`);
       console.log(`🚀 Installed: ${status.installed ? '✅ Yes' : '❌ No'}`);
       console.log(`🧠 Behavioral System: ${status.behavioral ? '✅ Active' : '❌ Missing'}`);
