@@ -101,3 +101,4 @@ claude-code-collective/.claude-collective/metrics/snapshots/
 # Task files
 # tasks.json
 # tasks/ 
+.claude-collective/metrics/
