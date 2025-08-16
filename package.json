@@ -1,6 +1,6 @@
 {
   "name": "claude-code-collective",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "Sub-agent collective framework for Claude Code with TDD validation, TaskMaster Task ID integration, hub-spoke coordination, and deterministic handoffs",
   "main": "lib/index.js",
   "bin": {
