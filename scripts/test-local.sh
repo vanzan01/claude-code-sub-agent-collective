@@ -53,7 +53,7 @@ echo ""
 
 echo "🧪 Running non-interactive validation tests..."
 echo "Testing init with --yes --force flags:"
-npx "$PACKAGE_NAME" init --yes --force 2>&1 | head -20
+npx "$PACKAGE_NAME" init --yes --force
 echo ""
 echo "Testing status command:"
 npx "$PACKAGE_NAME" status 2>&1 | head -10

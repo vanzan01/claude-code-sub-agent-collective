@@ -52,15 +52,22 @@ npm run metrics:report    # View metrics data
 For testing changes before publishing (see ai-docs/Simple-Local-Testing-Workflow.md):
 
 ```bash
-# Automated testing script
-./scripts/test-local.sh    # Creates ../npm-tests/ccc-testing-vN, installs package, verifies version
+# Automated testing (does everything automatically)
+./scripts/test-local.sh
+# This script automatically:
+# - Creates package (.tgz file)  
+# - Creates test directory ../npm-tests/ccc-testing-vN (auto-numbered)
+# - Installs the package in test directory
+# - Runs basic validation tests
+# - Leaves you in the test directory ready for more testing
 
-# Manual testing (after running test-local.sh)
-npx claude-code-collective init
-npx claude-code-collective status
-npx claude-code-collective validate
+# Additional manual testing (you're already in test directory after script)
+npx claude-code-collective init            # Interactive mode
+npx claude-code-collective init --minimal  # Minimal installation  
+npx claude-code-collective --help          # Help information
 
-# Cleanup when done
+# Return to main directory and cleanup when done
+cd ../taskmaster-agent-claude-code
 ./scripts/cleanup-tests.sh # Removes test directories and tarballs
 ```
 
