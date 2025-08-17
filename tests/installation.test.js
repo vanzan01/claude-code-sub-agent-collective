@@ -59,7 +59,7 @@ describe('NPX Installation Tests', () => {
     test('should contain required template files', async () => {
       const requiredTemplates = [
         'CLAUDE.md',
-        '.claude/settings.json',
+        'settings.json.template',
         '.claude-collective',
         '.taskmaster'
       ];

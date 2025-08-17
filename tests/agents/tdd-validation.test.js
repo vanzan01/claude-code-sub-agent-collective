@@ -8,7 +8,7 @@ describe('TDD Validation Agent', () => {
   
   describe('Agent Integration', () => {
     test('should have tdd-validation-agent specification file', () => {
-      const agentPath = path.join(__dirname, '../../templates/.claude/agents/tdd-validation-agent.md');
+      const agentPath = path.join(__dirname, '../../templates/agents/tdd-validation-agent.md');
       expect(fs.existsSync(agentPath)).toBe(true);
     });
 
