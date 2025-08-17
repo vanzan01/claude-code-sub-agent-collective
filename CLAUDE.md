@@ -251,4 +251,13 @@ npx . validate            # Test validation
 
 When in doubt, follow existing patterns exactly. Ask for clarification before deviating from any established standard.
 
+### NPM Version Release Automation
+
+**When user says "npm version [patch|minor|major]":**
+- Always use a proper commit message based on recent changes
+- Check git log for recent features/fixes to craft meaningful message
+- Use format: `npm version patch -m "chore: release v%s - [summary of changes]"`
+- Example: `npm version patch -m "chore: release v%s - fix CI race conditions and add comprehensive testing"`
+- Never use the default "2.0.7" commit message
+
 This codebase implements a sophisticated agent collective system with strong TDD enforcement and intelligent routing capabilities.
