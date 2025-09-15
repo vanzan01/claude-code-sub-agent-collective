@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/vanzan01-claude-code-sub-agent-collective-badge.png)](https://mseep.ai/app/vanzan01-claude-code-sub-agent-collective)
+
 # Claude Code Sub-Agent Collective
 
 [![npm version](https://badge.fury.io/js/claude-code-collective.svg)](https://badge.fury.io/js/claude-code-collective)
