@@ -3,6 +3,8 @@
 [![npm version](https://badge.fury.io/js/claude-code-collective.svg)](https://badge.fury.io/js/claude-code-collective)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+<a href="https://trendshift.io/repositories/15208" target="_blank"><img src="https://trendshift.io/api/badge/repositories/15208" alt="vanzan01%2Fclaude-code-sub-agent-collective | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
+
 **Experimental NPX installer for TDD-focused AI agents**
 
 This installs a collection of AI agents designed for Test-Driven Development and rapid prototyping. It's experimental, opinionated, and I built it to speed up my own MVP development work.
